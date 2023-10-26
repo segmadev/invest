@@ -1,0 +1,50 @@
+<?php if (in_array("modal", $script)) { 
+    require_once "../content/modal.php";
+} ?>
+
+<!-- Dashboard3 -->
+<?php if (in_array("dashboard3", $script)) { ?>
+    <script src="../dist/libs/owl.carousel/dist/owl.carousel.min.js"></script>
+  <script src="../dist/js/dashboard3.js?n=11"></script>
+<?php } ?>
+
+<?php if (in_array("wizard", $script)) { ?>
+    <script src="../dist/libs/jquery-steps/build/jquery.steps.min.js?n=10"></script>
+    <script src="../dist/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="../dist/js/forms/form-wizard.js?n=1"></script>
+<?php } ?>
+<?php if (in_array("qrcode", $script)) { ?>
+    <script src="../dist/js/qrcode.js?n=1"></script>
+<?php } ?>
+<?php if (in_array("table", $script)) { ?>
+    <script src="../dist/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../dist/js/datatable/datatable-basic.init.js"></script>
+<?php } ?>
+<?php if (in_array("fetcher", $script)) { ?>
+    <script src="../dist/js/fetcher.js"></script>
+<?php } ?>
+<?php if (in_array("select2", $script)) { ?>
+    <script src="../dist/libs/select2/dist/js/select2.full.min.js"></script>
+    <script src="../dist/libs/select2/dist/js/select2.min.js"></script>
+    <script src="../dist/js/forms/select2.init.js"></script>
+<?php } ?>
+<?php if (in_array("sweetalert", $script)) { ?>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<?php } ?>
+
+
+
+<!--  chart -->
+<?php if (in_array("chart", $script)) { ?>
+    <script src="../dist/libs/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src="../dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../dist/js/charts.js?n=5"></script>
+    <?php
+    if (isset($thispage)) {
+        if (file_exists("pages/$thispage/chart.php")) {
+            require_once "pages/$thispage/chart.php";
+        }
+    }
+    ?>
+
+<?php } ?>
