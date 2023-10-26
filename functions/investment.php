@@ -412,7 +412,8 @@ class investment extends user
         // var_dump($coins[array_rand($coins)]."USDT");
         // get all pending plans where date less or equal today
         $today = date("Y-m-d");
-        $trades = $this->getall("trades", 'trade_date <= ? and trade_time < ? and status = ? LIMIT 50', [$today, time(), "pending"], fetch: "moredetails");
+        //$trades = $this->getall("trades", 'status = ? order by trade_time ASC LIMIT 50', ["pending"], fetch: "moredetails");
+        $trades = $this->getall("trades", 'trade_date <= ? and trade_time < ? and status = ? order by trade_time ASC LIMIT 20', [$today, time(), "pending"], fetch: "moredetails");
         // $trades = $this->getall("trades", 'trade_candles = ? or trade_candles = ?', ["", null], fetch: "moredetails");
         // var_dump($trades->rowCount());
         if ($trades->rowCount() == 0) {
@@ -427,21 +428,34 @@ class investment extends user
         }
         $coins = $this->get_settings("trade_coins");
         $coins = explode(",", $coins);
+        $i = 0;
         foreach ($trades as $row) {
             $id = $row['ID'];
             if (!isset($totals[$row['investmentID']])) {
                 $totals[$row['investmentID']] = [];
             }
             if (isset($totals[$row['investmentID']][$row['trade_date']]) && $totals[$row['investmentID']][$row['trade_date']] == "closed") {
+
                 continue;
             }
-            $startTimestamp = strtotime($row['trade_date'] . ' ' . date("H:i:s", $row["trade_time"])) * 1000;
+            $startTimestamp = (int)$row["trade_time"] * 1000;
             // echo "<br>";
-            $coin = trim($coins[array_rand($coins)]."USDT");
+            $coin = trim($coins[array_rand($coins)])."USDT";
+            // $data https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue
             $data = $this->api_call("https://api.binance.com/api/v3/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp");
+            // $data = $this->api_call("https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue");
             if (!is_array($data) || count($data) < $limitvalue) {
+                // var_dump($data);
+                // echo "https://api.binance.com/api/v2/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp";
+                echo $i++." ID: ".$row['ID']." error Date: ".$row['trade_date'];
+                // echo "https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue";
+                 echo "<br>";
                 continue;
             }
+            // echo var_dump($this->get_times());
+            // echo "https://api.binance.com/api/v3/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp";
+            // var_dump($data);
+            // return;
             $info = $this->cal_trade_percent($data, $row);
             if (!is_array($info)) {
                 continue;
@@ -465,6 +479,7 @@ class investment extends user
                 $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "New trade taken", "description" => "A new trade was taken on your investment with an intrest of ".$info['percentage'], "action_for"=>"trades", "action_for_ID"=>$id];
                 $this->new_activity($actInfo);
                 $update = $this->credit_debit($row['userID'], $info['intrest_amount'], "trading_balance");
+                echo "Success: for ".$row['ID']." <br>";
             }
             // echo "success: ".$row['investmentID']." <br>";
             // foreach ($data as $row) {
