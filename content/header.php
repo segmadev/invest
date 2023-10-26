@@ -81,6 +81,15 @@
                 <span class="hide-menu">Home</span>
               </a>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link d-flex" href="index?p=chat" aria-expanded="false">
+                <span>
+                  <i class="ti ti-messages"></i>
+                </span>
+                <span class="hide-menu">Chat</span>
+                <span class="sidebar-link text-danger bg-light-danger fs-2 p-1"  id="message-no"></span>
+              </a>
+            </li>
             <!-- ============================= -->
             <!-- Apps -->
             <!-- ============================= -->

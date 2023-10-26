@@ -682,8 +682,16 @@ function allusers(id){
 }
 
 function changetext(id, text){
-    document.getElementById(id).disabled = true;
-    document.getElementById(id).innerHTML = text;
+    if(id == "message-no") {
+        var divs = document.querySelectorAll("#"+id);
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].innerHTML = text; // Replace 'New content' with your desired content
+          }
+    }else{
+        document.getElementById(id).disabled = true;
+        document.getElementById(id).innerHTML = text;
+    }
+    
 
 }
 

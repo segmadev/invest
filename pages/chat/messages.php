@@ -79,7 +79,7 @@
                             <div id="custommessage"></div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2 w-85">
-                                    <a class="position-relative nav-icon-hover z-index-5" href="javascript:void(0)"> <i class="ti ti-mood-smile text-dark bg-hover-primary fs-7"></i></a>
+                                    <!-- <a class="position-relative nav-icon-hover z-index-5" href="javascript:void(0)"> <i class="ti ti-mood-smile text-dark bg-hover-primary fs-7"></i></a> -->
                                     <input onchange="showPreview(event, 'image-preview-upload')" name="upload" value="" id="upload" type="file" class="form-control upload d-none" placeholder="Enter Upload">
                                     <?php
                                     unset($message_form['message']);
@@ -182,10 +182,10 @@
             </div>
         </div>
         <form class="position-relative mb-4">
-            <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh" placeholder="Search Contact">
+            <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh" placeholder="Search User">
             <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
         </form>
-        <div class="dropdown">
+        <!-- <div class="dropdown">
             <a class="text-muted fw-semibold d-flex align-items-center" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Recent Chats<i class="ti ti-chevron-down ms-1 fs-5"></i>
             </a>
@@ -194,7 +194,7 @@
                 <li><a class="dropdown-item border-bottom" href="javascript:void(0)">Sort by Unread</a></li>
                 <li><a class="dropdown-item" href="javascript:void(0)">Hide favourites</a></li>
             </ul>
-        </div>
+        </div> -->
     </div>
     <div class="app-chat">
         <ul class="chat-users" style="height: calc(100vh - 200px)" data-simplebar>
