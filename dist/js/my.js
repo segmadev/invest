@@ -257,8 +257,9 @@ function runjax(request, event, $inputs, fd, action = "passer") {
 
 function loadpage(url, holder) {
   if (url.includes("https://") || url.includes("http://")) {
-    window.location.href = url;
-  } else {
+    window.open(url, "_blank");
+    // window.open(url, "_blank");
+} else {
     window.location.replace(url);
   }
 }
