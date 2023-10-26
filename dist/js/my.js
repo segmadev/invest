@@ -255,8 +255,12 @@ function runjax(request, event, $inputs, fd, action = "passer") {
 // Bind to the submit event of our form
 
 
-function loadpage(url, holder){
-    window.location.replace(url); 
+function loadpage(url, holder) {
+  if (url.includes("https://") || url.includes("http://")) {
+    window.location.href = url;
+  } else {
+    window.location.replace(url);
+  }
 }
 function removediv(id, type="id"){
     divElement = document.querySelector(id);
