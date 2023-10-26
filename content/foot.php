@@ -9,4 +9,4 @@
 <script src="dist/js/sidebarmenu.js"></script>
 <script src="dist/js/custom.js"></script>
 <?php  require_once "include/ini-footer.php"; ?>
-<script src="dist/js/my.js?n=837"></script>
+<script src="dist/js/my.js?n=863"></script>
