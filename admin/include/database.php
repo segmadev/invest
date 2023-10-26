@@ -12,11 +12,11 @@ class database
     public function __construct()
     {
         // $this->d = new database;
-        $servername = "localhost";
-        $username = "root";
-        $password = ""; //sJjJzBeJx2Qx
+        $servername = db_host_name;
+        $username = db_username;
+        $password = db_password; //sJjJzBeJx2Qx
         try {
-            $this->db = new PDO("mysql:host=$servername;dbname=invest", $username, $password);
+            $this->db = new PDO("mysql:host=$servername;dbname=".db_name, $username, $password);
             // set the PDO error mode to exception
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //echo "Connected successfully";php
