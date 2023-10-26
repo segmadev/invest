@@ -24,6 +24,7 @@ class autorize extends database
                             $urlgoto = htmlspecialchars($_SESSION['urlgoto']);
                             unset($_SESSION['urlgoto']);
                         }
+                        $urlgoto = "index";
                         
                         // reson here
                        session_unset();

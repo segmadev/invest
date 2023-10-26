@@ -50,11 +50,11 @@ class autorize extends database
                         $d->message("We're sorry, your account has been blocked. <br> <b>Reason: </b> " . $reason, "error");
                     } else {
                         // session_start();
-                        $urlgoto = "index";
                         $_SESSION['userSession'] = htmlspecialchars($value['ID']);
                         if (isset($_POST['urlgoto'])  && !empty($_POST['urlgoto'])) {
                             $urlgoto = str_replace("/localhost", "", $_POST['urlgoto']);
                         }
+                        $urlgoto = "index";
                         // reson here
                         session_start();
                         session_unset();
