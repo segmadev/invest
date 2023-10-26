@@ -22,10 +22,10 @@
   <?php require_once "content/head.php"; ?>
   <style>
     input[type="number"] {
-        font-size: 30px;
-        border: none;
-        padding: 10px 0px;
-        /* padding-top: ; */
+      font-size: 30px;
+      border: none;
+      padding: 10px 0px;
+      /* padding-top: ; */
 
     }
   </style>
@@ -47,7 +47,7 @@
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="/" class="text-nowrap logo-img">
+          <a href="index-2.html" class="text-nowrap logo-img">
             <img src="<?= $logo ?>" class="dark-logo" width="180" alt="" />
             <!-- <img src="<?= $light_logo ?>" class="light-logo" width="180" alt="" /> -->
           </a>
@@ -231,7 +231,7 @@
             </div>
           </div>
         </nav>
-        
+
         <!-- End Sidebar navigation -->
       </div>
       <!-- End Sidebar scroll-->
@@ -402,8 +402,14 @@
             <img src="<?= $dark_logo ?>" class="dark-logo" width="180" alt="" />
             <img src="<?= $light_logo ?>" class="light-logo" width="180" alt="" />
           </div>
+          <button onclick="loadnotification()" class="btn mb-1 btn-light-info text-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+              <div class="icon bg-primary rounded-circle"></div>
+              <i class="ti ti-bell-ringing"></i> <span class='text-danger fw-semibold'><b id="note-no"></b></span>
+            </a>
+          </button>
           <a class="navbar-toggler p-0 border-0" href="index?p=profile" type="button" id="drop2">
-            <div class="nav-link nav-icon-hover" >
+            <div class="nav-link nav-icon-hover">
               <div class="rounded-circle overflow-hidden me-6">
                 <img src="<?= $u->get_profile_icon_link($userID) ?>" alt="" width="40" height="40">
               </div>
@@ -415,7 +421,7 @@
               <a href="javascript:void(0)" class="nav-link d-flex d-lg-none align-items-center justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobilenavbar" aria-controls="offcanvasWithBothOptions">
                 <i class="ti ti-align-justified fs-7"></i>
               </a>
-              
+
             </div>
           </div>
         </nav>
@@ -423,5 +429,8 @@
       <!--  Header End -->
       <div class="container-fluid">
         <div class="d-flex middle">
-        <?php require_once "include/translate.php"; ?>
+          <?php
+          if ($page != "chat") {
+            require_once "include/translate.php";
+          } ?>
         </div>

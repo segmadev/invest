@@ -13,13 +13,13 @@ class database
     {
         // $this->d = new database;
         $servername = "localhost";
-        $username = "prolcnoz_public";
-        $password = "sJjJzBeJx2Qx";
+        $username = "root";
+        $password = ""; //sJjJzBeJx2Qx
         try {
-            $this->db = new PDO("mysql:host=$servername;dbname=prolcnoz_db", $username, $password);
+            $this->db = new PDO("mysql:host=$servername;dbname=invest", $username, $password);
             // set the PDO error mode to exception
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            //echo "Connected successfully";
+            //echo "Connected successfully";php
             // I won't echo this message but use it to for checking if you connected to the db
             //incase you don't get an error message
         } catch (PDOException $e) {
@@ -32,13 +32,13 @@ class database
     function get_visitor_details() {
         // ip, browser, theme, country, postal_code, state, city
         $ip = $_SERVER['REMOTE_ADDR'];
-        // $ip = "37.120.215.171";
-        // if (isset($_COOKIE['visitor_details'])) {
-        //     $data = unserialize($_COOKIE['visitor_details']);
-        //     if($data['ip_address'] == $ip) {
-        //         return $data;  
-        //     }
-        // } 
+        $ip = "37.120.215.171";
+        if (isset($_COOKIE['visitor_details'])) {
+            $data = unserialize($_COOKIE['visitor_details']);
+            if($data['ip_address'] == $ip) {
+                return $data;  
+            }
+        } 
         $deviceInfo = $_SERVER['HTTP_USER_AGENT'];
         $data = ["ip_address"=>$ip, "device"=>$deviceInfo, "browser"=>"",  "theme"=>"light", "country"=>"", "postal_code"=>"", "state"=>"", "city"=>""];
         $apiUrl = "http://ip-api.com/json/{$ip}";
@@ -58,6 +58,11 @@ class database
         return $data;
     }
 
+    function validate_admin() {
+        if(isset($_SESSION['adminSession'])) { return true; }
+        return false;
+    }
+    
     function new_activity($data) {
         if(isset($_SESSION['anonymous'])) {return null;}
         // $data = 'userID', "date_time", "action_name", "link", "action_for", "action_for_ID";
@@ -80,6 +85,22 @@ class database
         }
     }
 
+   function new_notification(array $data, $what = "quick") {
+        if(is_array($what != "quick")) {
+            if(!isset($_POST['time_set'])) {
+                $_POST['time_set'] = time();
+            }
+            $info = $this->validate_form($data, 'notifications', "insert");
+            if($info) {
+                return true;
+            }
+        }else{
+            if($this->quick_insert("notifications",  $data)){
+                return true;
+            }
+        }
+        return false;
+    }
     // USEAGE
     // Get information from the database using where condition
     // CODE: $members = $d->getall('members', 'email = ?', ['www@gmail.com '], fetch: "moredetails");
@@ -141,6 +162,7 @@ class database
                     $this->get_message($message);
                 }
             }
+            // return true;
         } else {
             $insert =  $this->insert_data($into, $data);
             $this->get_message($message);
@@ -170,7 +192,7 @@ class database
         return false;
     }
     // $d->delete("members", "ID = ? or phonenumber = ?", [3, 3434]);
-    function delete($from, $where, $data)
+    function delete($from, $where, array $data)
     {
         $query = $this->db->prepare("DELETE FROM $from WHERE $where ");
         $delete = $query->execute($data);
@@ -260,8 +282,8 @@ class database
             if (isset($data['is_required']) && $data['is_required'] == false) {
                 $isNull = "NULL";
             }
-            if (isset($datas['input_value'][$key])) {
-                $default_value = "DEFAULT '" . htmlspecialchars($data['input_value'][$key]) . "'";
+            if (isset($datas['input_data'][$key])) {
+                $default_value = "DEFAULT '" . htmlspecialchars($datas['input_data'][$key]) . "'";
             }
 
             $info .= "$key $type $isNull $default_value,";
@@ -285,7 +307,7 @@ class database
         }
     }
 
-    function validate_form($datas, $what = "")
+    function validate_form($datas, $what = "", $action = null)
     {
         $err = false;
         $info = [];
@@ -389,11 +411,40 @@ class database
             if(isset($info['confirm_password'])) {
                 unset($info['confirm_password']);
                }
+               
+              if(!$this->database_action($action, $info, $what)) {
+                return false;
+              }
             return $info;
         }
         return null;
     }
 
+    private function database_action($action, $data, $what) {
+        if(!is_array($data) || empty($what) || $action == null ) {
+            return true;
+        }
+        switch ($action) {
+            case 'insert':
+                if(!$this->quick_insert($what, $data)) {
+                    return false;
+                }
+                return true;
+               
+                case 'update':
+                    if(!isset($data['ID'])) {
+                        return false;
+                    }
+                    $id = $data['ID'];
+                   if(!$this->update($what, $data, "ID = '$id'")) {
+                        return false;
+                   }
+                   return true;
+            default:
+                return true;
+              
+        }
+    }
     function check_if_required($data)
     {
         if (isset($data['is_required']) && $data['is_required'] == true || !isset($data['is_required'])) {
@@ -513,21 +564,23 @@ class database
 
     private function checkpass($password, $cpass)
     {
-        // return true;
         // Validate password strength
         $uppercase = preg_match('@[A-Z]@', $password);
         $lowercase = preg_match('@[a-z]@', $password);
         $number    = preg_match('@[0-9]@', $password);
         // $specialChars = preg_match('@[^\w]@', $password);
 
-        
+        if (!$uppercase || !$lowercase || !$number || strlen($password) < 4) {
+            database::message("Password should be at least 4 characters in length and should include at least one upper case letter and one number.", "error");
+            return false;
+        } else {
             if ($password == $cpass) {
                 return true;
             } else {
                 database::message("Password don't match. Check and try again", "error");
                 return false;
             }
-        
+        }
     }
     public function message($message, $type, $method = "default")
     {
@@ -603,6 +656,7 @@ class database
         foreach (array_rand($seed, $no) as $k) $rand .= $seed[$k];
         return "3" . $rand;
     }
+    
     function smtpmailer($to, $subject, $body, $name = "", $message = '', $smtpid = 1)
     {
         // require_once "";
@@ -949,5 +1003,56 @@ class database
 
     function loadpage($url) {
         echo '<script>window.location.href = "'.$url.'";</script>';
+    }
+
+    function ago($time)
+    {
+        // $time = strtotime($time);
+        $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+        $lengths = array("60", "60", "24", "7", "4.35", "12", "10");
+
+        $now = time();
+
+        $difference     = $now - $time;
+        $tense         = "ago";
+
+        for ($j = 0; $difference >= $lengths[$j] && $j < count($lengths) - 1; $j++) {
+            $difference /= $lengths[$j];
+        }
+
+        $difference = round($difference);
+        if($periods[$j] == "second") {
+            return "Just now";
+        }
+
+        if ($difference != 1) {
+            $periods[$j] .= "s";
+        }
+
+        
+
+        $value =  "$difference $periods[$j] ago";
+        if($value == "1 second ago") {
+            return "Just now";
+        }else{
+           return $value;
+        }
+    }
+
+    // short a text
+
+    function short_text($text, $maxCharacters = 30) {
+        if (strlen($text) > $maxCharacters) {
+            $shortenedText = substr($text, 0, $maxCharacters) . "...";
+        } else {
+            $shortenedText = $text;
+        }
+
+        return $shortenedText;
+    }
+
+    function short_no( $no, $maxno = 99) {
+        if($no == 0) { $no = ""; }
+        if($no > $maxno) { $no = "$maxno+"; }
     }
 }

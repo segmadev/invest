@@ -117,10 +117,10 @@ elements.forEach(element => {
     
     // Callback handler that will be called on success
    
-    request.always(function () {
-        // Reenable the inputs
-        $inputs.prop("disabled", false);
-    });
+    // request.always(function () {
+    //     // Reenable the inputs
+    //     $inputs.prop("disabled", false);
+    // });
 
 });
 $i++;
@@ -145,7 +145,9 @@ function runjax(request, event, $inputs, fd, action = "passer") {
         // Log a message to the console
         // Log a message to the console
         var res = response.substring(0, 30);
-        console.log(res);
+        if(event == null || event == "") {
+            return response;
+        }
         if (res === "<div class='card card-primary'") {
             event.srcElement.children.custommessage.innerHTML = "";
             // document.getElementById("accordion").innerHTML += response;
@@ -154,6 +156,7 @@ function runjax(request, event, $inputs, fd, action = "passer") {
         } else {
             event.srcElement.children.custommessage.innerHTML = response;
         }
+
         }
         // document.getElementById("message").innerHTML = "";
         // chatBox =  document.getElementById("chatdiv").innerHTML
@@ -278,6 +281,12 @@ function followuser(id, userid){
     });
 }
 
+function input_value(id, value) {
+    console.log("clear");
+    if(document.getElementById(id)) {
+        document.getElementById(id).value = value;
+    }
+}
 function removethis(id, what){
     if(confirm("Are you sure you want to delete this "+what)){
         document.getElementById("message"+id).innerHTML = '<img src="img/loading.gif" alt="please wait..." style="width:48px;">';
@@ -697,21 +706,33 @@ function submitform(id = "foo2", messageid = "custommessage") {
     });
 }
 
+// simple ajax passer
+function simple_ajax(data, url = "passer", type = "POST") {
+    $.ajax({
+        url: url,
+        data: data,
+        type: type,
+        success: function (response) {
+            if(testJSON(response)){
+                proceessjson(response);
+            }else{
+                return response;
+            }
+        }
+    });
+}
 
 // update rollover 
 function update_rollover(value, id) {
-    $.ajax({
-        url: "passer",
-        data: {
+    
+        var data =  {
             status: value,
             page: "investment",
             update_rollover: id,
-        },
-        type: 'POST',
-        success: function (response) {
-            console.log(response);
-        }
-    });
+        };
+        
+        var update_rollover = simple_ajax(data);
+    
 }
 
 // change profile picture
@@ -729,4 +750,181 @@ function change_profile(id) {
             proceessjson(response);
         }
     });
+}
+
+// run this functions every 3secs
+
+setInterval(function() {
+    // update last seen
+    update_last_seen();
+    // check for notifications
+    get_pending_chat_notifications();
+    get_notifications("get_pending_daily_my_report_notifications");
+    get_notifications("get_pending_daily_global_report_notifications");
+    get_no_notification();
+    get_no_messages();
+  }, 3000); 
+
+function get_no_notification() {
+    var data = {
+        get_no_notification: "",
+        page: "notifications",
+    };
+    update = simple_ajax(data);
+}
+function get_no_messages() {
+    var data = {
+        get_no_messages: "",
+        page: "notifications",
+    };
+    update = simple_ajax(data);
+}
+
+  function loadnotification() {
+    document.getElementById("offcanvasRight").innerHTML = "Loading...";
+    var data = {
+        get_recent_notification: "",
+        page: "notifications",
+    };
+  
+    $.ajax({
+        url: "passer",
+        data: data,
+        type: 'POST',
+        success: function (response) {
+            document.getElementById("offcanvasRight").innerHTML = response;
+        }
+    });
+  }
+
+  function update_last_seen() {
+    var data = {
+        update_last_seen: "",
+        page: "chat",
+    };
+    update = simple_ajax(data);
+    // console.log("last seen updated");
+  }
+
+//   notification function start here.
+
+// get notification of a specific type and display.
+function get_notifications(what) {
+      var data = {
+        get_notifications: what,
+        page: "notifications",
+      };
+      simple_ajax(data);
+}
+
+function isCookieExpired(cookieName) {
+    if (getCookieValue("Nonotifications") == null) {
+        return  true;
+    }
+    var cookie = document.cookie.split(';').find(function(cookie) {
+      return cookie.trim().startsWith(cookieName + '=');
+    });
+  
+    if (cookie) {
+      var cookieValue = cookie.split('=')[1];
+      var expirationDate = new Date(cookieValue);
+  
+      return expirationDate < new Date();
+    }
+  
+    return true; // Cookie doesn't exist
+}
+
+// get all pending chat notifications and display them.
+  function get_pending_chat_notifications() {
+   
+        if (isCookieExpired('Nonotifications')) {
+      var data = {
+        get_pending_chat_notifications: "",
+        page: "notifications",
+      };
+      simple_ajax(data);
+      // Calculate the expiration date
+      var expirationDate = new Date();
+      expirationDate.setTime(expirationDate.getTime() + 2 * 60 * 60 * 1000); // 5 hours in milliseconds
+    // expirationDate.setTime(expirationDate.getTime() + (1 * 60 * 1000)); // 1 minute in milliseconds 
+    document.cookie =
+        "Nonotifications=yes; expires=" +
+        expirationDate.toUTCString() +
+        "; path=/";
+    }
+  }
+
+  function display_notification(data, holder) {
+    const params = new URLSearchParams(data);
+    // params.get("confirm")
+    if (!check_notification_permission()) {
+      return false;
+    }
+    var options = {
+      body: params.get("body"),
+      icon: params.get("icon"),
+      tag: params.get("tag"),
+      data: { url: params.get("url") },
+    };
+    const notification = new Notification(params.get("title"), options);
+    notification.addEventListener("click", function () {
+      // Open the URL when the notification is clicked
+      window.open(notification.data.url);
+    });
+  }
+
+  function check_notification_permission(){
+    if (!("Notification" in window)) {
+        // Check if the browser supports notifications
+        // alert("This browser does not support desktop notification");
+        return false;
+      } else if (Notification.permission === "granted") {
+        // Check whether notification permissions have already been granted;
+        // if so, create a notification
+        return true;
+        // …
+      } else if (Notification.permission !== "denied") {
+        // We need to ask the user for permission
+        Notification.requestPermission().then((permission) => {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+           return true;
+            // …
+          }
+        });
+      }
+      return false;
+  }
+ function send_notify() {
+        if (!("Notification" in window)) {
+          // Check if the browser supports notifications
+          alert("This browser does not support desktop notification");
+        } else if (Notification.permission === "granted") {
+          // Check whether notification permissions have already been granted;
+          // if so, create a notification
+          const notification = new Notification("Hi there!");
+          // …
+        } else if (Notification.permission !== "denied") {
+          // We need to ask the user for permission
+          Notification.requestPermission().then((permission) => {
+            // If the user accepts, let's create a notification
+            if (permission === "granted") {
+              const notification = new Notification("Hi there!");
+              // …
+            }
+          });
+        } 
+        // At last, if the user has denied notifications, and you
+        // want to be respectful there is no need to bother them anymore.  
+ }
+
+ function onset_chat(value1, value2) {
+    document.getElementById("message-input-box").value = "";
+    document.getElementById("image-preview-upload").innerHTML = "";
+    document.getElementById("upload").value = "";
+ }
+
+ function make_visible(id_name) {
+    document.getElementById(id_name).style.setProperty("visibility", "visible", "important");
 }

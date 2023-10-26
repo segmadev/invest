@@ -5,7 +5,11 @@
 // $redirect= "https://".$_SERVER[‘HTTP_HOST’].$_SERVER[‘REQUEST_URI’];
 // header("Location:$redirect");
 // }
+
+$redirect= "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
     if(!isset($_SESSION['adminSession']) ){
+        $_SESSION['urlgoto'] = $redirect;
         header('location: login'); 
     }
     

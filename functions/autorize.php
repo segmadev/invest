@@ -20,6 +20,7 @@ class autorize extends database
         $insert = $this->quick_insert("users", $info);
         if ($insert) {
             session_start();
+            session_unset();
             // $d->updateadmintoken($value['ID'], "users");
             $_SESSION['userSession'] = htmlspecialchars($info['ID']);
             $actInfo = ["userID" => $info['ID'],  "date_time" => date("Y-m-d H:i:s"), "action_name" => "Registration", "description" => "Account Registration."];
@@ -48,20 +49,23 @@ class autorize extends database
                         }
                         $d->message("We're sorry, your account has been blocked. <br> <b>Reason: </b> " . $reason, "error");
                     } else {
+                        // session_start();
+                        $urlgoto = "index";
+                        $_SESSION['userSession'] = htmlspecialchars($value['ID']);
+                        if (isset($_POST['urlgoto'])  && !empty($_POST['urlgoto'])) {
+                            $urlgoto = str_replace("/localhost", "", $_POST['urlgoto']);
+                        }
                         // reson here
                         session_start();
+                        session_unset();
                         // $d->updateadmintoken($value['ID'], "users");
-                        $urlgoto = "index.php";
                         $_SESSION['userSession'] = htmlspecialchars($value['ID']);
-                        if (isset($_SESSION['urlgoto'])) {
-                            $urlgoto = htmlspecialchars($_SESSION['urlgoto']);
-                        }
                         $actInfo = ["userID" => $value['ID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "Login", "description" => "Account login access."];
                         $this->new_activity($actInfo);
                         // $d->message("Account logged in Sucessfully <a href='index.php'>Click here to proceed.</a>", "error");
                         $return = [
                             "message" => ["Success", "Account Logged in", "success"],
-                            "function" => ["loadpage", "data" => ["index", "null"]],
+                            "function" => ["loadpage", "data" => ["$urlgoto", "null"]],
                         ];
                         return json_encode($return);
                     }

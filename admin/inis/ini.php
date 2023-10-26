@@ -7,10 +7,15 @@ $d = new database;
 require_once "../consts/general.php";
 require_once "../consts/Regex.php";
 require_once "../content/content.php";
+require_once "../functions/notifications.php";
+require_once "../functions/users.php";
+require_once "functions/users.php";
+$u = new users;
 $c = new content;
 $route = "";
 $page = "dashboard";
 $script = [];
+$userID = "admin";
 if (isset($_GET['p'])) {
     $page = htmlspecialchars($_GET['p']);
 }

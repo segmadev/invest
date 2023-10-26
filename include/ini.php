@@ -19,9 +19,11 @@ require_once "admin/include/database.php";
 $d = new database;
 require_once "consts/general.php";
 require_once "content/content.php"; 
+require_once "functions/notifications.php"; 
 require_once "functions/users.php"; 
 $u = new user;
 $c = new content;
+$n = new Notifications;
 
 $page = "dashboard";
 if(isset($_GET['p'])) {
@@ -41,3 +43,10 @@ if($invest_no <= 0 && $deposit <= 0) {
 }elseif(isset($_SESSION['newuser'])){
     unset($_SESSION['newuser']);
 }
+
+if(isset($_GET['note']) && $_GET['note'] != "") {
+    $n->exclude_user(htmlspecialchars($_GET['note']), $userID);
+}
+// echo $userID;
+// var_dump($u->get_all_emails());
+// exit;

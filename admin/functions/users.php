@@ -1,6 +1,15 @@
 <?php
 class users extends user
 {
+
+    function block_user($user_id, $what = "status") {
+        if(!$this->validate_admin()) { return false; }
+        $update = $this->update("users", ["$what"=>"blocked"], "ID = '$user_id'");
+        if($update) {
+            return $this->message("Blocked", "success", "json");
+        }
+    }
+
     // approve or reject deposit 
     function update_deposit_status() {
         $data = $this->checkmessage(["ID", "amount", "status", "reason_null"]);

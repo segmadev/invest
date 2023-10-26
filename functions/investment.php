@@ -1,6 +1,78 @@
 <?php
 class investment extends user
 {
+
+    // generate daily notification 
+    function daily_report_notification($userID = "",  $date = null) {
+        if($date == null) {$date  = date("Y-m-d");}
+        // generate notification
+        // message: Our AI Bot general report for today (10-09-2023)
+        // Trades taken: 
+        // profit:
+        // lost: 
+        // check if report already exit   
+            if($this->getall("notifications", "userID = ? and n_for = ? and date_set = ?", ["all", "global_report", $date], fetch: "") == 0){
+                $tr = $this->get_trade_report(date: $date, type: "global");
+                $data = [];
+                $data['userID'] = "all";
+                $data['n_for'] = "global_report";
+                $data['title'] = "Our AI bot general report for today ($date)";
+                $data['description']  = "Trade(s): ".number_format($tr['trade_no'])." Profit: ".$this->money_format($tr['profit'], currency ?? "$")." Lost: ".$this->money_format($tr['lost'], currency ?? "$");
+                $data['time_set'] = time();
+                $data['date_set'] = $date;
+                $data['url'] = ROOT."index?type=global&p=investment&action=trades&date=$date";
+                $this->new_notification($data);
+                // send email to user's email.
+                $message = $this->replace_word([' ${first_name}'=>"", '${message_here}'=>$data['description']], $this->get_email_template("default")['template']);
+                $sendmessage = $this->smtpmailer($this->get_all_emails(), $data['title'], $message);
+            }
+           
+        // user notification
+        // message: Trades taken on your account for today (10-09-2023)
+        if($userID != "") {
+            if($this->getall("notifications", "userID = ? and n_for = ? and date_set = ?", [$userID, "my_report", $date], fetch: "") > 0) {
+                return false;
+            }
+            $tr = $this->get_trade_report(uid: $userID, date: $date, type: "");
+            $data = [];
+            $data['userID'] = $userID;
+            $data['n_for'] = "my_report";
+            $data['title'] = "Trades taken on your account for today ($date)";
+            $data['description']  = "Trade(s): ".number_format($tr['trade_no'])." Profit: ".$this->money_format($tr['profit'], currency ?? "$")." Lost: ".$this->money_format($tr['lost'], currency ?? "$");
+            $data['time_set'] = time();
+            $data['date_set'] = $date;
+            $data['url'] = ROOT."index?type=&p=investment&action=trades&date=$date";
+            $this->new_notification($data);
+            // send email to users
+            $message = $this->replace_word([' ${first_name}'=>$this->get_name($data['userID']), '${message_here}'=>$data['description']], $this->get_email_template("default")['template']);
+            $sendmessage = $this->smtpmailer($this->get_all_emails(), $data['title'], $message);
+           
+        }
+
+    }
+
+    function get_trade_report($uid = "", $date = "",  $type = "global") {
+        $more = "";
+        $more_value = "";
+        $userinfo = "userID = ? and ";
+        if($type == "global") {
+            $userinfo = "";
+            $uid = "";
+        }
+
+    
+        if($date != "") {
+          $date = htmlspecialchars($_GET['date']);
+          $more = "trade_date = ? and ";
+          $more_value = $date;
+        }
+        $trades = $this->getall("trades", "$userinfo $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "moredetails");
+        $lost = $this->getall("trades", "$userinfo  intrest_amount < ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
+        $profit = $this->getall("trades", "$userinfo  intrest_amount > ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
+        $trade_no = $trades->rowCount();
+        return ["trades"=>$trades, "lost"=>$lost, "profit"=>$profit, "trade_no"=>$trade_no];
+    }
+
     function new_investment($data, $type = "tranding_balance")
     {
         $_POST['ID'] = uniqid();
@@ -130,34 +202,25 @@ class investment extends user
             if ($compound_profits->rowCount() == 0) {
                 return true;
             }
-           
 
             $lastMonday = date("Y-m-d", strtotime("last Monday"));
             $lastSaturday = date("Y-m-d", strtotime("last Saturday"));
             foreach ($compound_profits as $row) {
-                // echo $row['compound_profits_assignedID'].' <br>';
                 $sum = $this->getall("trades", "investmentID = ? and intrest_amount > ? and trade_date >= ? and trade_date <= ?", [$row['investmentID'],  0, $lastMonday, $lastSaturday], "userID as userID, SUM(intrest_amount) as total_intrest");
-                if($sum['userID'] == null || $sum['userID'] == "") {
-                    continue;
-                }
                 $investID = $row['investmentID'];
                 $invest = $this->getall("investment", 'ID = ?', [$investID], 'trade_amount');
                 $trade_amount = (float)$invest['trade_amount'] + (float)$sum['total_intrest'];
-                // Debit fund from trading_balance 
-                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit');
-                
+                $update = $this->update("investment", ["trade_amount" => $trade_amount], "ID  = '$investID'");
                 if (!$update) {
                     continue;
                 }
-                //  echo var_dump($trade_amount);
-                
-                $update = $this->update("investment", ["trade_amount" => $trade_amount], "ID  = '$investID'");
+                // Debit fund from trading_balance 
+                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit');
                 // UPDATE DATE FOR THE compound_profits
                 if ($update) {
                     $id = $row['compound_profits_assignedID'];
                     $this->update("compound_profits_assigned", ["last_date" => $date, "last_time" => $time], "ID = '$id'");
                     $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "compound_profits Applied", "description" => "Weekly compound_profits applied on your investment with the ID: ".$row['investmentID'], "action_for"=>"compound_profits_assigned", "action_for_ID"=>$row['ID']];
-                   
                     $this->new_activity($actInfo);
                 }
                 // $total_trades = $this->getall("trades", "");
@@ -324,7 +387,6 @@ class investment extends user
             foreach ($times as $key => $value) {
                 $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => $today, "trade_time" => $value]);
             }
-            echo "Success for ".$row['ID'];
         }
         // $form = [
         //     "ID"=>["input_type"=>"number"],
@@ -350,8 +412,7 @@ class investment extends user
         // var_dump($coins[array_rand($coins)]."USDT");
         // get all pending plans where date less or equal today
         $today = date("Y-m-d");
-        //$trades = $this->getall("trades", 'status = ? order by trade_time ASC LIMIT 50', ["pending"], fetch: "moredetails");
-        $trades = $this->getall("trades", 'trade_date <= ? and trade_time < ? and status = ? order by trade_time ASC LIMIT 20', [$today, time(), "pending"], fetch: "moredetails");
+        $trades = $this->getall("trades", 'trade_date <= ? and trade_time < ? and status = ? LIMIT 50', [$today, time(), "pending"], fetch: "moredetails");
         // $trades = $this->getall("trades", 'trade_candles = ? or trade_candles = ?', ["", null], fetch: "moredetails");
         // var_dump($trades->rowCount());
         if ($trades->rowCount() == 0) {
@@ -366,34 +427,21 @@ class investment extends user
         }
         $coins = $this->get_settings("trade_coins");
         $coins = explode(",", $coins);
-        $i = 0;
         foreach ($trades as $row) {
             $id = $row['ID'];
             if (!isset($totals[$row['investmentID']])) {
                 $totals[$row['investmentID']] = [];
             }
             if (isset($totals[$row['investmentID']][$row['trade_date']]) && $totals[$row['investmentID']][$row['trade_date']] == "closed") {
-
                 continue;
             }
-            $startTimestamp = (int)$row["trade_time"] * 1000;
+            $startTimestamp = strtotime($row['trade_date'] . ' ' . date("H:i:s", $row["trade_time"])) * 1000;
             // echo "<br>";
-            $coin = trim($coins[array_rand($coins)])."USDT";
-            // $data https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue
+            $coin = trim($coins[array_rand($coins)]."USDT");
             $data = $this->api_call("https://api.binance.com/api/v3/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp");
-            // $data = $this->api_call("https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue");
             if (!is_array($data) || count($data) < $limitvalue) {
-                // var_dump($data);
-                // echo "https://api.binance.com/api/v2/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp";
-                echo $i++." ID: ".$row['ID']." error Date: ".$row['trade_date'];
-                // echo "https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue";
-                 echo "<br>";
                 continue;
             }
-            // echo var_dump($this->get_times());
-            // echo "https://api.binance.com/api/v3/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp";
-            // var_dump($data);
-            // return;
             $info = $this->cal_trade_percent($data, $row);
             if (!is_array($info)) {
                 continue;
@@ -417,7 +465,6 @@ class investment extends user
                 $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "New trade taken", "description" => "A new trade was taken on your investment with an intrest of ".$info['percentage'], "action_for"=>"trades", "action_for_ID"=>$id];
                 $this->new_activity($actInfo);
                 $update = $this->credit_debit($row['userID'], $info['intrest_amount'], "trading_balance");
-                echo "Success: for ".$row['ID']." <br>";
             }
             // echo "success: ".$row['investmentID']." <br>";
             // foreach ($data as $row) {

@@ -140,7 +140,7 @@ $(".message-type-box").on("keydown", function (event) {
       .parents(".chat-application")
       .find(".active-chat")
       .append($messageHtml);
-    var clearChatInput = chatInput.val("");
+    // var clearChatInput = chatInput.val("");
   }
 });
 
@@ -170,3 +170,127 @@ $("body").on('click', '.chat-menu', function () {
   $(".app-chat-offcanvas").toggleClass('app-chat-right');
   $(this).toggleClass('app-chat-active');
 });
+
+
+get_group_users();
+setInterval(function () {
+  if(document.getElementById("chat-users").innerHTML != null) {
+    try {
+      document.getElementById("mobile-chat-list").innerHTML = document.getElementById("chat-users").innerHTML;
+    } catch (error) {
+      
+    }
+  }
+  // get all messages
+  get_message();
+  // check user status
+  user_status();
+  get_user_chat_list();
+}, 2000); // 3000 milliseconds = 3 seconds
+
+function  get_group_users(start = 0) {
+  // console.log("Statat " + start);
+  if(document.querySelector("#receiverID") && document.querySelector("#grouplist")) {
+   
+        var groupID = document.querySelector("#receiverID").value;
+        var limit = 30;
+      
+        $.ajax({
+          type: 'post',
+          url: 'passer',
+        data: {
+            get_group_users: groupID,
+              start: start,
+              limit: limit,
+              page: "chat",
+          },
+          success: function (response) {
+                if(response != "null" && response != null && response != ""){
+                  // console.log(response);
+                  document.getElementById("grouplist").innerHTML += response; 
+                  get_group_users(start + limit);
+                }
+          }
+      });
+  }
+}
+
+function get_message() {
+  const div = document.querySelector("#chatnew");
+  const lastElement = div.lastElementChild;
+  var lastchat =  lastElement.getAttribute("data-chat-id");
+  if(lastchat != null) {
+    // console.log(lastchat);
+    var chatID = document.querySelector("#chatID").value;
+    $.ajax({
+      type: 'post',
+      url: 'passer',
+    data: {
+          lastchat: lastchat,
+          chatID: chatID,
+          "page": "chat",
+          "get_chat": 50,
+      },
+      success: function (response) {
+            // console.log(response);
+            if(response != "null"){
+              document.getElementById("chatnew").innerHTML += response;  
+            }
+      }
+  });
+  }
+}
+
+setTimeout(function () {
+  // get all messages
+
+  var chatbox = document.querySelector('.chat-box');
+  var chatdiv = chatbox.querySelector('.simplebar-content-wrapper');
+  console.log(chatdiv.scrollHeight);
+  chatdiv.scrollTop = chatdiv.scrollHeight;
+
+}, 1000);
+
+
+// get and display user status
+function user_status() {
+  if(document.querySelector("#receiverID")) {
+    const receiverID = document.querySelector("#receiverID").value;
+    $.ajax({
+      type: 'post',
+      url: 'passer',
+    data: {
+          get_last_seen: receiverID,
+          page: "chat",
+      },
+      success: function (response) {
+            // console.log(response);
+            if(response != "null" && document.querySelector("#last_seen")){
+              // console.log(response);
+              document.getElementById("last_seen").innerHTML = response;  
+            }
+      }
+  });
+  }
+}
+
+function get_user_chat_list() {
+  if(document.querySelector("#chat-users")) {
+    // console.log('response');
+    $.ajax({
+      type: 'post',
+      url: 'passer',
+    data: {
+          get_user_chat_list: "",
+          page: "chat",
+      },
+      success: function (response) {
+            // console.log(response);
+            if(response != "null" && document.querySelector("#chat-users")){
+              // console.log(response);
+              document.getElementById("chat-users").innerHTML = response;  
+            }
+      }
+  });
+  }
+}

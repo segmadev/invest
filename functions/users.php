@@ -1,5 +1,5 @@
 <?php 
-class user extends database {
+class user extends Notifications {
     public $userdata;
     public $userID;
     protected $profile_link_root = ROOT."assets/images/profile/";
@@ -15,9 +15,14 @@ class user extends database {
     //         }
     //     }
     // }
-    function get_profile_icon_link($userID = null) {
+
+    function get_all_emails() {
+        // SELECT GROUP_CONCAT(email SEPARATOR ',') AS all_emails FROM table_name;
+        return $this->getall("users", "acct_type = ?", ["user"], "GROUP_CONCAT(email SEPARATOR ', ') AS all_emails")['all_emails'];
+    }
+    function get_profile_icon_link($userID = null, $what = "users") {
         $gender = "default";
-        $user = $this->getall("users", "ID  = ?", [$userID], "profile_image", "details");
+        $user = $this->getall("$what", "ID  = ?", [$userID], "profile_image", "details");
         if(isset($user["profile_image"]) && $user["profile_image"] !=  null) {
             return $this->profile_link_root.$user["profile_image"];
         }
@@ -26,7 +31,7 @@ class user extends database {
 
         if(isset($user['gender']) && $user['gender'] != "" | null) {
             $gender = $user['gender'];
-        }else {
+        }elseif($what == "users") {
             $check = $this->getall("users", "ID = ?", [$userID], "gender");
             if(isset($check['gender'])) {
                 $gender = $check['gender'];
@@ -199,6 +204,15 @@ class user extends database {
         return $this->getall("investment", "userID = ? order by date ASC", [$userID], fetch: 'details');
     }
 
+    function update_last_seen($userID, $time) {
+        if($this->getall("users", "ID = ?", [$userID], fetch: "") > 0) {
+            if($this->update("users", ["last_seen"=>$time], "ID  = '$userID'")) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
     function last_from_trading_balance($date, $userID){
         if($this->get_settings("last_trading_transfer", who: $userID) != "") {
            $update = $this->update("settings", ["meta_value"=>$date], "meta_name = 'last_trading_transfer' and meta_for = '$userID'");
@@ -313,6 +327,72 @@ class user extends database {
         return null;
     }
     function get_full_name($user) {
+        if(!is_array($user)){
+            return "Unknown";
+        }
         return $user['first_name'].' '.$user['last_name'];
+    }
+
+    function get_name($id, $what = "users") {
+        switch ($what) {
+            case 'users':
+                $data = $this->getall("users", "ID = ?", [$id], "first_name, last_name");
+                return $this->get_full_name($data);
+                break;
+                case 'groups':
+                    $data = $this->getall("groups", "ID = ?", [$id], "name");
+                    if(!is_array($data)) {
+                        return "Unknown";
+                    }
+                    return $data['name'];
+                    break;
+            default:
+                return "Unknown";
+                break;
+        }
+    }
+
+    function create_default_group_chat($chat_from, $userID) {
+        $groups = $this->getall("groups",  "users = ?", ["all"],  fetch: "moredetails");
+        if($groups->rowCount() == 0) {
+            return true;
+        }
+        foreach($groups as $row){
+            if($this->getall("chat", "user1 = ? and user2 = ?", [$userID, $row['ID']], fetch: "") > 0){
+               continue;
+           }
+            $_POST['user1'] = $userID;
+            $_POST['user2'] = $row['ID'];
+           $_POST['is_group'] = "yes";
+           $this->create_chat($chat_from);
+        }    
+    }
+    function create_chat($chat_from) {
+        $info = $this->validate_form($chat_from, "chat", "insert");
+    }
+
+    function new_user_chat($userID, $user2, $chat_from) {
+        $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$userID, $user2]);
+        if(is_array($check)) {
+            $this->loadpage('index?p=chat&id='.$check['ID']);
+        }
+        $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$user2, $userID]);
+        if(is_array($check)) {
+            $this->loadpage('index?p=chat&id='.$check['ID']);
+        }
+
+        if(!$this->getall("users", "ID = ?", [$user2], fetch: "")) {
+            return false;
+        }
+         $_POST['user1'] = $userID;
+         $_POST['user2'] = $user2;
+        $_POST['is_group'] = "no";
+        if($this->create_chat($chat_from)){
+            $this->new_user_chat($userID, $user2, $chat_from);
+        }
+    }
+
+    function get_all_chat_notification($userID) {
+        
     }
 }

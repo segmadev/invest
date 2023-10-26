@@ -82,3 +82,25 @@
     transform: translateY(0);
   }
 }
+
+.offcanvas.offcanvas-end {
+  width: 350px!important;
+}
+
+.chat-users, .chat-box, .chat-media-list {
+  height: calc(100vh - 280px);
+}
+@media only screen and (max-width: 600px) {
+  .chat-users, .chat-box, .chat-media-list {
+    height: calc(100vh - 430px);
+  }
+  .app-chat-right {
+    visibility: hidden!important;
+    margin-top: 15vh;
+  }
+
+  .offcanvas.offcanvas-end {
+    width: calc(100vw - 90px);
+  }
+
+}

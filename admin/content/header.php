@@ -93,6 +93,14 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a class="sidebar-link" href="index?p=chat" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-messages"></i>
+                                </span>
+                                <span class="hide-menu">Chats</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
                             <a class="sidebar-link" href="index?p=deposit" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-download"></i>

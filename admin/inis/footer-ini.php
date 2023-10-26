@@ -23,6 +23,9 @@
 <?php if (in_array("fetcher", $script)) { ?>
     <script src="../dist/js/fetcher.js"></script>
 <?php } ?>
+<?php if(in_array('chat', $script)){ ?>
+    <script src="../dist/js/apps/chat.js?n=4545"></script>
+<?php } ?>
 <?php if (in_array("select2", $script)) { ?>
     <script src="../dist/libs/select2/dist/js/select2.full.min.js"></script>
     <script src="../dist/libs/select2/dist/js/select2.min.js"></script>
@@ -30,6 +33,26 @@
 <?php } ?>
 <?php if (in_array("sweetalert", $script)) { ?>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<?php } ?>
+<?php if (in_array("textarea", $script)) { ?>
+   
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '#richtext',
+        height: 400
+      });
+      tinymce.init({
+        selector: '#richtext2',
+        height: 400
+      });
+    </script>
+
+<style>
+    .tox-notifications-container {
+        display: none!important;
+    }
+</style>
 <?php } ?>
 
 

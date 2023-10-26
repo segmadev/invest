@@ -53,6 +53,14 @@
                       <label for="exampleInputPassword1" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="exampleInputPassword1">
                     </div>
+
+                    <?php 
+                      if(isset($_GET['urlgoto']) && !empty($_GET['urlgoto']))  {
+                        $urlgoto = $_GET['urlgoto'];
+                        echo "<input type='hidden' value='$urlgoto' name='urlgoto'>";
+                      }
+                    ?>
+
                     <input type="hidden" name="signin">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                       <div class="form-check">

@@ -2,12 +2,13 @@
 // error_reporting(0);
 // ini_set('display_errors', 0);
 // if($_SERVER[‘HTTPS’] != "on") {
-// $redirect= "https://".$_SERVER[‘HTTP_HOST’].$_SERVER[‘REQUEST_URI’];
+ $redirect= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 // header("Location:$redirect");
 // }
-    if(!isset($_SESSION['userSession']) ){
-        header('location: login.php'); 
-    }
+// if (!isset($_SESSION['userSession'])) {
+//     $_SESSION['urlgoto'] = $redirect;
+//     header("location: login?urlgoto=$redirect");
+// }
     
     if(isset($_GET['logout'])) {
         session_destroy();
@@ -19,6 +20,7 @@
         $userID = $_SESSION['userSession'];
     }else{
         session_destroy();
-        header("location: login.php");
+        $_SESSION['urlgoto'] = $redirect;
+        header("location: login?urlgoto=/$redirect");
     }
 ?>

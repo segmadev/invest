@@ -1,6 +1,6 @@
 <?php
-define("ROOT", "https://proloomtrading.com/app/");
-define("ROOTFILE", "https://proloomtrading.com/");
+define("ROOT", "http://localhost/invest2/app/");
+define("ROOTFILE", "C:/xampp2/htdocs/invest2/");
 define("currency", $d->get_settings("default_currency"));
 define("company_name", $d->get_settings("company_name"));
 $dark_logo = ROOT."assets/images/logos/".$d->get_settings("dark_logo");
@@ -14,3 +14,14 @@ $tranfer_from = [
 if(isset($_GET['funds_to'])) {
     $tranfer_from['input_data'] = ["move_from"=>htmlspecialchars($_GET['funds_to'])];
 }
+
+define("notification_from",   [
+    "userID"=>[],
+    "n_for"=>["is_required"=>false],
+    "forID"=>["is_required"=>false],
+    "url"=>["is_required"=>false],
+    "title"=>[],
+    "description"=>[],
+    "exclude"=>["is_required"=>false],
+    "time_set"=>["is_required"=>false],
+]);

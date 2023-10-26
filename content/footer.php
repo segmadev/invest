@@ -1,10 +1,13 @@
 </div>
 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <?php require_once "pages/notifications/list.php"; ?>
+</div>
 <!--  Customizer -->
 <!-- <button class="btn btn-primary p-3 rounded-circle d-flex align-items-center justify-content-center customizer-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
   <i class="ti ti-settings fs-7" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Settings"></i>
 </button> -->
-<div class="offcanvas offcanvas-end customizer" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" data-simplebar="">
+<div class="offcanvas offcanvas-end customizer offcanvas-size-xxl" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" data-simplebar="">
   <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
     <h4 class="offcanvas-title fw-semibold" id="offcanvasExampleLabel">Settings</h4>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -119,18 +122,29 @@
 
 <?php require_once "content/foot.php"; ?>
 <script>
-function getBrowserTheme() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
+  function getBrowserTheme() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
 </script>
 <br><br><br>
-<footer class="d-flex justify-content-center bottom-nav"style="margin-top: 50px">
+<footer class="d-flex justify-content-center bottom-nav" style="margin-top: 50px">
   <div class="col-11 shadow d-flex justify-content-around p-2 rounded botton-navs bg-light">
-    <a href="index" class="btn <?php if($page == "dashboard"){ echo "btn-primary"; } ?>"><i class='ti ti-home'></i></a>
-    <a href="index?p=investment" class="btn <?php if($page == "investment"){ echo "btn-primary"; } ?>"><i class='ti ti-align-box-bottom-center'></i></a>
-    <a href="index?p=stocks" class="btn <?php if($page == "stocks"){ echo "btn-primary"; } ?>"><i class='ti ti-box-multiple-0'></i></a>
-    <a href="index?p=deposit" class="btn <?php if($page == "deposit"){ echo "btn-primary"; } ?>"><i class='ti ti-plus'></i></a>
-                                    
+    <a href="index" class="btn <?php if ($page == "dashboard") {
+                                  echo "btn-primary";
+                                } ?>"><i class='ti ti-home'></i></a>
+    <a href="index?p=investment" class="btn <?php if ($page == "investment") {
+                                              echo "btn-primary";
+                                            } ?>"><i class='ti ti-align-box-bottom-center'></i></a>
+    <a href="index?p=stocks" class="btn <?php if ($page == "stocks") {
+                                          echo "btn-primary";
+                                        } ?>"><i class='ti ti-box-multiple-0'></i></a>
+    <a href="index?p=deposit" class="btn <?php if ($page == "deposit") {
+                                            echo "btn-primary";
+                                          } ?>"><i class='ti ti-plus'></i></a>
+    <a href="index?p=chat" class="btn <?php if ($page == "chat") {
+                                            echo "btn-primary";
+                                          } ?>"><i class='ti ti-messages'></i><span class="fs-2 text-danger" id="message-no"></span></a>
+
     <!-- <a href="index?p=profile" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Settings"><img src="<?= $u->get_profile_icon_link($userID) ?>" alt="" width="40" height="40"></a> -->
   </div>
 </footer>

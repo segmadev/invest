@@ -13,7 +13,12 @@
         //    ""=>null,
         // };
     }
+
     $_POST['userID'] = $userID;
+    if(file_exists("pages/$page/passer.php")) {
+        require_once "pages/$page/passer.php";
+    }
+
     // profile and settings
     // change profile pic
     if(isset($_POST['change_profile_pic'])){
@@ -84,6 +89,8 @@
                 break;
         }
     }
+
+
     
 
 ?>

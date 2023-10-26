@@ -21,7 +21,7 @@ class content extends database
     //     "input_type"=>"text", 
     //     "type"=>"input",
     // ],
-    //     "gender"=>["placeholder"=>"Select your gender", "is_required"=>true, "input_type"=>"select", "options"=>["Male"=>"Male", "Female"=>"Female"], "type"=>"input"],
+    //     "gender"=>["placeholder"=>"Select your gender", "is_required"=>true, "options"=>["Male"=>"Male", "Female"=>"Female"], "type"=>"input"],
     //     "tell_us_more"=>["placeholder"=>"Tell us more about your self", "is_required"=>false, "type"=>"textarea",],
     //     "input_data"=>["full_name"=>"seriki gbenga"],
     // ];
@@ -163,6 +163,7 @@ class content extends database
                 $info .= "<option value=''>" . $this->data['placeholder'] . "</option>";
             }
             foreach ($this->data['options'] as $key => $value) {
+                // if($key )
                 $selected = "";
                 if(is_array($this->data['value']) && in_array($key, $this->data['value'])) {
                     $selected = "selected";
@@ -226,7 +227,7 @@ class content extends database
         return $info;
     }
 
-    function empty_page($message, $btn, $h1 = "Nothing here!!", $icon = "<i class='ti ti-alert-square-rounded text-warning h1'></i>")
+    function empty_page($message, $btn= "", $h1 = "Nothing here!!", $icon = "<i class='ti ti-alert-square-rounded text-warning h1'></i>")
     {
         return "
         <div class='mt-3 col-12 text-center'>

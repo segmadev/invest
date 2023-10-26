@@ -27,6 +27,15 @@ session_start();
     //     };
     // }
 
+
+    if(file_exists("pages/$page/passer.php")) {
+        require_once "pages/$page/passer.php";
+    }
+    
+    // FAQ
+    if(isset($_POST['new_faq'])){
+       echo $f->add_faq($faq_data);
+    }
     // compound_profits 
     if(isset($_POST['new_compound_profits'])) {
         echo $p->new_compound_profits($compound_profits_form);
@@ -84,11 +93,19 @@ session_start();
         echo $s->remove_details(htmlspecialchars($_POST['ID']), $what);
     }
 
-
+    // users
     if(isset($_POST['newuser'])) {   
         echo $u->newuser($user_form);
         
     }
+
+    if(isset($_POST['block_chat_account'])) {
+        echo $u->block_user(htmlspecialchars($_POST['block_chat_account']), "chat_status");
+    }
+    if(isset($_POST['block_account'])) {
+        echo $u->block_user(htmlspecialchars($_POST['block_account']));
+    }
+
     if(isset($_POST['newwallet'])) {   
         echo $w->new_wallet($wallet_from);
     }

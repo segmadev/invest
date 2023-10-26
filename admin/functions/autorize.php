@@ -19,19 +19,23 @@ class autorize extends database
                         }
                         $d->message("We're sorry, your account has been blocked. <br> <b>Reason: </b> " . $reason, "error");
                     } else {
-                        // reson here
-                        session_start();
-                        // $d->updateadmintoken($value['ID'], "users");
                         $urlgoto = "index";
-                        $_SESSION['adminSession'] = htmlspecialchars($value['ID']);
                         if (isset($_SESSION['urlgoto'])) {
                             $urlgoto = htmlspecialchars($_SESSION['urlgoto']);
+                            unset($_SESSION['urlgoto']);
                         }
+                        
+                        // reson here
+                       session_unset();
+                        session_start();
+                        // $d->updateadmintoken($value['ID'], "users");
+                        $_SESSION['adminSession'] = htmlspecialchars($value['ID']);
+                        
                         
                         // $d->message("Account logged in Sucessfully <a href='index.php'>Click here to proceed.</a>", "error");
                         $return = [
                             "message" => ["Success", "Account Logged in", "success"],
-                            "function" => ["loadpage", "data" => ["index", "null"]],
+                            "function" => ["loadpage", "data" => ["$urlgoto", "null"]],
                         ];
                         return json_encode($return);
                     }
