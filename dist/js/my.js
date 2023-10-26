@@ -727,16 +727,16 @@ function simple_ajax(data, url = "passer", type = "POST") {
     });
 }
 
-// update rollover 
-function update_rollover(value, id) {
+// update compound_profits 
+function update_compound_profits(value, id) {
     
         var data =  {
             status: value,
             page: "investment",
-            update_rollover: id,
+            update_compound_profits: id,
         };
         
-        var update_rollover = simple_ajax(data);
+        var update_compound_profits = simple_ajax(data);
     
 }
 
