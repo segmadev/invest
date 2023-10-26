@@ -375,10 +375,12 @@ class user extends Notifications {
         $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$userID, $user2]);
         if(is_array($check)) {
             $this->loadpage('index?p=chat&id='.$check['ID']);
+            return ;
         }
         $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$user2, $userID]);
         if(is_array($check)) {
             $this->loadpage('index?p=chat&id='.$check['ID']);
+            return ;
         }
 
         if(!$this->getall("users", "ID = ?", [$user2], fetch: "")) {

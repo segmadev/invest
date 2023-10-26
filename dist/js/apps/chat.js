@@ -234,7 +234,11 @@ function get_message() {
       success: function (response) {
             // console.log(response);
             if(response != "null"){
-              document.getElementById("chatnew").innerHTML += response;  
+              if(lastchat == 0 ||lastchat == "0") {
+                document.getElementById("chatnew").innerHTML = response;  
+              }else{
+                document.getElementById("chatnew").innerHTML += response;  
+              }
             }
       }
   });

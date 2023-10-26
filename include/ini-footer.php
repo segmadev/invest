@@ -7,7 +7,7 @@
 <script>document.getElementById("showme").click();</script>
 <?php } ?>
 <?php if(in_array('chat', $script)){ ?>
-    <script src="dist/js/apps/chat.js?n=455"></script>
+    <script src="dist/js/apps/chat.js?n=9213"></script>
 <?php } ?>
 <!-- wizard js -->
 <?php if (in_array("wizard", $script)) { ?>

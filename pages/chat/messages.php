@@ -64,7 +64,7 @@
                                         $ch->display_message($row, $userID);
                                     }
                                 } else {
-                                    echo $c->empty_page("No chat here yet", icon: "<i class='ti ti-messages text-primary fs-10'></i>");
+                                    echo "<div data-chat-id='0'>".$c->empty_page("No chat here yet", icon: "<i class='ti ti-messages text-primary fs-10'></i>")."</div>";
                                 }
                                 ?>
                             </div>
