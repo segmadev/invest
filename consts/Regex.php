@@ -1,6 +1,6 @@
 <?php
 // /^([a-zA-Z' ]+)$/
-
+// comment the email.
     define("Regex", [
         "full_name"=>["value"=>"/^([a-zA-Z' ]+)$/", "error_message"=>"Enter first name and last name"],
         // "email"=>["value"=>"/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", "error_message"=>"This is an invalid email."],
