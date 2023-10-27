@@ -53,7 +53,7 @@
             </div>
             <div class="position-relative overflow-hidden d-flex">
                 <div class="position-relative d-flex flex-grow-1 flex-column">
-                    <div class="chat-box p-9" data-simplebar>
+                    <div class="chat-box p-9 chat-background" data-simplebar>
                         <div class="chat-list chat active-chat" data-user-id="1">
                             <input type="hidden" id="chatID" value="<?= $chatID ?>">
                             <div id="chatold"></div>
