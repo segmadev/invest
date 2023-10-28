@@ -311,10 +311,10 @@ class chat extends user
             $upload =  $upload = $this->display_img($message);
         }
         echo '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
-            <img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
-                class="rounded-circle" />
+            <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
+                class="rounded-circle" /></a>
             <div>
-                <h6 class="fs-2 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $this->ago($message['time_sent']) . '</h6>
+            <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><h6 class="fs-2 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $this->ago($message['time_sent']) . '</h6></a>
                  
                 ' . $upload . '
                 
