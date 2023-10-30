@@ -315,16 +315,19 @@ class chat extends user
                 class="rounded-circle" /></a>
             <div>
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><h6 class="fs-2 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $this->ago($message['time_sent']) . '</h6></a>
-                 
+            '.$this->display_reply_to($message).'
                 ' . $upload . '
                 
                 <div class="p-2 bg-light rounded-1 d-inline-block text-dark fs-3"> ' . $message['message'] . ' </div>
-            </div>
+                '.$this->reply_message($message).'
+                </div>
             ' . $this->message_options_btn($message) . '
         </div>';
     }
 
-
+function reply_message(array $message) {
+    return '<button onclick="reply_to(\''.$message['ID'].'\', \''.$message['message'].'\')" class="text-success btn"><i class="ti ti-arrow-back-up"></i> Reply</button>';
+}
     function message_options_btn($message)
     {
         if(!$this->validate_admin()) { return ""; }
@@ -379,14 +382,37 @@ class chat extends user
             $upload = $this->display_img($message);
         }
 
-        echo '<div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end">
-            <div class="text-end">
-                <h6 class="fs-2 text-muted">' . $this->ago($message['time_sent']) . '</h6>
+        echo '
+
+
+        <div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end">
+           
+        <div class="text-end">
+        <div class="p-2  text-dark fs-2 m-0">
+        
+                '.$this->display_reply_to($message).'
+                </div>
                 ' . $upload . '
-                <div class="p-2 bg-light-info text-dark rounded-1 d-inline-block fs-3"> ' . $message['message'] . '</div>
+                <div class="p-2 bg-light-info text-dark rounded-1 d-inline-block fs-3 m-0"> ' . $message['message'] . '</div>
+                <br>
+                ' . $this->ago($message['time_sent']) . '
+                '.$this->reply_message($message).'
             </div>
             ' . $this->message_options_btn($message) . '
         </div>';
+    }
+    function display_reply_to($message) {
+        if(empty($message['reply_to']) ||  $message['reply_to'] == null) {
+            return  "";
+        }
+        $reply_message = $this->getall("message", "ID = ?", [$message['reply_to']]);
+        if(!is_array($reply_message)) { return ""; }
+        return '<h6 class="fs-3 text-muted bg-dark p-2 m-0">
+        <p class="text-success fs-1 m-0 p-0">'.$this->get_name($reply_message['senderID']).'</p>
+         ' . $reply_message['message'] . '
+         
+        </h6>';
+
     }
 
     function list_user($row, $userID, $active = "")

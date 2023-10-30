@@ -18,7 +18,7 @@ if ($action == "list") {
 }
 require_once "pages/investment/ini-trades.php";
 // $i->apply_daily_compound_profits();
-$i->auto_genarate_trading_days();
+// $i->auto_genarate_trading_days();
 // $i->take_pending_trades();
 // var_dump($user_data);
     // $total_sum = $d->getall("investment", "userID = ?", ["oo"], "SUM(amount) as total_amount");

@@ -76,6 +76,10 @@
                     <div class="px-9 py-6 border-top chat-send-message-footer">
                         <form action="" id="foo">
                             <div id="image-preview-upload"></div>
+                            <div class="d-flex bg-light" id="reply_div" style="display: none!important">
+                                <div class="p-2 d-inline-block text-dark fs-3 col-11" id="reply_message"></div>
+                                <div class="w-100 justify-content-center align-items-center d-flex"><button class='btn' type='button' onclick='cancel_reply()'><i class="ti ti-x fs-5 text-danger"></i></button></div>
+                            </div>
                             <div id="custommessage"></div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2 w-85">

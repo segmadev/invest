@@ -199,7 +199,7 @@ function  get_group_users(start = 0) {
           type: 'post',
           url: 'passer',
         data: {
-            get_group_users: groupID,
+              get_group_users: groupID,
               start: start,
               limit: limit,
               page: "chat",
@@ -244,6 +244,15 @@ function get_message() {
   });
   }
 }
+
+function reply_to(id, message) {
+  if(document.getElementById("reply_div") && document.getElementById("reply_message") && document.getElementById("reply_to")) {
+      document.getElementById("reply_to").value = id;
+      document.getElementById("reply_message").innerHTML = message;
+      document.getElementById("reply_div").style.display = "block";
+  }
+}
+
 
 setTimeout(function () {
   // get all messages

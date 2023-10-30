@@ -1,3 +1,4 @@
+<?php // $i->invetment_bot($investment_form);  ?>
 <div class="d-flex justify-content-center">
     <div class="col-12 col-md-10 p-3">
         <h4 class="text-primary">Create A new Plan</h4>

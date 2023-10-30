@@ -365,26 +365,41 @@ class investment extends user
     function credit_bot() {
 
     }
-    function invetment_bot()
+    function invetment_bot(array $investment_form)
     {
+        $i = 0;
         $bots = $this->getall("users", "acct_type = ?  and status = ?", ['bot', 'active'], fetch: "moredetails");
         if($bots->rowCount() < 1) { return false; }
         foreach($bots as $bot) {
+            $passed = true;
             // select a radom plan 
-            // 
-            // generate rondom amount
-            // check of amount  is in trading balance  if not crediit the amount
-            // 
-            // $investment_form = [
-            //     "ID"=>["input_type"=>"hidden"],
-            //     "planID"=>["input_type"=>"hidden"],
-            //     "userID"=>["input_type"=>"hidden",],
-            //     "amount"=>["input_type"=>"number", "description"=>"What is the amount you want to invest in this plan? ($currency)", "placeholder"=>"100"],
-            // ];
-            
-            $_POST['ID'];
+            $plan = $this->getall("plans", "status =  ? ORDER BY RAND()", ["active"]);
+            if (!is_array($plan)) { continue; }
+            // gererate rand no btw plan min and max 
+            $amount = rand($plan['min_amount'], $plan['max_amount']);
+            // check if trading balance match up with the no
+            if($this->user_data($bot['ID'])['trading_balance'] < $amount) {
+                // if not add the no to the current trading balance
+                if(!$this->credit_debit($bot['ID'], $amount, "trading_balance")){
+                    $passed = false;
+                } 
+            }
+            if($passed == false) {
+                continue;
+            }
+            // now create the investment.
+            $investment_form['date'] = [];
+            $_POST['planID'] = $plan['ID'];
+            $_POST['userID'] = $bot['ID'];
+            $_POST['amount'] = $amount;
+            $_POST['date'] = $this->generateRandomDateTime('2022-01-01 09:00:00', date('Y-m-d H:i:s'));
+            if($this->new_investment($investment_form)){
+                $i++;
+            }
         }
+        $this->message("Investment created for $i", "success");
     }
+
 
     function auto_genarate_trading_days()
     {

@@ -1055,4 +1055,16 @@ class database
         if($no == 0) { $no = ""; }
         if($no > $maxno) { $no = "$maxno+"; }
     }
+
+    function generateRandomDateTime($startDate, $endDate) {
+        $startTimestamp = strtotime($startDate);
+        $endTimestamp = strtotime($endDate);
+        $randomTimestamp = mt_rand($startTimestamp, $endTimestamp);
+        $randomDateTime = date('Y-m-d H:i:s', $randomTimestamp);
+        
+        return $randomDateTime;
+    }
+    
+ 
+
 }

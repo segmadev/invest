@@ -933,10 +933,26 @@ function isCookieExpired(cookieName) {
  }
 
  function onset_chat(value1, value2) {
+    cancel_reply();
     document.getElementById("message-input-box").value = "";
     document.getElementById("image-preview-upload").innerHTML = "";
     document.getElementById("upload").value = "";
+
  }
+
+ function cancel_reply() {
+    if (
+      document.getElementById("reply_div") &&
+      document.getElementById("reply_message") &&
+      document.getElementById("reply_to")
+    ) {
+      document.getElementById("reply_to").value = "";
+      document.getElementById("reply_message").innerHTML = "";
+      document
+        .getElementById("reply_div")
+        .style.setProperty("display", "none", "important");
+    }
+  }
 
  function make_visible(id_name) {
     document.getElementById(id_name).style.setProperty("visibility", "visible", "important");
