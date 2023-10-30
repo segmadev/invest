@@ -24,6 +24,9 @@ class user extends Notifications {
         $gender = "default";
         $user = $this->getall("$what", "ID  = ?", [$userID], "profile_image", "details");
         if(isset($user["profile_image"]) && $user["profile_image"] !=  null) {
+           if(str_contains($user["profile_image"], "https") || str_contains($user["profile_image"], "http")){
+               return $user["profile_image"];
+           }
             return $this->profile_link_root.$user["profile_image"];
         }
 

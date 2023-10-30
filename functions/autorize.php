@@ -16,7 +16,7 @@ class autorize extends database
 
         $info['password'] = password_hash($info['password'], PASSWORD_DEFAULT);
         unset($info['confrim_password']);
-
+        $info['ip_address'] = $this->get_visitor_details()['ip_address'];
         $insert = $this->quick_insert("users", $info);
         if ($insert) {
             session_start();

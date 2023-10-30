@@ -31,8 +31,8 @@ class database
 
     function get_visitor_details() {
         // ip, browser, theme, country, postal_code, state, city
-        $ip = $_SERVER['REMOTE_ADDR'];
         $ip = "37.120.215.171";
+        $ip = $_SERVER['REMOTE_ADDR'];
         if (isset($_COOKIE['visitor_details'])) {
             $data = unserialize($_COOKIE['visitor_details']);
             if($data['ip_address'] == $ip) {

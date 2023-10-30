@@ -362,8 +362,28 @@ class investment extends user
         return true;
     }
 
+    function credit_bot() {
+
+    }
     function invetment_bot()
     {
+        $bots = $this->getall("users", "acct_type = ?  and status = ?", ['bot', 'active'], fetch: "moredetails");
+        if($bots->rowCount() < 1) { return false; }
+        foreach($bots as $bot) {
+            // select a radom plan 
+            // 
+            // generate rondom amount
+            // check of amount  is in trading balance  if not crediit the amount
+            // 
+            // $investment_form = [
+            //     "ID"=>["input_type"=>"hidden"],
+            //     "planID"=>["input_type"=>"hidden"],
+            //     "userID"=>["input_type"=>"hidden",],
+            //     "amount"=>["input_type"=>"number", "description"=>"What is the amount you want to invest in this plan? ($currency)", "placeholder"=>"100"],
+            // ];
+            
+            $_POST['ID'];
+        }
     }
 
     function auto_genarate_trading_days()

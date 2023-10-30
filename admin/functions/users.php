@@ -95,6 +95,37 @@ class users extends user
         return $info;
     }
 
+    function genarete_bot_users($no = 100) {
+        $no = (int)$no;
+        $users =  $this->api_call("https://randomuser.me/api/?results=$no");
+        if(!is_array($users->results) || count($users->results) < 0) {
+            return false;
+        }
+        $i = 0;
+        foreach($users->results as $user) {
+            $data = [
+                "ID"=>uniqid(),
+                "first_name"=>$user->name->first,
+                "last_name"=>$user->name->last,
+                "email"=>$user->email,
+                "phone_number"=>$user->phone,
+                "gender"=>$user->gender,
+                "profile_image"=>$user->picture->medium,
+                "balance"=>mt_rand(50,  500000),
+                "trading_balance"=>mt_rand(50,  500000),
+                "ip_address"=>mt_rand(0, 255) . "." . mt_rand(0, 255) . "." . mt_rand(0, 255) . "." . mt_rand(0, 255),
+                "acct_type"=>"bot",
+            ];
+            if($this->getall("users", "email = ?", [$data['email']], fetch: "") > 0) {
+                continue;
+            }
+            if($this->quick_insert("users", $data)) {
+                $i++;
+            }
+        }
+        $this->message("$i bot users created", "success");
+        return true;
+    }
     function increase_balance($amount, $userID, $what = "balance", $oprator = "add") {
         $user = $this->getall("users", "ID = ?", [$userID], $what);
         if(!is_array($user)) { return false;}

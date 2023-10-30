@@ -13,7 +13,7 @@ $plans_form = [
     "close_after"=>["placeholder"=>"Note: In months","input_type"=>"number", "description"=>"Investor can close this investment after value you set <b class='text-primary'>(In months)</b>",],
     "status"=>["placeholder"=>"Select Status","atb"=>"data-flag=\"ad\"", "options"=>["active"=>"Active", "disable"=>"Disable"],"type"=>"select"],
     "plan_name"=>["is_required"=>false, "placeholder"=>"Optional"],
-    "compound_profits"=>["type"=>"select", "options"=>[], "id"=>"compound_profits", "is_required"=>false, "description"=>"<a href=''>Add New compound_profits</a>"],
+    // "compound_profits"=>["type"=>"select", "options"=>[], "id"=>"compound_profits", "is_required"=>false, "description"=>"<a href=''>Add New compound_profits</a>"],
     "plan_instructions"=>["type"=>"textarea", "id"=>"richtext", "global_class"=>"col-md-12"],
     // "countries"=>$countries_data,
     "input_data"=>$data,

@@ -9,5 +9,15 @@ if (isset($_GET['action'])) {
 }
 
 if($action == "list" || $action == "table") {
-    $users = $d->getall("users", fetch: "moredetails");
+    $acct_type = htmlspecialchars($_GET["acct_type"] ?? "all");
+    if($acct_type == "all") {
+        $users = $d->getall("users", fetch: "moredetails");
+    }else{
+        $users = $d->getall("users", "acct_type = ?", [$acct_type], fetch: "moredetails");
+    }
 }
+
+if(isset($_GET['create_bot_users'])) {
+    $u->genarete_bot_users(htmlspecialchars($_GET['no'] ?? 100));
+}
+

@@ -47,7 +47,7 @@ if($invest_no <= 0 && $deposit <= 0) {
 
 if(isset($_GET['note']) && $_GET['note'] != "") {
     $n->exclude_user(htmlspecialchars($_GET['note']), $userID);
-}
+}   
 // echo $userID;
 // var_dump($u->get_all_emails());
 // exit;

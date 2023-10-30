@@ -82,9 +82,18 @@ class content extends database
                 $main_code .=  $this->$type();
                 continue;
             }
+            // echo $key;
+            // if ($key == "password") {
+            //     $main_code .= $this->showpassword();
+            // }
+
             $main_code .= str_replace($this->placeholder, $this->$type(), $this->get_header());
         }
         return $main_code;
+    }
+
+    function showpassword() {
+        return  "<input type='checkbox' onclick='showPassword()'>Show Password";
     }
 
     function  get_header()

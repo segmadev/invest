@@ -92,6 +92,45 @@
                                 <span class="hide-menu">Manage Users</span>
                             </a>
                         </li>
+
+                        <!-- users -->
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                                <span class="d-flex">
+                                    <i class="ti ti-users"></i>
+                                </span>
+                                <span class="hide-menu">Manage Users</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="index?p=users" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">All Accounts</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="index?p=users&acct_type=user" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Human Accounts</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="index?p=users&acct_type=bot" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Bot Accounts</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- end of users -->
+
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="index?p=chat" aria-expanded="false">
                                 <span>
