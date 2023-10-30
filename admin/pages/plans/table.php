@@ -3,6 +3,7 @@
     <div class="card">
       <div class="border-bottom title-part-padding">
         <h4 class="card-title mb-0">All Plans</h4>
+        <a href="plans?p=plans&action=new" class='btn btn-primary'> +  Add new plan</a>
       </div>
       <div class="card-body">
         <table class="table border text-nowrap customize-table mb-0 align-middle">
