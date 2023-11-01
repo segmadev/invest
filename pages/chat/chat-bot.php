@@ -236,23 +236,23 @@ $json  =  '[
           "message": "I\'m considering transferring my existing investments to your platform. Can you explain the transfer process?"
         },
         {
-            "message": "I\'ve experienced some technical issues with the app.",
+            "main_message": "I\'ve experienced some technical issues with the app.",
             "response": "We apologize for the inconvenience. Our team is actively working to resolve any technical glitches. Please bear with us."
           },
           {
-            "message": "I\'m not happy with the recent changes to the user interface.",
+            "main_message": "I\'m not happy with the recent changes to the user interface.",
             "response": "We appreciate your feedback. We\'re constantly working to improve the user experience, and your input is valuable to us."
           },
           {
-            "message": "I had a problem with a recent transaction, and it\'s causing me concern.",
+            "main_message": "I had a problem with a recent transaction, and it\'s causing me concern.",
             "response": "We understand your concern. Please contact our customer support, and we\'ll assist you in resolving the transaction issue promptly."
           },
           {
-            "message": "The app\'s performance has been slower lately.",
+            "main_message": "The app\'s performance has been slower lately.",
             "response": "We\'re aware of the performance issue and are actively optimizing the app to ensure faster performance. Thank you for your patience."
           },
           {
-            "message": "I\'m not getting timely updates on my investments.",
+            "main_message": "I\'m not getting timely updates on my investments.",
             "response": "We apologize for the delay. We\'ll investigate and ensure you receive timely updates on your investments going forward."
           }
       ]';
