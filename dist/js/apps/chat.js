@@ -224,7 +224,7 @@ function get_message() {
     var chatID = document.querySelector("#chatID").value;
     $.ajax({
       type: 'post',
-      url: 'passer',
+      url: 'passer?chat=',
     data: {
           lastchat: lastchat,
           chatID: chatID,
@@ -239,6 +239,32 @@ function get_message() {
               }else{
                 document.getElementById("chatnew").innerHTML += response;  
               }
+            }
+      }
+  });
+  }
+}
+get_old_message();
+function get_old_message() {
+  const div = document.querySelector("#chatnew");
+  const firstElement = div.firstElementChild;
+  var firstchat =  firstElement.getAttribute("data-chat-id");
+  if(firstchat != null) {
+    // console.log(firstchat);
+    var chatID = document.querySelector("#chatID").value;
+    $.ajax({
+      type: 'post',
+      url: 'passer?chat=old',
+    data: {
+          firstchat: firstchat,
+          chatID: chatID,
+          "page": "chat",
+          "get_chat": 2000,
+      },
+      success: function (response) {
+            // console.log(response);
+            if(response != "null"){
+                document.getElementById("chatnew").insertAdjacentHTML('beforebegin', response);  
             }
       }
   });

@@ -1,6 +1,71 @@
 <?php
 class chat extends user
 {
+
+
+    function bot_generate_message(array $messages, $groupID = 2,) {
+        // get all messages
+        $messages = [
+           
+        ];
+        foreach ($messages as $key => $message) {
+            $i = 0;
+            if($this->getall("message", "message = ?", [$message],  fetch: "") > 0) { continue; }
+            $user = $this->getall("users", "acct_type = ? and status =  ? ORDER BY RAND()", ["bot", "active"]);
+            $date = $this->generateRandomDateTime();
+            $data = ["chatID"=>"", "senderID" => $user['ID'], "receiverID" => $groupID, "message" => $message, "is_group" => "yes", "time_sent" => strtotime($date), "date" => $date];
+            if($this->quick_insert("message", $data)) { $i++; }
+            $this->message("$i messages genrated.", "success");
+        }
+    }
+
+
+
+    function create_bot_conversation(array $messages, $groupID = 2)
+    {
+        $i = 0;
+        foreach ($messages as $message) {
+            $user = $this->getall("users", "acct_type = ? and status =  ? ORDER BY RAND()", ["bot", "active"]);
+            $date = $this->generateRandomDateTime();
+            $data = ["chatID" => "", "senderID" => $user['ID'], "receiverID" => $groupID, "message" => "", "is_group" => "yes", "time_sent" => strtotime($date), "reply_to" => "", "date" => $date];
+            if (is_array($message) && isset($message['main_message']) || isset($message['response'])) {
+                $data['message'] = $message['main_message'];
+                if($this->getall("message", "message = ?",  [$message['main_message']], fetch: "") > 0) { continue; }
+                if (!$this->quick_insert("message", $data)) {
+                    continue;
+                }
+                if (isset($message['response']) && !$this->reply_to_message($data['message'], $message['response'])) {
+                    continue;
+                }
+                if (isset($message['message']) && !$this->reply_to_message($message['response'], $message['message'], $user['ID'])) {
+                    continue;
+                }
+            }else if(isset($message['message'])){
+                $data['message'] = $message['message'];
+                if($this->getall("message", "message = ?",  [$message['message']], fetch: "") > 0) { continue; }
+                if (!$this->quick_insert("message", $data)) {
+                    continue;
+                }
+            }
+            $i++;
+        }
+        $this->message("$i of conversations created", "success");
+    }
+    
+
+    function reply_to_message($message, $response, $userID = "admin") {
+        $data = $this->getall('message', "message = ?", [$message]);
+        if(!is_array($data)) { return false; }
+        $data['date'] = $this->addMinutes($data['date'], rand(1, 5));
+        $replyID = $data["ID"];
+        $data['message'] = $response;
+        $data['reply_to'] = $replyID;
+        $data["time_sent"] = strtotime($data['date']);
+        $data['senderID'] = $userID;
+        unset($data['ID']);
+        if($this->quick_insert("message", $data)) { return true; }
+        return false;
+    }
     function delete_message($id)
     {
         if (!$this->validate_admin()) {
@@ -157,20 +222,29 @@ class chat extends user
     {
         return $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ?", [$groupID, "yes", "yes"], fetch: "");
     }
-    function get_all_messages($chatID, $userID,  $start = 0, $limit = 50, $chat = "")
+    function get_all_messages($chatID, $userID,  $start = 0, $limit = 50, $chat = "", $orderby = "date ASC", $where = "time_sent > ?")
     {
         if($this->validate_admin()) {
             $chat = $this->get_chat($chatID, $userID);
         }
+
         if ($chat == "") {
             $chat =  $this->getall("chat", "ID = ? and user1 = ? or user2 = ? or user2 = ?", [$chatID, $userID, $userID, "all"]);
         }
 
+
         if ($chat['is_group'] == 'yes') {
-            $messages = $this->getall("message", "ID > ? and receiverID = ? LIMIT $limit", [$start, $chat['user2']], fetch: "moredetails");
-        } else {
-            // echo "uesususus";
-            $messages = $this->getall("message", "ID > ? and chatID = ? LIMIT $limit", [$start, $chatID], fetch: "moredetails");
+            if($start == "first") {
+                $start = $this->getall("message", "receiverID = ?", [$chat['user2']], fetch: "") - 100;
+                $messages = $this->getall("message", "receiverID = ? order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
+            }else {
+                $messages = $this->getall("message", "receiverID = ? and $where order by $orderby LIMIT  $limit", [$chat['user2'], $start], fetch: "moredetails");
+            }
+        }else{
+            if($start == "first") {
+                $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - 100;
+            }
+            $messages = $this->getall("message", "chatID = ? and $where order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");
         }
         return $messages;
     }
@@ -310,9 +384,9 @@ class chat extends user
         if ($message['upload'] != "" || $message['upload'] != null) {
             $upload =  $upload = $this->display_img($message);
         }
-        echo '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
+        echo '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
-                class="rounded-circle" /></a>
+                class="rounded-circle"></a>
             <div>
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><h6 class="fs-2 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $this->ago($message['time_sent']) . '</h6></a>
             '.$this->display_reply_to($message).'
@@ -326,7 +400,7 @@ class chat extends user
     }
 
 function reply_message(array $message) {
-    return '<button onclick="reply_to(\''.$message['ID'].'\', \''.$message['message'].'\')" class="text-success btn"><i class="ti ti-arrow-back-up"></i> Reply</button>';
+    return '<button onclick="reply_to(\''.$message['ID'].'\', \''.addslashes($message['message']).'\')" class="text-success btn"><i class="ti ti-arrow-back-up"></i> Reply</button>';
 }
     function message_options_btn($message)
     {
@@ -385,7 +459,7 @@ function reply_message(array $message) {
         echo '
 
 
-        <div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end">
+        <div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end">
            
         <div class="text-end">
         <div class="p-2  text-dark fs-2 m-0">

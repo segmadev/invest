@@ -299,6 +299,9 @@ class database
     {
         $this->get_index_data($data);
         $query = $this->db->prepare("INSERT INTO $into ($this->index) values ($this->marks)");
+        // if($into == "message") {
+        //     var_dump($this->data);
+        // }
         $insert = $query->execute($this->data);
         if ($insert) {
             return true;
@@ -1056,7 +1059,9 @@ class database
         if($no > $maxno) { $no = "$maxno+"; }
     }
 
-    function generateRandomDateTime($startDate, $endDate) {
+    function generateRandomDateTime($startDate = '2022-01-01 09:00:00', $endDate = null) {
+        if($endDate == null) { $endDate =  date('Y-m-d H:i:s');}
+        // '2022-01-01 09:00:00', date('Y-m-d H:i:s')
         $startTimestamp = strtotime($startDate);
         $endTimestamp = strtotime($endDate);
         $randomTimestamp = mt_rand($startTimestamp, $endTimestamp);
@@ -1065,6 +1070,17 @@ class database
         return $randomDateTime;
     }
     
- 
 
+    function addMinutes($datetimeStr, $minutes) {
+        // Create DateTime object from the input string
+        $originalDatetime = new DateTime($datetimeStr);
+    
+        // Add the specified number of minutes
+        $newDatetime = $originalDatetime->modify("+$minutes minutes");
+    
+        // Format the new datetime as desired
+        $newDatetimeStr = $newDatetime->format('Y-m-d H:i:s');
+    
+        return $newDatetimeStr;
+    }
 }

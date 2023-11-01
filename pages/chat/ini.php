@@ -12,7 +12,7 @@ $u->create_default_group_chat($chat_form, $userID);
 if(isset($_GET['id'])) {
     $chatID = htmlspecialchars($_GET['id']);
     $chat =  $ch->get_chat($chatID, $userID);
-    $messages = $ch->get_all_messages($chatID, $userID, chat: $chat);
+    $messages = $ch->get_all_messages($chatID, $userID, start: "first",   limit: "500", chat: $chat, orderby: "date ASC");
     $uID = $chat['user1'];
     $what = "users";
     if($chat['user1'] == $userID) {
@@ -28,7 +28,6 @@ if(isset($_GET['id'])) {
 // select * from chat join ( select * from message order by date desc ) as recent_message on chat.ID = recent_message.chatID;
 $chats = $ch->get_chats($userID);
 // var_dump($ch->get_unseen_message($userID, $chatID));
+// require_once "pages/chat/chat-bot.php";
 
-
-// exit();
 ?>

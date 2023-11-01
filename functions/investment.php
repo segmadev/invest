@@ -392,7 +392,7 @@ class investment extends user
             $_POST['planID'] = $plan['ID'];
             $_POST['userID'] = $bot['ID'];
             $_POST['amount'] = $amount;
-            $_POST['date'] = $this->generateRandomDateTime('2022-01-01 09:00:00', date('Y-m-d H:i:s'));
+            $_POST['date'] = $this->generateRandomDateTime();
             if($this->new_investment($investment_form)){
                 $i++;
             }
