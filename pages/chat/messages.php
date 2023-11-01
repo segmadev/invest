@@ -141,7 +141,9 @@
                         </div> -->
                         <?php if ($chat['is_group'] == "yes") { ?>
                             <div class="files-chat">
-                                <h6 class="fw-semibold mb-3">Users <span class="text-muted">(<?= $ch->no_users_in_group($uID) ?>)</span></h6>
+                                <h6 class="fw-semibold mb-3">Users 
+                                    <!-- <span class="text-muted">(<?= $ch->no_users_in_group($uID) ?>)</span> -->
+                                </h6>
                                 <div id="grouplist"></div>
 
                             </div>
