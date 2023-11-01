@@ -127,6 +127,7 @@
   }
 </script>
 <br><br><br>
+<?php if($page != "chat"){?>
 <footer class="d-flex justify-content-center bottom-nav" style="margin-top: 50px">
   <div class="col-11 shadow d-flex justify-content-around p-2 rounded botton-navs bg-light">
     <a href="index" class="btn <?php if ($page == "dashboard") {
@@ -148,6 +149,7 @@
     <!-- <a href="index?p=profile" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Settings"><img src="<?= $u->get_profile_icon_link($userID) ?>" alt="" width="40" height="40"></a> -->
   </div>
 </footer>
+<?php } ?>
 <?= htmlspecialchars_decode($d->get_settings("live_chat_widget")) ?>
 </body>
 <!--  footercdd nav -->

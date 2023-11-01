@@ -492,7 +492,7 @@ function reply_message(array $message) {
         }
         $reply_message = $this->getall("message", "ID = ?", [$message['reply_to']]);
         if(!is_array($reply_message)) { return ""; }
-        return '<h6 class="fs-3 text-muted bg-dark p-2 m-0">
+        return '<h6 class="fs-3 text-muted p-2 m-0">
         <p class="text-success fs-1 m-0 p-0">'.$this->get_name($reply_message['senderID']).'</p>
          ' . $reply_message['message'] . '
          
