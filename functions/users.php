@@ -356,7 +356,7 @@ class user extends Notifications {
     }
 
     function create_default_group_chat($chat_from, $userID) {
-        $groups = $this->getall("groups",  "users = ?", ["all"],  fetch: "moredetails");
+       $groups = $this->getall("groups",  "users = ?", ["all"],  fetch: "moredetails");
         if($groups->rowCount() == 0) {
             return true;
         }

@@ -124,7 +124,7 @@ class users extends user
             }
 
             if($this->quick_insert("users", $data)) {
-                $this->create_default_group_chat($chat_from, $data['ID']);
+                // $this->create_default_group_chat($chat_from, $data['ID']);
                 $i++;
             }
         }

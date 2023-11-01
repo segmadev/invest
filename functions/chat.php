@@ -97,10 +97,14 @@ class chat extends user
 
     function get_chat($chatID, $userID)
     {
-        if (isset($_SESSION['adminSession'])) {
+        if (isset($_SESSION['adminSession']) && !isset($_SESSION['userSession'])) {
             return $this->getall("chat", "ID = ?", [$chatID]);
         } else {
-            return $this->getall("chat", "ID = ? and user1 = ? or user2 = ? or user2 = ?", [$chatID, $userID, $userID, "all"]);
+            $chat =  $this->getall("chat", "ID = ?", [$chatID]);
+            if($chat["user1"] == $userID || $chat['user2'] == $userID ||  $chat['user2'] == "all") {
+                return $chat;
+            }
+            return [];
         }
     }
     function get_sender($chat, $userID)
@@ -215,6 +219,7 @@ class chat extends user
             return '<span class="p-1 badge rounded-pill bg-success"><span class="visually-hidden">kdkd</span></span> Online';
         }
 
+
         return '<span class="p-1 badge rounded-pill bg-dark"><span class="visually-hidden">kdkd</span></span> Offline ' . $this->ago($last_seen);
     }
 
@@ -312,7 +317,11 @@ class chat extends user
 
     function get_group_users($groupID, $start, $limit)
     {
-        $chats = $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ? order by date DESC LIMIT $start, $limit", [$groupID, "yes", "yes"], fetch: "moredetails");
+        if($this->getall("groups", "ID = ? and users = ?", [$groupID, "all"], fetch: "") > 0){
+            $chats = $this->getall("users", "acct_type = ? order by date DESC LIMIT $start, $limit", ['bot'], "ID as user1", fetch: "moredetails");
+        }else{
+            $chats = $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ? order by date DESC LIMIT $start, $limit", [$groupID, "yes", "yes"], fetch: "moredetails");
+        }
         if ($chats->rowCount() > 0) {
             // echo $chats->rowCount();
             foreach ($chats as $row) {

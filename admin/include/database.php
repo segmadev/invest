@@ -1010,10 +1010,12 @@ class database
 
     function ago($time)
     {
+       if($time == "") {
+        return "";
+       }
         // $time = strtotime($time);
         $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
         $lengths = array("60", "60", "24", "7", "4.35", "12", "10");
-
         $now = time();
 
         $difference     = $now - $time;

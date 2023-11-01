@@ -38,6 +38,7 @@ if (isset($_GET['id'])) {
     }else{
         $message_form['input_data']['chatID'] = $chatID;
         $message_form['input_data']['senderID'] = $userID;
+        // var_dump($chat);
         if ($chat['user1'] == $userID) {
             $message_form['input_data']['receiverID'] = $chat['user2'];
         } else {
