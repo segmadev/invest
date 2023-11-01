@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="dist/libs/owl.carousel/dist/assets/owl.carousel.min.css">
 
 <!-- Core Css -->
-<link id="themeColors" rel="stylesheet" href="dist/css/custom.css?n=9272" />
+<link id="themeColors" rel="stylesheet" href="dist/css/custom.css?n=02" />
 <?php 
 
 if(isset($_COOKIE['browser_theme'])) {
