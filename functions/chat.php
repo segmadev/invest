@@ -21,7 +21,7 @@ class chat extends user
 
 
 
-    function create_bot_conversation(array $messages, $groupID = 2)
+    function create_bot_conversation(array $messages, $groupID = 2,)
     {
         $i = 0;
         foreach ($messages as $message) {

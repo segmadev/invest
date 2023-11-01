@@ -18,6 +18,11 @@ if($action == "list" || $action == "table") {
 }
 
 if(isset($_GET['create_bot_users'])) {
-    $u->genarete_bot_users(htmlspecialchars($_GET['no'] ?? 100));
+    $chat_form = [
+        "user1"=>["unique"=>"user2"],
+        "user2"=>["unique"=>"user1"], 
+        "is_group"=>[],
+    ];
+    $u->genarete_bot_users(htmlspecialchars($_GET['no'] ?? 100), $chat_form);
 }
 

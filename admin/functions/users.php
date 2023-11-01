@@ -95,7 +95,7 @@ class users extends user
         return $info;
     }
 
-    function genarete_bot_users($no = 100) {
+    function genarete_bot_users($no = 100, array $chat_from) {
         $no = (int)$no;
         $users =  $this->api_call("https://randomuser.me/api/?results=$no");
         if(!is_array($users->results) || count($users->results) < 0) {
@@ -119,7 +119,12 @@ class users extends user
             if($this->getall("users", "email = ?", [$data['email']], fetch: "") > 0) {
                 continue;
             }
+            if($this->getall("users", "profile_image = ?", [$data['profile_image']], fetch: "") > 0) {
+                $data['profile_image'] = "";
+            }
+
             if($this->quick_insert("users", $data)) {
+                $this->create_default_group_chat($chat_from, $data['ID']);
                 $i++;
             }
         }
