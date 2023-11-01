@@ -28,6 +28,8 @@ if(isset($_GET['id'])) {
 // select * from chat join ( select * from message order by date desc ) as recent_message on chat.ID = recent_message.chatID;
 $chats = $ch->get_chats($userID);
 // var_dump($ch->get_unseen_message($userID, $chatID));
-// require_once "pages/chat/chat-bot.php";
+if(isset($_GET['genrate_chat'])) {
+    require_once "pages/chat/chat-bot.php";
+}
 
 ?>
