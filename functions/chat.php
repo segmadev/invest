@@ -236,6 +236,7 @@ class chat extends user
         if ($chat['is_group'] == 'yes') {
             if($start == "first") {
                 $start = $this->getall("message", "receiverID = ?", [$chat['user2']], fetch: "") - 100;
+                if($start < 0) {$start = 0;}
                 $messages = $this->getall("message", "receiverID = ? order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
             }else {
                 $messages = $this->getall("message", "receiverID = ? and $where order by $orderby LIMIT  $limit", [$chat['user2'], $start], fetch: "moredetails");
@@ -243,6 +244,7 @@ class chat extends user
         }else{
             if($start == "first") {
                 $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - 100;
+                if($start < 0) {$start = 0;}
             }
             $messages = $this->getall("message", "chatID = ? and $where order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");
         }
