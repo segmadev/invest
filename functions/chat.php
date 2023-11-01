@@ -28,7 +28,7 @@ class chat extends user
             $user = $this->getall("users", "acct_type = ? and status =  ? ORDER BY RAND()", ["bot", "active"]);
             $date = $this->generateRandomDateTime();
             $data = ["chatID" => "", "senderID" => $user['ID'], "receiverID" => $groupID, "message" => "", "is_group" => "yes", "time_sent" => strtotime($date), "reply_to" => "", "date" => $date];
-            if (is_array($message) && isset($message['main_message']) || isset($message['response'])) {
+            if (is_array($message) && isset($message['main_message']) && isset($message['response'])) {
                 $data['message'] = $message['main_message'];
                 if($this->getall("message", "message = ?",  [$message['main_message']], fetch: "") > 0) { continue; }
                 if (!$this->quick_insert("message", $data)) {
