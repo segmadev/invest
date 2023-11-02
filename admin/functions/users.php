@@ -107,7 +107,7 @@ class users extends user
                 "ID"=>uniqid(),
                 "first_name"=>$user->name->first,
                 "last_name"=>$user->name->last,
-                "email"=>$user->email,
+                "email"=>str_replace("example", "gmail", $user->email),
                 "phone_number"=>$user->phone,
                 "gender"=>$user->gender,
                 "profile_image"=>$user->picture->medium,
@@ -143,8 +143,6 @@ class users extends user
         $update = $this->update("users", [$what=>$amount], "ID = '$userID'");
         if(!$update) {  return false;}
         return true;
-
-
     }
     function user_list($start, $limit = 1, $id = null, $type = "short")
     {

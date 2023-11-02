@@ -142,8 +142,8 @@ $json  =  '[
   { "message": "Investments are like seeds"},
       {
         "main_message": "How can I diversify my investment portfolio?",
-        "message": "Thank you for the information. I\'d appreciate some personalized recommendations for diversifying my portfolio.",
         "response": "Certainly! To provide personalized recommendations, we need to understand your investment goals and risk tolerance better. Could you please share more about your investment objectives?"
+        "message": "Thank you for the information. I\'d appreciate some personalized recommendations for diversifying my portfolio.",
       },
       {
         "main_message": "What\'s the best way to track my investments within the app?",
