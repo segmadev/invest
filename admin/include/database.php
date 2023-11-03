@@ -989,7 +989,7 @@ class database
     function date_format($date)
     {
         $date = date_create($date);
-        return date_format($date, "D, d M h:i:sa");
+        return date_format($date, "D, d M Y h:i:sa");
     }
 
     function calculateProfitPercentage($buyingPrice, $sellingPrice) {
