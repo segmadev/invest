@@ -1,5 +1,6 @@
 <?php
 require_once "../consts/user.php";
+require_once "../consts/investment.php";
 require_once "../functions/users.php";
 require_once "functions/users.php";
 require_once "../functions/investment.php";
@@ -18,4 +19,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $thispage = "investment";
 }else{
     $invests  =  $d->getall("investment", "status != ? order by date DESC", [""], fetch: "moredetails");
+}
+
+if(isset($_GET['invest_bot'])) {
+    $i->invetment_bot($investment_form);
 }

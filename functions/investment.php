@@ -365,10 +365,14 @@ class investment extends user
     function credit_bot() {
 
     }
-    function invetment_bot(array $investment_form)
+    function invetment_bot(array $investment_form,  $limit = 0)
     {
         $i = 0;
-        $bots = $this->getall("users", "acct_type = ?  and status = ?", ['bot', 'active'], fetch: "moredetails");
+        $more = "";
+        if($limit > 0) {
+            $more = "LIMIT $limit";
+        }
+        $bots = $this->getall("users", "acct_type = ?  and status = ? $more", ['bot', 'active'], fetch: "moredetails");
         if($bots->rowCount() < 1) { return false; }
         foreach($bots as $bot) {
             $passed = true;
