@@ -442,9 +442,13 @@ class investment extends user
 
     }
 
-    function get_plan($status)
+    function get_plan($status, $type = "normal")
     {
-        return $this->getall("investment", "status = ? order by date ASC", [$status], fetch: "moredetails");
+        if($type == "bot") {
+            return $this->getall("investment as i JOIN users as u ON i.userID = u.ID", "i.status = ? and u.acct_type = ? order by date ASC", [$status, "bot"], "i.*", fetch: "moredetails");
+        }else{
+            return $this->getall("investment", "status = ? order by date ASC", [$status], fetch: "moredetails");
+        }
     }
 
     function take_pending_trades()
