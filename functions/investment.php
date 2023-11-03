@@ -647,9 +647,9 @@ class investment extends user
         }
         if ($percentage > 0 && $percentage < 3) {
             if ($percentage < 1) {
-                $x = rand(5, 10);
+                $x = rand(5, 15);
             } else {
-                $x = rand(2, 8);
+                $x = rand(2, 10);
             }
         }
         $percentage = $percentage * $x;
