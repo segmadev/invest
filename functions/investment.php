@@ -672,15 +672,17 @@ class investment extends user
         $check = $this->getall("trades", "investmentID = ? and date = ? and percentage < ?", [$id, $date, 0], fetch: "");
         return $check;
     }
-    function get_times()
+    function get_times($date = 'today')
     {
         // genrate roundam time today in x time, time should be btw one hour away and the rest of the day
         // $now = time() + 900;
-        $now = strtotime('today');
+        $now = strtotime($date);
         //  $now = strtotime("-2 day");
         $random_time = [];
-        $endOfDay = strtotime('tomorrow') - 1;
-        $endOfDay = time();
+        $endOfDay = strtotime($date . ' +1 day') - 1;
+        if($now == strtotime('today')){
+            $endOfDay = time();
+        }
         for ($i = 0; $i < rand(10, 20); $i++) {
             $random_time[] = rand($now, $endOfDay);
         }
