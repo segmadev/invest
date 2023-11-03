@@ -218,6 +218,7 @@ class investment extends user
                 $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit');
                 // UPDATE DATE FOR THE compound_profits
                 if ($update) {
+                    echo "Applied for investID: ".$investID;
                     $id = $row['compound_profits_assignedID'];
                     $this->update("compound_profits_assigned", ["last_date" => $date, "last_time" => $time], "ID = '$id'");
                     $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "compound_profits Applied", "description" => "Weekly compound_profits applied on your investment with the ID: ".$row['investmentID'], "action_for"=>"compound_profits_assigned", "action_for_ID"=>$row['ID']];
