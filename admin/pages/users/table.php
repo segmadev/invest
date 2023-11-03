@@ -38,8 +38,8 @@ $script[] = "table";
                                                 <i class='ti ti-dots'></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <!-- <li><a class="dropdown-item" href="#">View Profile</a></li>
-                                                <li>
+                                                <li><a class="dropdown-item" href="index?p=users&action=view&id=<?= $row['ID']; ?>">View Profile</a></li>
+                                                 <!-- <li>
                                                     <a class="dropdown-item" href="#">Another action</a>
                                                 </li>
                                                 <li>

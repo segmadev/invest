@@ -84,14 +84,14 @@
                                 <span class="hide-menu">Create</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        <!-- <li class="sidebar-item">
                             <a class="sidebar-link" href="index?p=users" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-users"></i>
                                 </span>
                                 <span class="hide-menu">Manage Users</span>
                             </a>
-                        </li>
+                        </li> -->
 
                         <!-- users -->
                         <li class="sidebar-item">

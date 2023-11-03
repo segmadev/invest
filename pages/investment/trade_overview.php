@@ -8,7 +8,8 @@
         <h3 class=" mt-2 mb-0"><?= $d->money_format($lost['amount'], currency)  ?></h3>
     </div>
 </div>
-<div class="<?= $divsize ?? 'col-md-4' ?> border-end">
+<div c
+lass="<?= $divsize ?? 'col-md-4' ?> border-end">
     <div class="p-4 py-3 py-md-4">
         <p class="fs-4 text-success mb-0">
             <span class="text-success">

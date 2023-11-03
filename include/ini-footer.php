@@ -59,7 +59,6 @@
 
 <!-- switch  -->
 <?php if (in_array("switch", $script)) { ?>
-    <h1>Switch</h1>
     <script src="dist/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
     <script src="dist/js/forms/bootstrap-switch.js"></script>
 <?php } ?>

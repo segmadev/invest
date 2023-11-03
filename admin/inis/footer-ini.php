@@ -58,7 +58,8 @@
 
 
 <!--  chart -->
-<?php if (in_array("chart", $script)) { ?>
+<?php if (in_array("chart", $script)) { 
+    ?>
     <script src="../dist/libs/owl.carousel/dist/owl.carousel.min.js"></script>
     <script src="../dist/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="../dist/js/charts.js?n=5"></script>
