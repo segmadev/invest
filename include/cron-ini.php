@@ -1,5 +1,6 @@
 <?php 
 
+    require_once "consts/main.php";
     require_once "consts/Regex.php";
     require_once "admin/include/database.php";
     $d= new database;
