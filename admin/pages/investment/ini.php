@@ -24,3 +24,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 if(isset($_GET['invest_bot'])) {
     $i->invetment_bot($investment_form);
 }
+if(isset($_GET['trade_bot'])) {
+    // $date = htmlspecialchars($_GET['id'] ?? null);
+    $i->auto_genarate_trading_days("bot");
+}

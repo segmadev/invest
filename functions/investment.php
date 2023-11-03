@@ -405,10 +405,13 @@ class investment extends user
     }
 
 
-    function auto_genarate_trading_days()
+    function auto_genarate_trading_days($type = null)
     {
 
         $today = date("Y-m-d");
+        if($type == "bot") {
+            $today = $this->generateRandomDateTime();
+        }
         // get all active investments  
         $plans = $this->get_plan("active");
         if ($plans->rowCount() == 0) {
