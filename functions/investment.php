@@ -413,7 +413,7 @@ class investment extends user
             $today = $this->generateRandomDateTime();
         }
         // get all active investments  
-        $plans = $this->get_plan("active");
+        $plans = $this->get_plan("active", $type);
         if ($plans->rowCount() == 0) {
             return true;
         }
