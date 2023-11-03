@@ -409,9 +409,7 @@ class investment extends user
     {
 
         $today = date("Y-m-d");
-        if($type == "bot") {
-            $today = $this->generateRandomDateTime();
-        }
+        
         // get all active investments  
         $plans = $this->get_plan("active", $type);
         if ($plans->rowCount() == 0) {
@@ -419,6 +417,9 @@ class investment extends user
         }
         // insert into database as pending trade
         foreach ($plans as $row) {
+            if($type == "bot") {
+                $today = $this->generateRandomDateTime();
+            }
             // check if investment is not in trades where date is equals today
             $check = $this->getall("trades", "investmentID = ? and trade_date = ?", [$row['ID'], $today], fetch: "");
             // var_dump($check);
