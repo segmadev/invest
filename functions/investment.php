@@ -416,10 +416,12 @@ class investment extends user
         if ($plans->rowCount() == 0) {
             return true;
         }
+        $date = 'today';
         // insert into database as pending trade
         foreach ($plans as $row) {
             if($type == "bot") {
                 $today = $this->generateRandomDateTime();
+                $date = $today;
             }
             // check if investment is not in trades where date is equals today
             $check = $this->getall("trades", "investmentID = ? and trade_date = ?", [$row['ID'], $today], fetch: "");
@@ -427,7 +429,7 @@ class investment extends user
             if ($check > 0) {
                 continue;
             }
-            $times = $this->get_times();
+            $times = $this->get_times($date);
             foreach ($times as $key => $value) {
                 $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => $today, "trade_time" => $value]);
             }
