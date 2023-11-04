@@ -160,26 +160,7 @@ class users extends user
         return $info;
     }
 
-    function  short_user_table($user)
-    {
-        if(!is_array($user) && $user != "") {
-            $user = $this->getall("users", "ID = ?", [$user]);
-        }
-        if(!is_array($user)) {
-            return "<b class='text-danger'>User Not Found</b>";
-        }
-        return "<li>
-            <a href='javascript:void(0)' onclick='display_content(this);' class='px-4 py-3 bg-hover-light-black d-flex align-items-center chat-user bg-light' id='chat_user_" . $user['ID'] . "'  data-user-id='" . $user['ID'] . "'>
-                <span class='position-relative'>
-                    <img src='" . $this->get_profile_icon_link($user['ID']) . "' alt='user-4' width='40' height='40' class='rounded-circle'>
-                </span>
-                <div class='ms-6 d-inline-block w-75'>
-                    <h6 class='mb-1 fw-semibold chat-title' data-username='" . $this->get_full_name($user) . "'>" . $this->get_full_name($user) . " </h6>
-                    <span class='fs-2 text-body-color d-block'>" . $user['email'] . "</span>
-                </div>
-            </a>
-        </li>";
-    }
+   
     function  short_user_details($user)
     {
         if(!is_array($user) && $user != "") {

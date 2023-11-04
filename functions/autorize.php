@@ -21,6 +21,10 @@ class autorize extends database
         if ($insert) {
             session_start();
             session_unset();
+            $expiry = strtotime('+6 months'); // Calculate the expiry time for 3 months from now
+            session_set_cookie_params($expiry); // Set the session cookie expiry time
+            session_start();
+
             // $d->updateadmintoken($value['ID'], "users");
             $_SESSION['userSession'] = htmlspecialchars($info['ID']);
             $actInfo = ["userID" => $info['ID'],  "date_time" => date("Y-m-d H:i:s"), "action_name" => "Registration", "description" => "Account Registration."];

@@ -17,7 +17,9 @@
                 echo $w->wallet_detail_widget($wallet);
                 break;
             case "trades":
-                   require_once "pages/investment/trade_list_table.php";
+                    if(!isset($_GET['tradeID']) && isset($trades)){
+                        require_once "pages/investment/trade_list_table.php";
+                    }
                 break;
             default:
                 echo "No data found";

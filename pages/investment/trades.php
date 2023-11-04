@@ -1,4 +1,17 @@
+<style>
+    li {
+        list-style: none!important;
+    }
+</style>
 <div class="card p-2">
+    <h5>Trade(s) For:</h5>
+    <?php 
+        if(isset($_GET['userID']) && !empty($_GET['userID'])) {
+            echo $u->short_user_table($tradeUserID);
+        }else{ ?>
+
+      
+
     <h5>Filter</h5>
     <form action="index" method="get" class="">
         <div class="card-header">
@@ -27,6 +40,7 @@
 
         </div>
     </form>
+<?php   }  ?>
 </div>
 
 <div class="card">
