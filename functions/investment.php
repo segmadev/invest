@@ -406,6 +406,17 @@ class investment extends user
     }
 
 
+    function change_trade_date() {
+        $trades = $this->getall("trades", "status = ? and done_date = ?", ["closed", 0], "ID, trade_date, done_date", "moredetails");
+        if($trades->rowCount() < 1) { return null;  }
+        foreach($trades as $trade) {
+            $trade['trade_date'] = date("Y-m-d", strtotime($trade['trade_date']));
+            $trade['done_date'] = 1;
+            $id = $trade['ID'];
+            unset($trade['ID']);
+            $this->update("trades", $trade, "ID = '$id'");
+        }
+    }
     function auto_genarate_trading_days($type = null)
     {
 
