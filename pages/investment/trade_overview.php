@@ -10,6 +10,16 @@
 </div>
 <div class="<?= $divsize ?? 'col-md-4' ?> border-end">
     <div class="p-4 py-3 py-md-4">
+        <p class="fs-4 mb-0">
+            <span class="text-success">
+                <span class="round-8 rounded-circle bg-success d-inline-block me-1"></span>
+            </span>Amount Invested
+        </p>
+        <h3 class=" mt-2 mb-0"> <?= $d->money_format($total_ivest, currency)  ?> </h3>
+    </div>
+</div>
+<div class="<?= $divsize ?? 'col-md-4' ?> border-end">
+    <div class="p-4 py-3 py-md-4">
         <p class="fs-4 text-danger mb-0">
             <span class="text-danger">
                 <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>

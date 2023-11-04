@@ -68,13 +68,13 @@ class investment extends user
           $tmore = "and date <= ?";
           $more_value = $date;
         }
-        $no_invest = $this->getall("investment", "$userinfo status = ? $tmore", array_values(array_filter([$userinfo, "active", $more_value])), fetch: "");
+        $invest = $this->getall("investment", "$userinfo status = ? $tmore", array_values(array_filter([$userinfo, "active", $more_value])), "COUNT(*) as no, SUM(amount) as amount");
         $condition = "$userinfo $more  status = ?  order by trade_time DESC";
         $trade_no = $this->getall("trades", "$condition", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "");
         $trades = $this->getall("trades", "$condition  LIMIT $start, 20", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "moredetails");
         $lost = $this->getall("trades", "$userinfo  intrest_amount < ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
         $profit = $this->getall("trades", "$userinfo  intrest_amount > ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
-        return ["trades"=>$trades, "no_invest"=>$no_invest, "lost"=>$lost, "profit"=>$profit, "trade_no"=>$trade_no];
+        return ["trades"=>$trades, "no_invest"=>$invest['no'], "total_ivest"=>$invest['amount'], "lost"=>$lost, "profit"=>$profit, "trade_no"=>$trade_no];
     }
 
     function new_investment($data, $type = "tranding_balance")
