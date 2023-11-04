@@ -489,8 +489,6 @@ class investment extends user
         $coins = explode(",", $coins);
         $i = 0;
         foreach ($trades as $row) {
-            echo $row['investmentID']."<br>";
-            continue;
             $id = $row['ID'];
             if (!isset($totals[$row['investmentID']])) {
                 $totals[$row['investmentID']] = [];
