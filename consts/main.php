@@ -5,9 +5,9 @@
      const db_host_name = "localhost";
      if (strpos($_SERVER['DOCUMENT_ROOT'], "htdocs") == false){
          define("rootFile", $_SERVER['DOCUMENT_ROOT']."/app/");
-         echo "<h1>HERE</h1>";
+        //  echo "<h1>HERE</h1>";
         }else{
-            echo "<h1>HERE 2</h1>";
+            // echo "<h1>HERE 2</h1>";
             define("rootFile", str_replace("C:/xampp2/htdocs/invest2", "C:/xampp2/htdocs/invest2/app", $_SERVER['DOCUMENT_ROOT']."/invest2/"));
      }
 
