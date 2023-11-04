@@ -51,7 +51,7 @@ class investment extends user
 
     }
 
-    function get_trade_report($uid = "", $date = "",  $type = "global") {
+    function get_trade_report($uid = "", $date = "",  $type = "global", $start = 0) {
         $more = "";
         $more_value = "";
         $userinfo = "userID = ? and ";
@@ -66,10 +66,11 @@ class investment extends user
           $more = "trade_date = ? and ";
           $more_value = $date;
         }
-        $trades = $this->getall("trades", "$userinfo $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "moredetails");
+        $condition = "$userinfo $more  status = ?  order by trade_time DESC";
+        $trade_no = $this->getall("trades", "$condition", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "");
+        $trades = $this->getall("trades", "$condition  LIMIT $start, 20", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "moredetails");
         $lost = $this->getall("trades", "$userinfo  intrest_amount < ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
         $profit = $this->getall("trades", "$userinfo  intrest_amount > ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
-        $trade_no = $trades->rowCount();
         return ["trades"=>$trades, "lost"=>$lost, "profit"=>$profit, "trade_no"=>$trade_no];
     }
 

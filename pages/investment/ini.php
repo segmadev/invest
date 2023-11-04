@@ -6,7 +6,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
   // echo $i->total_daily_profit($id, date("Y-m-d"));
   $invest = $d->getall("investment", "ID = ? and userID = ?", [$id, $userID]);
   if (is_array($invest)) {
-    $trades = $d->getall("trades", "investmentID = ? and status = ? order by trade_time DESC", [$id, "closed"], fetch: "moredetails");
+    $no = htmlspecialchars($_GET['no'] ?? 0);
+    $trades = $d->getall("trades", "investmentID = ? and status = ? order by trade_time DESC limit $no, 2", [$id, "closed"], fetch: "moredetails");
   }
 }
 
@@ -17,6 +18,7 @@ if ($action == "list") {
   $invests = $d->getall("investment", "userID = ? order by date DESC", [$userID], fetch: "moredetails");
 }
 require_once "pages/investment/ini-trades.php";
+$script[] = "fetcher";
 // $i->apply_daily_compound_profits();
 // $i->auto_genarate_trading_days();
 // $i->take_pending_trades();

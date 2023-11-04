@@ -50,7 +50,7 @@
 <?php } ?>
 <!-- fetch data -->
 <?php if (in_array("fetcher", $script)) { ?>
-    <script src="dist/js/fetcher.js"></script>
+    <script src="dist/js/fetcher.js?n=<?= rand(0,  100);  ?>"></script>
 <?php } ?>
 <!-- sweetalert -->
 <?php if (in_array("sweetalert", $script)) { ?>

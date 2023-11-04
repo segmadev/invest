@@ -83,7 +83,9 @@
                 $wallet = $d->getall("wallets", "ID = ?", [htmlspecialchars($_POST['ID'])]);
                 echo $w->wallet_detail_widget($wallet);
                 break;
-            
+            case "trades":
+                    echo "";
+                break;
             default:
                 echo "No data found";
                 break;

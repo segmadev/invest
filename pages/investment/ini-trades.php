@@ -14,14 +14,14 @@ if ($action == "trades" || $page == "dashboard") {
 
   $trade_table_title = "All Trades";
   $trade_table_des = "List of all trades taken.";
-  $get_report = $i->get_trade_report($userID, $date ?? "", $type ?? "");
+  $get_report = $i->get_trade_report($userID, $date ?? "", $type ?? "", start: htmlspecialchars($_GET["start"] ?? 0));
   foreach ($get_report as $key => $value) {
     ${$key} = $value;
   }
 }
 
 if (isset($_GET['tradeID'])) {
-  $trade_table_title = "All Trades";
+  echo $trade_table_title = "All Trades 4";
   $trade_table_des = "List of all trades taken.";
   $tradeid = htmlspecialchars($_GET['tradeID']);
   $trade = $d->getall("trades", "ID = ? and status = ? order by trade_time DESC", [$tradeid, "closed"], fetch: "details");

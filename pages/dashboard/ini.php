@@ -13,4 +13,5 @@
     $invests = $d->getall("investment", "userID = ? order by date DESC", [$userID], fetch: "moredetails");  
     $deposit = $d->getall("deposit", "userID = ? order by date DESC LIMIT 5", [$userID], fetch: "moredetails");
     $chat_trades = [];
+    $script[] = "fetcher";
     // var_dump($users_data);
