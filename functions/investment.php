@@ -431,7 +431,7 @@ class investment extends user
             }
             $times = $this->get_times($date);
             foreach ($times as $key => $value) {
-                $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => $today, "trade_time" => $value]);
+                $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => date("Y-m-d", $value), "trade_time" => $value]);
             }
         }
         // $form = [
