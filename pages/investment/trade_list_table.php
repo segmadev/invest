@@ -17,7 +17,6 @@ if ($trades->rowCount() == 0) {
         }
 ?>
         <tr class="bg-light">
-            <td><?= $row['ID'] ?></td>
             <td><a id="view_<?= $row['ID'] ?>" href="index?p=investment&action=trade_chart&tradeID=<?= $row['ID'] ?>">View</a></td>
             <td class="rounded-start bg-transparent">
                 <div class="d-flex align-items-center gap-3">
