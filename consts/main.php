@@ -4,7 +4,7 @@
      const db_name = "prolcnoz_db";
      const db_host_name = "localhost";
      if (strpos($_SERVER['DOCUMENT_ROOT'], "htdocs") == false){
-         define("rootFile", $_SERVER['DOCUMENT_ROOT']);
+         define("rootFile", $_SERVER['DOCUMENT_ROOT']."/app/");
          echo "<h1>HERE</h1>";
         }else{
             echo "<h1>HERE 2</h1>";
