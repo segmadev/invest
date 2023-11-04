@@ -65,7 +65,7 @@ class investment extends user
         if($date != "") {
           $date = htmlspecialchars($_GET['date']);
           $more = "trade_date = ? and ";
-          $tmore = "date >= ?";
+          $tmore = "and date <= ?";
           $more_value = $date;
         }
         $no_invest = $this->getall("investment", "$userinfo status = ? $tmore", array_values(array_filter([$userinfo, "active", $more_value])), fetch: "");
