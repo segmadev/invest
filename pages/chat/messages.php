@@ -31,10 +31,10 @@
                             <span class="visually-hidden">New alerts</span>
                         </span> -->
                     </div>
-                    <div class="">
+                    <a class="" href='?p=investment&action=trades&userID=<?= $uID ?>'>
                         <h6 class="mb-1 name fw-semibold"><?= $u->get_name($uID, $what) ?></h6>
                         <p class="mb-0" id="last_seen"><i class='fs-3'>loading...</i></p>
-                    </div>
+                    </a>
                 </div>
                 <ul class="list-unstyled mb-0 d-flex align-items-center">
                     <!-- <li><a class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 "
