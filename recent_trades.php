@@ -3,6 +3,7 @@
 <!-- Core Css -->
 <link id="themeColors" rel="stylesheet" href="dist/css/custom.css?n=18" />
 <?php
+require_once "consts/main.php";
 require_once "admin/include/database.php";
 require_once "content/content.php";
 $d  = new database;
