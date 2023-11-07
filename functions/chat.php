@@ -21,40 +21,48 @@ class chat extends user
 
 
 
-    function create_bot_conversation(array $messages, $groupID = 2,)
+    function create_bot_conversation($groupID = 2, $startDate = '2022-01-01 09:00:00', $endDate = null)
     {
         $i = 0;
+        $path = 'upload/temp/message.json';
+        if(!file_exists($path)) { return $this->message("Error getting your file", "error");  }
+        $jsonString = file_get_contents($path);
+        $messages = json_decode($jsonString, true);
+        // var_dump($messages);
         foreach ($messages as $message) {
             $user = $this->getall("users", "acct_type = ? and status =  ? ORDER BY RAND()", ["bot", "active"]);
-            $date = $this->generateRandomDateTime();
+            $date = $this->generateRandomDateTime($startDate, $endDate);
             $data = ["chatID" => "", "senderID" => $user['ID'], "receiverID" => $groupID, "message" => "", "is_group" => "yes", "time_sent" => strtotime($date), "reply_to" => "", "date" => $date];
             if (is_array($message) && isset($message['main_message']) && isset($message['response'])) {
                 $data['message'] = $message['main_message'];
-                if($this->getall("message", "message = ?",  [$message['main_message']], fetch: "") > 0) { continue; }
+                // var_dump($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['main_message']], fetch: "details"));
+                if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['main_message']], fetch: "") > 0) { continue; }
                 if (!$this->quick_insert("message", $data)) {
                     continue;
                 }
-                if (isset($message['response']) && !$this->reply_to_message($data['message'], $message['response'])) {
+                if (isset($message['response']) && !$this->reply_to_message($groupID, $data['message'], $message['response'])) {
                     continue;
                 }
-                if (isset($message['message']) && !$this->reply_to_message($message['response'], $message['message'], $user['ID'])) {
+                if (isset($message['message']) && !$this->reply_to_message($groupID, $message['response'], $message['message'], $user['ID'])) {
                     continue;
                 }
             }else if(isset($message['message'])){
                 $data['message'] = $message['message'];
-                if($this->getall("message", "message = ?",  [$message['message']], fetch: "") > 0) { continue; }
+                if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['message']], fetch: "") > 0) { continue; }
                 if (!$this->quick_insert("message", $data)) {
                     continue;
                 }
             }
             $i++;
         }
+        // dispose message file after use
+        // unlink($path);
         $this->message("$i of conversations created", "success");
     }
     
 
-    function reply_to_message($message, $response, $userID = "admin") {
-        $data = $this->getall('message', "message = ?", [$message]);
+    function reply_to_message($groupID, $message, $response, $userID = "admin") {
+        $data = $this->getall('message', "receiverID = ?  and message = ?", [$groupID, $message]);
         if(!is_array($data)) { return false; }
         $data['date'] = $this->addMinutes($data['date'], rand(1, 5));
         $replyID = $data["ID"];

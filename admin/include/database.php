@@ -310,6 +310,15 @@ class database
         }
     }
 
+    function options_list($table, $key = "ID", $value = "name") {
+        if($table->rowCount() > 0) {
+            foreach($table as $row) {
+                $data[$row[$key]] = $row[$value];
+            }
+        }
+        return $data ?? [];
+    }
+
     function validate_form($datas, $what = "", $action = null)
     {
         $err = false;
@@ -344,6 +353,13 @@ class database
                     continue;
                 }
             }
+
+            // mangedate and time here
+            if(isset($data['input_type']) && $data['input_type'] == "datetime-local" && isset($_POST[$key]) && !empty($_POST[$key])) {
+                $dateTime = new DateTime($_POST[$key]);
+                $_POST[$key] = $dateTime->format('Y-m-d H:i:s');
+            }
+
             if(isset($_POST[$key]) && is_array($_POST[$key])) {
                 $info[$key] = json_encode($_POST[$key]);
             }elseif(isset($_POST[$key])) {
@@ -395,7 +411,10 @@ class database
                     if (isset($datas[$key]['file_name'])) {
                         $file_name = $datas[$key]['file_name'];
                     }
-                    $image = $this->process_image($file_name, $datas[$key]['path'], $key);
+                    if($datas[$key]['formart']) {
+                        $vaild_formart = $datas[$key]['formart'];
+                    }
+                    $image = $this->process_image($file_name, $datas[$key]['path'], $key, valid_formats1: $vaild_formart ?? null);
                     if (!$image) {
                         return null;
                     }
@@ -799,10 +818,13 @@ class database
             return $this->err;
         }
     }
-    function process_image($title, $path, $name = "uploaded_file", $i = 0)
+    function process_image($title, $path, $name = "uploaded_file", $i = 0, array $valid_formats1 = null)
     {
         //file to place within the server
         // echo $name;
+        if($valid_formats1 == null) {
+            $valid_formats1 = ["JPG", "jpg", "png", "jpeg", "JPEG", "PNG", "svg", "SVG"];
+        }
         if ($_FILES["$name"]["name"] == "") {
             return null;
         }
@@ -815,9 +837,7 @@ class database
             $size = $_FILES["$name"]["size"][$i];
             $tmp = $_FILES["$name"]["tmp_name"][$i];
         }
-
-
-        $valid_formats1 = array("JPG", "jpg", "png", "jpeg", "JPEG", "PNG", "svg", "SVG"); //list of file extention to be accepted
+        //list of file extention to be accepted
         if (empty($image)) {
             database::message("No file selected", "error");
             return false;

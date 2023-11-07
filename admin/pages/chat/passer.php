@@ -62,5 +62,11 @@
     }
 
 
-
+    if(isset($_POST['generate_conversation'])) {
+        $data = $d->validate_form($from_generate);
+        if(!is_array($data)) { return null; }
+        // var_dump($data);
+        // return null;
+        echo $ch->create_bot_conversation($data['groupID'], $data['startDate'], $data['endDate']);
+    }
     ?>
