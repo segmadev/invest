@@ -68,7 +68,11 @@ class content extends database
             if (!isset($this->data['placeholder'])) {
                 $this->data['placeholder'] = "Enter " . ucwords(str_replace("_", " ", $key));
                 if($this->data['type'] == "select"){
-                    $this->data['placeholder'] = "Select " . ucwords(str_replace("_", " ", $key));
+                    if(isset($data['title'])){
+                        $this->data['placeholder'] = $data['title'];
+                    }else{
+                        $this->data['placeholder'] = "Select " . ucwords(str_replace("_", " ", $key));
+                    }
                 }
             }
             if ($this->data['type'] == "input" && !isset($this->data['input_type'])) {

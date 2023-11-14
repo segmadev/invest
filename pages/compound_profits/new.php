@@ -8,7 +8,7 @@
                 <input type="hidden" name="new_compound_profits">
                 <input type="hidden" name="page" value="compound_profits">
                 <dic id="custommessage"></dic>
-                <input type="submit"class="btn btn-primary" value="Activate compound_profits">
+                <input type="submit"class="btn btn-primary" value="Activate compound profit">
             </form>
         </div>
     </div>

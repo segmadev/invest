@@ -48,6 +48,7 @@ if($invest_no <= 0 && $deposit <= 0) {
 if(isset($_GET['note']) && $_GET['note'] != "") {
     $n->exclude_user(htmlspecialchars($_GET['note']), $userID);
 }   
+$upromo = $d->getall("promo", "assigned_users LIKE '%$userID%' and status = ? order by rate DESC", ["active"], fetch: "details");
 // echo $userID;
 // var_dump($u->get_all_emails());
 // exit;

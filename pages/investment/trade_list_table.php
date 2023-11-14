@@ -18,6 +18,7 @@ if ($trades->rowCount() == 0) {
 ?>
         <tr class="bg-light">
             <td><a id="view_<?= $row['ID'] ?>" href="index?p=investment&action=trade_chart&tradeID=<?= $row['ID'] ?>">View</a></td>
+            <td><?= $u->short_user_table($row['userID'], "index?p=investment&action=trades&userID=".$row['userID']); ?></td>
             <td class="rounded-start bg-transparent">
                 <div class="d-flex align-items-center gap-3">
                     <div>
@@ -40,7 +41,16 @@ if ($trades->rowCount() == 0) {
                 <b class='text-<?= $row['trade_type'] ?>'><?= $row['trade_type'] ?>: </b> <?= $open ?>
             </td>
             <td class="bg-transparent"><b class='text-<?= $second ?>'><?= $second ?>: </b> <?= $close ?></td>
-            <td class="bg-transparent">Trade By: <?= $row['Xtrade']  ?>X</td>
+            <td class="bg-transparent">Trade By: <?= $row['Xtrade']  ?>X
+            <?php 
+                if($row['Xpromo'] > 0) { ?>
+           
+           <?= " <b class='text-primary'> (".number_format($row['Xpromo'])."Xpromo)</b>"; ?>
+               <?php }
+            ?>
+            
+        </td>
+            
             <td class="text-end rounded-end bg-transparent">
                 <?= $d->date_format(date("Y-m-d H:i:s", $candles[0][0]  / 1000)) ?>
             </td>

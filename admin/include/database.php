@@ -244,7 +244,7 @@ class database
         return $data;
     }
 
-    function create_table($name, $data)
+    function create_table($name, array $data)
     {
         if (!is_array($data)) {
             return null;
@@ -273,6 +273,9 @@ class database
             $type = "VARCHAR(250)";
             $default_value = "";
             $isNull = "NOT NULL";
+            if($key == "ID" && isset($data['input_type']) && $data['input_type'] == "number"){
+                $isNull .= " AUTO_INCREMENT";
+            }
             $primaryKey = "";
             if (isset($data['input_type']) && $data['input_type'] == "number") {
                 match (htmlspecialchars($data['input_type'])) {
@@ -291,6 +294,7 @@ class database
         $info .= "`date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,";
         if (isset($datas['ID'])) {
             $info  .= "PRIMARY KEY(ID),";
+            
         }
 
         return rtrim($info, ',');
@@ -411,7 +415,7 @@ class database
                     if (isset($datas[$key]['file_name'])) {
                         $file_name = $datas[$key]['file_name'];
                     }
-                    if($datas[$key]['formart']) {
+                    if(isset($datas[$key]['formart'])) {
                         $vaild_formart = $datas[$key]['formart'];
                     }
                     $image = $this->process_image($file_name, $datas[$key]['path'], $key, valid_formats1: $vaild_formart ?? null);

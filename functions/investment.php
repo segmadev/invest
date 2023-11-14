@@ -2,6 +2,36 @@
 class investment extends user
 {
 
+    function get_X_promo($userID) {
+        $data = $this->getall("promo_assigned", "userID = ? and start_date >= ? and end_date <= ? and status = ?", [$investmentID, time(), time(), "active"]);
+        if(!is_array($data)) { return 0; }
+        $promo = $this->getall("promo", "ID = ? and status = ?", [$data['promoID']]);
+        if(!is_array($promo)) { return 0; }
+        return (int)$promo['rate'];
+    }
+    // apply for promo
+    function activate_promo($data, $userID) {
+        $data = $this->validate_form($data);
+        if(!is_array($data)) { return null; }
+        $data['userID'] = $userID;
+        $userID = $data['userID'];
+        $promo = $this->getall("promo", "ID = ? and assigned_users LIKE '%$userID%' and status = ?", [$data['promoID'], "active"], fetch: "details");
+        if(!is_array($promo)) { 
+            return $this->message("Promo not active.", "error");
+        }
+        // check if promo exit
+        if($this->getall("promo_assigned", "userID = ? and end_date >= ?", [$data['userID'], time()], fetch:'') > 0) {
+           return $this->message("You have active promo on your account.", "error");
+        }
+        //  debit amount
+        if (!$this->credit_debit($data['userID'], $promo['purchase_price'], "balance", "debit")) {
+            return;
+        }
+        $data['start_date'] = time();
+        $data['end_date'] = strtotime('+3 days', $data['start_date']);
+        $this->quick_insert("promo_assigned", $data, "Congratuations Promo Activated.");
+    }
+
     // generate daily notification 
     function daily_report_notification($userID = "",  $date = null) {
         if($date == null) {$date  = date("Y-m-d");}
@@ -286,6 +316,18 @@ class investment extends user
         }
         return $info;
     }
+    function get_user_promo($userID)
+    {
+        $data = $this->getall("promo", "assigned_users LIKE '%$userID%' and status = ?", ["active"], fetch: "moredetails");
+        if ($data->rowCount() == 0) {
+            return [];
+        }
+        $info = [];
+        foreach ($data as $row) {
+            $info[$row['ID']] = ucfirst($row['rate']) . 'X profit for '.$row['number_of_days'].'day(s) Promo - Purchase Price: ' . $this->money_format($row['purchase_price'], currency);
+        }
+        return $info;
+    }
 
     private function check_if_user_in_compound_profits($rollID, $userID)
     {
@@ -476,7 +518,7 @@ class investment extends user
         // get all pending plans where date less or equal today
         $today = date("Y-m-d");
         //$trades = $this->getall("trades", 'status = ? order by trade_time ASC LIMIT 50', ["pending"], fetch: "moredetails");
-        $trades = $this->getall("trades", 'trade_date <= ? and trade_time < ? and status = ? GROUP BY investmentID order by trade_time ASC LIMIT 25', [$today, time(), "pending"], fetch: "moredetails");
+        $trades = $this->getall("trades", 'trade_date <= ? and trade_time <= ? and status = ? GROUP BY investmentID order by trade_time ASC LIMIT 25', [$today, time(), "pending"], fetch: "moredetails");
         // $trades = $this->getall("trades", 'trade_candles = ? or trade_candles = ?', ["", null], fetch: "moredetails");
         // var_dump($trades->rowCount());
         if ($trades->rowCount() == 0) {
@@ -634,6 +676,7 @@ class investment extends user
 
 
 
+
     function cal_trade_percent($data, $trade)
     {
         $x = 1;
@@ -646,7 +689,7 @@ class investment extends user
         $n2 = $close_price;
         $trade_type = "buy";
         $percentage = (float)$this->calculateProfitPercentage($n1, $n2);
-
+        $Xpromo = $this->get_X_promo($trade['investmentID']);
         if ($percentage < 0 && $percentage > (-0.9)) {
             if ($this->no_of_lost($trade['investmentID'], $trade['trade_date']) > 2) {
                 return null;
@@ -662,6 +705,7 @@ class investment extends user
             // return null;
         }
         if ($percentage > 0 && $percentage < 3) {
+            $percentage = $percentage + $Xpromo;
             if ($percentage < 1) {
                 $x = rand(5, 15);
             } else {
@@ -671,7 +715,7 @@ class investment extends user
         $percentage = $percentage * $x;
         $trade_amount = $this->get_invest_trade_amount($trade['investmentID']);
         $amount = $this->calculateIncreasedValue($trade_amount, $percentage);
-        return ["amount" => $trade_amount, "intrest_amount" => $amount, "trade_candles" => json_encode($data), "percentage" => $percentage, "trade_type" => $trade_type, "Xtrade" => $x];
+        return ["amount" => $trade_amount, "intrest_amount" => $amount, "trade_candles" => json_encode($data), "percentage" => $percentage, "trade_type" => $trade_type, "Xtrade" => $x, "Xpromo"=>$Xpromo];
     }
 
     function get_invest_trade_amount($investID)

@@ -8,6 +8,7 @@ if (isset($_SESSION['newuser'])) {
 <div class="container-fluid">
     <div class="row">
         <?php require_once "content/slide-notify.php"; ?>
+        <?php require_once "pages/promo/overview.php"; ?>
         <div class="col-lg-8 d-flex align-items-stretch">
             <div class="card w-100 bg-light-info overflow-hidden shadow-none">
                 <div class="card-body position-relative">
