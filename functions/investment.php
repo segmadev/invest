@@ -3,7 +3,7 @@ class investment extends user
 {
 
     function get_X_promo($userID) {
-        $data = $this->getall("promo_assigned", "userID = ? and start_date >= ? and end_date <= ? and status = ?", [$investmentID, time(), time(), "active"]);
+        $data = $this->getall("promo_assigned", "userID = ? and start_date >= ? and end_date <= ? and status = ?", [$userID, time(), time(), "active"]);
         if(!is_array($data)) { return 0; }
         $promo = $this->getall("promo", "ID = ? and status = ?", [$data['promoID']]);
         if(!is_array($promo)) { return 0; }

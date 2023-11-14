@@ -4,6 +4,7 @@ $script[] = "modal";
 if (isset($_SESSION['newuser'])) {
     require_once "pages/dashboard/new.php";
 }
+// var_dump(session_get_cookie_params());
 ?>
 <div class="container-fluid">
     <div class="row">

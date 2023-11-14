@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php 
+  require_once "../include/ini-session.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once "inis/ini.php"; ?>
