@@ -1,5 +1,7 @@
 <?php 
-
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
     require_once "consts/main.php";
     require_once "consts/Regex.php";
     require_once "admin/include/database.php";
