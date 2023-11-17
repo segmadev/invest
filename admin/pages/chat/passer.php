@@ -67,6 +67,12 @@
         if(!is_array($data)) { return null; }
         // var_dump($data);
         // return null;
+        $path = 'upload/temp/message.json';
+        // if(!file_exists($path)) { 
+            
+        //   }
+        
+        file_put_contents($path, $_POST['message']);
         echo $ch->create_bot_conversation($data['groupID'], $data['startDate'], $data['endDate']);
     }
     ?>

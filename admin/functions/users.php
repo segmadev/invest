@@ -95,7 +95,7 @@ class users extends user
         return $info;
     }
 
-    function genarete_bot_users($no = 100, array $chat_from) {
+    function genarete_bot_users($no = 100, array $chat_from = []) {
         $no = (int)$no;
         $users =  $this->api_call("https://randomuser.me/api/?results=$no");
         if(!is_array($users->results) || count($users->results) < 0) {

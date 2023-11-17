@@ -207,6 +207,8 @@ class user extends Notifications {
         return $this->getall("investment", "userID = ? order by date ASC", [$userID], fetch: 'details');
     }
 
+
+
     function update_last_seen($userID, $time) {
         if($this->getall("users", "ID = ?", [$userID], fetch: "") > 0) {
             if($this->update("users", ["last_seen"=>$time], "ID  = '$userID'")) {

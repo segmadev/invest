@@ -57,9 +57,18 @@ class chat extends user
         }
         // dispose message file after use
         // unlink($path);
+        file_put_contents($path, "");
         $this->message("$i of conversations created", "success");
     }
-    
+
+    function rand_update_last_seen()
+    {
+        $no = rand(50, 400);
+        if ($this->update("users", ["last_seen" => time()], "acct_type = 'bot' LIMIT $no")) {
+            return true;
+        }
+    }
+
 
     function reply_to_message($groupID, $message, $response, $userID = "admin") {
         $data = $this->getall('message', "receiverID = ?  and message = ?", [$groupID, $message]);
@@ -213,11 +222,20 @@ class chat extends user
     {
         $last_seen = $this->getall("users", "ID = ?", [$userID], "last_seen");
         if (!is_array($last_seen)) {
-            return "";
+         if($this->getall("groups", "ID = ?", [$userID], fetch: "") > 0) {
+            $this->rand_update_last_seen();    
+            return $this->get_group_last_seen();
+           }
         }
         return $this->proccess_last_seen($last_seen['last_seen']);
     }
 
+    function get_group_last_seen(){
+        $time = time();
+        $diff = time() - 10;
+        $no = $this->getall("users", "last_seen >= ?", [$diff], fetch: "");
+        return '<span class="p-1 badge rounded-pill bg-success"><span class="visually-hidden">'.$no.'</span></span> '.$no.' Users Online';
+    }
     function proccess_last_seen($last_seen)
     {
 

@@ -76,6 +76,27 @@
                         <!-- ============================= -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Generate</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="index?p=users&action=new" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user-bolt"></i>
+                                </span>
+                                <span class="hide-menu">Generate Bot Users</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="index?p=users&action=new" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-message-plus"></i>
+                                </span>
+                                <span class="hide-menu">Populate Chat</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Users</span>
                         </li>
                         <li class="sidebar-item">
