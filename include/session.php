@@ -21,9 +21,10 @@
     }else{
         session_destroy();
         $_SESSION['urlgoto'] = $redirect;
+        var_dump($userID);
         header("location: login?urlgoto=/$redirect");
+        exit();
     }
 
-    var_dump($userID);
-    exit();
+   
 ?>
