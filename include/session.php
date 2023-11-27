@@ -1,4 +1,6 @@
 <?php 
+echo "WELCOME";
+exit();
 // error_reporting(0);
 // ini_set('display_errors', 0);
 // if($_SERVER[‘HTTPS’] != "on") {
@@ -17,8 +19,7 @@
     }
     
     if(isset($_SESSION['userSession'])){
-        echo $userID = $_SESSION['userSession'];
-        exit();
+        $userID = $_SESSION['userSession'];
     }else{
         session_destroy();
         $_SESSION['urlgoto'] = $redirect;
