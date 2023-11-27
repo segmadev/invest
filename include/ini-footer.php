@@ -3,11 +3,13 @@
     require_once "content/modal.php";
 } ?>
 
-<?php if(in_array('showme', $script)){ ?>
-<script>document.getElementById("showme").click();</script>
+<?php if (in_array('showme', $script)) { ?>
+    <script>
+        document.getElementById("showme").click();
+    </script>
 <?php } ?>
-<?php if(in_array('chat', $script)){ ?>
-    <script src="dist/js/apps/chat.js?n=9820"></script>
+<?php if (in_array('chat', $script)) { ?>
+    <script src="dist/js/apps/chat.js?n=94747"></script>
 <?php } ?>
 <!-- wizard js -->
 <?php if (in_array("wizard", $script)) { ?>
@@ -18,7 +20,7 @@
 <!-- Dashboard3 -->
 <?php if (in_array("dashboard3", $script)) { ?>
     <script src="dist/libs/owl.carousel/dist/owl.carousel.min.js"></script>
-  <script src="dist/js/dashboard3.js?n=01"></script>
+    <script src="dist/js/dashboard3.js?n=01"></script>
 <?php } ?>
 <!-- qr code js -->
 <?php if (in_array("qrcode", $script)) { ?>
@@ -73,4 +75,16 @@
         require_once "pages/$page/chart.php";
     }
     ?>
+<?php } ?>
+<?php if (in_array("google", $script)) { ?>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <?php } ?>

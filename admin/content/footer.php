@@ -1,3 +1,12 @@
+<div class="offcanvas offcanvas-end customizer offcanvas-size-xxl" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" data-simplebar="">
+  <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+    <h6 class="offcanvas-title fw-semibold" id="offcanvasExampleLabel">Users in group</h6>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-4">
+    <div id="grouplist"></div>
+  </div>
+</div>
 </div>
 <!--  Customizer -->
     <!--  Import Js Files -->

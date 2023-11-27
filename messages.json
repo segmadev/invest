@@ -49,6 +49,26 @@
 
   [
     {
+      "message": "Thank you for the information. I'd appreciate some personalized recommendations for diversifying my portfolio.",
+      "response": "Certainly! To provide personalized recommendations, we need to understand your investment goals and risk tolerance better. Could you please share more about your investment objectives?"
+    },
+    {
+      "message": "I found the dashboard, and it's helpful. How can I set up those alerts for my investments?",
+      "response": "Great to hear that you've found the dashboard helpful! To set up alerts, go to your portfolio in the app, and you'll find the option to configure alerts there. If you encounter any issues, we're here to guide you through it."
+    },
+    {
+      "message": "Thanks for assuring me about data security. What measures do you have in place specifically?",
+      "response": "We employ multiple layers of security, including encryption, two-factor authentication, and regular security audits. We continuously update our systems to stay ahead of potential threats and protect your data."
+    },
+    {
+      "message": "I'm relieved to hear about the low minimum investment amount. Can you explain more about the investment options available?",
+      "response": "Certainly! We offer a variety of investment options, including stocks, bonds, mutual funds, and more. Each has its own risk and return profile. We can discuss your preferences and help you choose the right investments for your financial goals."
+    },
+    {
+      "message": "I'd like to set up automatic deposits, but I'm not sure how much I should allocate. Any guidance?",
+      "response": "The amount you allocate depends on your budget and savings goals. We recommend setting aside a portion of your income that you can comfortably invest without affecting your daily expenses. We can assist you in determining an appropriate amount."
+    },
+    {
       "main_message": "How can I diversify my investment portfolio?",
       "message": "Thank you for the information. I'd appreciate some personalized recommendations for diversifying my portfolio.",
       "response": "Certainly! To provide personalized recommendations, we need to understand your investment goals and risk tolerance better. Could you please share more about your investment objectives?"

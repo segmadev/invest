@@ -99,6 +99,7 @@ class user extends Notifications {
 
     protected function credit_debit($userID, $amount, $what, $action = "credit")
     {
+        unset($_COOKIE['user_data']);
         $user = $this->getall("users", "ID = ?", [$userID], "$what");
         if (!is_array($user)) {
             $this->message("Error getting user", "error");
@@ -111,7 +112,7 @@ class user extends Notifications {
                 break;
             case 'debit':
                 // check if enough balance
-                if((float)$user[$what] < (float)$amount){
+                if((float)$user[$what] < (float)$amount && (float)$user[$what] > 0){
                     $this->message("Insufficient ".str_replace("_", " ", $what), "error");
                     return false;
                 }
@@ -234,6 +235,10 @@ class user extends Notifications {
         return false;
     }
     function user_data($userID) {
+        if (isset($_COOKIE['user_data'])) {
+            // echo "Cookies here";
+            // return  unserialize($_COOKIE['user_data']);
+        }
         // amount_invest number_invet profit_percent lost_percent profit_amount lost_amount trade_balance trade_bonus balance 
         $info = [];
         $user = $this->getall("users", "ID = ?", [$userID], "SUM(balance) as balance, SUM(trading_balance) as trading_balance, SUM(trade_bonus) as trade_bonus");
@@ -246,6 +251,7 @@ class user extends Notifications {
         $info = array_merge($info, $trades);
         $info = array_merge($info, $user);
         // var_dump($info);
+        setcookie("user_data",serialize($info), time()+30*60);
         return $info;
     }
 

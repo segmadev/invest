@@ -1,6 +1,8 @@
 <?php
-define("ROOT", "https://proloomtrading.com/app/");
-define("ROOTFILE", "https://proloomtrading.com/app/");
+define("ROOT", "../");
+define("ROOTFILE", "");
+// define("ROOT", "https://proloomtrading.com/app/");
+// define("ROOTFILE", "https://proloomtrading.com/app/");
 define("currency", $d->get_settings("default_currency"));
 define("company_name", $d->get_settings("company_name"));
 $dark_logo = ROOT."assets/images/logos/".$d->get_settings("dark_logo");

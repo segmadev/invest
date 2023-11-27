@@ -9,4 +9,4 @@ session_set_cookie_params(
   true                       // Set the cookie to be accessible only through HTTP (not JavaScript)
 );
 session_start(); 
-session_regenerate_id(true);
+// session_regenerate_id(true);

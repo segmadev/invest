@@ -68,6 +68,9 @@ class database
         // $data = 'userID', "date_time", "action_name", "link", "action_for", "action_for_ID";
         if(is_array($data) && isset($data['userID'])) {
             $info = [];
+            if($this->getall("users", "ID = ? and acct_type = ?", [$data['userID'], "bot"], fetch: "") > 0) {
+                return true;
+            }
             $info['userID'] = $data['userID'];
             unset($data['userID']);
             // var_dump($this->get_visitor_details());
@@ -683,6 +686,15 @@ class database
         return "3" . $rand;
     }
     
+    function send_email($userID, $subject, $message) {
+            $smessage = $this->get_email_template("default")['template'];
+            $user =  $this->getall("users", "ID = ?", [$userID], "first_name, last_name, email");
+            if(!is_array($user)){ return false; }
+            // ${amount} ${reason} ${website_url} 
+            $smessage = $this->replace_word(['${first_name}'=>$user['first_name'], '${last_name}'=>$user['last_name'], '${message_here}'=>$message, '${website_url}'=>$this->get_settings("website_url")], $smessage);
+            $sendmessage = $this->smtpmailer($user['email'], $subject, $smessage);
+            if($sendmessage) { return true; }else{ return false; }
+    }
     function smtpmailer($to, $subject, $body, $name = "", $message = '', $smtpid = 1)
     {
         // require_once "";

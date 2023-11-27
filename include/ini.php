@@ -1,5 +1,6 @@
 <?php 
 require_once "include/session.php";
+define("side", "user");
 if(isset($_GET['theme'])) {
     $expiration = time() + (30 * 24 * 60 * 60); // 30 days * 24 hours * 60 minutes * 60 seconds
     if($_GET['theme'] == "dark") {

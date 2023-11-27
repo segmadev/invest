@@ -31,7 +31,14 @@
                             <span class="visually-hidden">New alerts</span>
                         </span> -->
                     </div>
-                    <a class="" href='?p=investment&action=trades&userID=<?= $uID ?>'>
+                    <a class="" 
+                    <?php if($chat['is_group'] ==  "yes"){ ?>
+                    href='#'
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" 
+                    <?php }else{ ?>
+                        href='?p=investment&action=trades&userID=<?= $uID ?>'
+                        <?php } ?>
+                    >
                         <h6 class="mb-1 name fw-semibold"><?= $u->get_name($uID, $what) ?></h6>
                         <p class="mb-0" id="last_seen"><i class='fs-3'>loading...</i></p>
                     </a>
@@ -45,9 +52,11 @@
                     <!-- <a class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)" type="button" data-bs-toggle="offcanvas" data-bs-target="#app-chat-offcanvas" aria-controls="offcanvasScrolling">
                             <i class="ti ti-menu-2"></i>
                         </a> -->
-                    <a onclick="make_visible('app-chat-right')" class="chat-menu text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5" href="javascript:void(0)">
-                        <i class="ti ti-menu-2"></i>
+                    <?php if($chat['is_group'] ==  "yes"){ ?>
+                        <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5" href="javascript:void(0)">
+                        <i class="ti ti-users"></i>
                     </a>
+                    <?php } ?>
                     </li>
                 </ul>
             </div>
@@ -64,7 +73,7 @@
                                         $ch->display_message($row, $userID);
                                     }
                                 } else {
-                                    echo "<div data-chat-id='0'>".$c->empty_page("No chat here yet", icon: "<i class='ti ti-messages text-primary fs-10'></i>")."</div>";
+                                    echo "<div data-chat-id='0'>" . $c->empty_page("No chat here yet", icon: "<i class='ti ti-messages text-primary fs-10'></i>") . "</div>";
                                 }
                                 ?>
                             </div>
@@ -141,10 +150,10 @@
                         </div> -->
                         <?php if ($chat['is_group'] == "yes") { ?>
                             <div class="files-chat">
-                                <h6 class="fw-semibold mb-3">Users 
+                                <h6 class="fw-semibold mb-3">Users
                                     <!-- <span class="text-muted">(<?= $ch->no_users_in_group($uID) ?>)</span> -->
                                 </h6>
-                                <div id="grouplist"></div>
+                                
 
                             </div>
                         <?php } ?>
@@ -207,3 +216,5 @@
         </ul>
     </div>
 </div>
+
+<div id="chat-users-holder" style="display: none"></div>

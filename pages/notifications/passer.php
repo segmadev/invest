@@ -29,12 +29,11 @@
         $what = htmlspecialchars($_POST['get_notifications']);
         switch ($what) {
             case 'get_pending_daily_my_report_notifications':
-                echo $n->pop_message($n->get_type_notifications($userID, type: "my_report", exclude: $userID, update: $userID));
+                echo $n->pop_message($n->get_type_notifications($userID, type: "my_report", exclude: $userID, update: $userID), $userID);
                 break;
             case 'get_pending_daily_global_report_notifications':
-                echo $n->pop_message($n->get_type_notifications(exclude: $userID, update: $userID));
+                echo $n->pop_message($n->get_type_notifications(exclude: $userID, update: $userID), $userID);
                 break;
-            
             default:
                 # code...
                 break;

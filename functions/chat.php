@@ -1,7 +1,7 @@
 <?php
 class chat extends user
 {
-
+private $chat_holder = [];
 
     function bot_generate_message(array $messages, $groupID = 2,) {
         // get all messages
@@ -197,6 +197,7 @@ class chat extends user
     {
         if ($chats->rowCount() > 0) {
             foreach ($chats as $row) {
+                // var_dump($row);
                 $active = "";
                 if (isset($chatID) && $chatID == $row['ID']) {
                     $active = "bg-light";
@@ -206,15 +207,22 @@ class chat extends user
         }
     }
 
-    function get_chats($userID)
+    function get_chats($userID, $time)
     {
-        if (isset($_SESSION['adminSession'])) {
-            $chats = $this->getall("chat c LEFT JOIN ( SELECT m.chatID, message, MAX(m.date) AS min_date FROM message m GROUP BY m.chatID ) m ON c.ID = m.chatID", "c.user1 = ? or c.is_group = ? ORDER BY m.min_date DESC", ["admin", "no"], select: "c.*", fetch: "moredetails");
-            return $chats;
+        if (isset($_SESSION['adminSession']) &&  side == "admin") {
+            // $chats = $this->getall("chat c RIGHT JOIN ( SELECT m.chatID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY m.chatID ) m ON c.ID = m.chatID ", "c.user1 = ? or c.user2 = ? or c.is_group = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", ["admin","admin", "no", $time], select: "c.*, m.time_sent", fetch: "moredetails");
+        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID or c.user2 = m.receiverID and c.user2 != m.senderID", "c.user1 = ? or c.user2 = ? or c.is_group = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", ["admin", "admin", "no", $time], "c.*", fetch: "moredetails");
+            
+            return $chats;  
         }
-        $chats = $this->getall("chat c LEFT JOIN ( SELECT m.chatID, message, MAX(m.date) AS min_date FROM message m GROUP BY m.chatID ) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? ORDER BY m.min_date DESC", [$userID, $userID], "c.*", fetch: "moredetails");
+        // $chats = $this->getall("chat c RIGHT JOIN ( SELECT m.chatID, message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message  m  WHERE time_sent >= $time GROUP BY m.chatID ) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", [$userID, $userID, $time], "c.*,  m.time_sent", fetch: "moredetails");
+        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", [$userID, $userID, $time], "c.*", fetch: "moredetails");
+    //    var_dump($chats);
         // $chats = $this->getall("chat", "ID = ? ORDER BY date DESC LIMIT $start, $limit", [], fetch: 'moredetails');
         return $chats;
+    }
+    function get_admin_group($time) {
+        $chats = $this->getall("chat c RIGHT JOIN ( SELECT m.chatID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m WHERE time_sent >= $time and time_sent is not null GROUP BY m.chatID ) m ON c.ID = m.chatID", "c.user1 = ? or c.is_group = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", ["admin", "no", $time], select: "c.*, m.time_sent", fetch: "moredetails");
     }
 
     // $2y$10$04dmPY/uRtiOJ2UIChW4/eGQA4cVYeQX5RPGnJqfQe/Xz.1E6ob7a
@@ -226,6 +234,7 @@ class chat extends user
             $this->rand_update_last_seen();    
             return $this->get_group_last_seen();
            }
+           return "";
         }
         return $this->proccess_last_seen($last_seen['last_seen']);
     }
@@ -537,6 +546,9 @@ function reply_message(array $message) {
         if ($row['is_group'] == "yes") {
             $what = "groups";
         }
+        if($row['is_group'] != "yes" && isset($_SESSION['adminSession'])) {
+            return $this->admin_user_list($row, $userID, $active);
+        }
         $no = $this->get_unseen_message($userID, $row['ID']);
         $nameclass = "";
         $badge = "";
@@ -552,6 +564,13 @@ function reply_message(array $message) {
         if ($no != "") {
             $badge = '<div class="text-danger  text-align-right bg-light-danger badge p-1 mt-2 fs-2 bg-light-danger"><b>' . $no . '</b></div>';
         }
+        $displayname = $this->short_text($this->get_name($id, $what), 23);
+        if(in_array($displayname,  $this->chat_holder)){
+            return "";
+        }
+        $this->chat_holder[] = $displayname;
+        
+
         echo '<li>
             <a href="index?p=chat&id=' . $row['ID'] . '"
                 class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user ' . $active . ' w-100"
@@ -562,7 +581,62 @@ function reply_message(array $message) {
                         
                     </span>
                     <div class="ms-3 d-inline-block w-100">
-                        <h6 class="mb-1 chat-title ' . $nameclass . '" data-username="James Anderson">' . $this->short_text($this->get_name($id, $what), 23) . '</h6>
+                        <h6 class="mb-1 chat-title ' . $nameclass . '" data-username="'.$displayname.'">' . $displayname . '</h6>
+                        <span class="fs-3 text-truncate ' . $nameclass . ' text-body-color d-block">' . $this->short_text($this->last_message($row['ID'], $userID, $row['is_group']), 20) . '</span>
+                    </div>
+                    </div>
+                    ' . $badge . '
+            </a>
+        </li>';
+    }
+
+    function admin_user_list($row, $userID, $active = "") {
+        $id = $row['user1'];
+        $user2 = $row['user2'];
+        $what = "users";
+        if ($row['user1'] == $userID) {
+            $id = $row['user2'];
+            $user2 = $row['user1'];
+        }
+
+        if ($row['is_group'] == "yes") {
+            $what = "groups";
+        }
+        $no = $this->get_unseen_message($userID, $row['ID']);
+        $nameclass = "";
+        $badge = "";
+        if ($no > 0) {
+            $nameclass = "fw-semibold";
+        }
+        if ($no == 0) {
+            $no = "";
+        }
+        if ($no > 99) {
+            $no = "99+";
+        }
+        if ($no != "") {
+            $badge = '<div class="text-danger  text-align-right bg-light-danger badge p-1 mt-2 fs-2 bg-light-danger"><b>' . $no . '</b></div>';
+        }
+        $displayname = $this->short_text($this->get_name($id, $what), 10) . ' & '.$this->short_text($this->get_name($user2, $what), 10);
+        if(in_array($displayname,  $this->chat_holder)){
+            return "";
+        }
+        $this->chat_holder[] = $displayname;
+        echo '<li>
+            <a title="Coversation between '.$this->get_name($id, $what).' and '.$this->get_name($user2, $what).'" href="index?p=chat&id=' . $row['ID'] . '"
+                class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user ' . $active . ' w-100"
+                id="chat_user_' . $row['ID'] . '" data-user-id="' . $row['ID'] . '">
+                <div class="d-flex align-items-center">
+                    <span class="position-relative">
+                        <img src="' . $this->get_profile_icon_link($user2, $what) . '" alt="user1" width="40" height="40" class="rounded-circle" />
+                        
+                    </span>
+                    <span class="position-relative" style="margin-left: -10px">
+                        <img src="' . $this->get_profile_icon_link($id, $what) . '" alt="user1" width="40" height="40" class="rounded-circle border border-3 border-white" />
+                        
+                    </span>
+                    <div class="ms-3 d-inline-block w-100">
+                        <h6 class="mb-1 chat-title ' . $nameclass . '" data-username="'.$displayname.'">' . $displayname.'</h6>
                         <span class="fs-3 text-truncate ' . $nameclass . ' text-body-color d-block">' . $this->short_text($this->last_message($row['ID'], $userID, $row['is_group']), 20) . '</span>
                     </div>
                     </div>

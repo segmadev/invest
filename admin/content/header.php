@@ -87,7 +87,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="index?p=users&action=new" aria-expanded="false">
+                            <a class="sidebar-link" href="index?p=chat&action=new" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-message-plus"></i>
                                 </span>

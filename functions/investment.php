@@ -565,6 +565,9 @@ class investment extends user
             if (!is_array($info)) {
                 continue;
             }
+            if($info['percentage'] > $this->get_investment_max_profit($row['investmentID']))  {
+                continue;
+            }
             $info['coinname'] = $coin;
             $info['status'] = "closed";
             if (!isset($totals[$row['investmentID']][$row['trade_date']])) {
@@ -580,9 +583,9 @@ class investment extends user
             // var_dump($info);
             $update = $this->update("trades",  $info, "ID = '$id'",);
             if ($update) {
-                $date = $this->date_format(date("Y-m-d H:i:s", $row['trade_time']  / 1000));
-                $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "New trade taken", "description" => "A new trade was taken on your investment with an intrest of ".$info['percentage'], "action_for"=>"trades", "action_for_ID"=>$id];
-                $this->new_activity($actInfo);
+                $date = $this->date_format(date("Y-m-d H:i:s", (int)($row['trade_time']  / 1000)));
+                // $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "New trade taken", "description" => "A new trade was taken on your investment with an intrest of ".$info['percentage'], "action_for"=>"trades", "action_for_ID"=>$id];
+                // $this->new_activity($actInfo);
                 $update = $this->credit_debit($row['userID'], $info['intrest_amount'], "trading_balance");
                 echo "Success: for ".$row['ID']." <br>";
             }

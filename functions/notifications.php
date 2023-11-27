@@ -32,7 +32,6 @@
             $notification =  $this->getall("notifications as n LEFT JOIN sent_notifications as sn ON n.ID = sn.notificationID and n.userID = sn.userID", "n.userID = ? and n.n_for = ? and n.date_set = ? and n.status = ? $exclude and sn.notificationID IS NULL and sn.userID IS NULL order by n.date DESC", [$userID, $type, $date, 'active'], "n.*");
             if(is_array($notification) && $update != false) {
                 if($userID == "all"){
-                    
                     $this->exclude_user($notification['ID'], $update);
                 }else{
                     $this->sent_notification($notification['ID'], $update);
@@ -80,7 +79,7 @@
                 return json_encode($return);
         }
 
-        function pop_message($message) {
+        function pop_message($message, $userID = null) {
             if(!is_array($message)) { return false; }
             $title = $message['title'];
             $body = $message['description'];
@@ -88,6 +87,9 @@
             $url =  $message['url'];
             $tag = "new_message".uniqid();
             $return = ["function"=>["display_notification", "data"=>["title=$title&body=$body&icon=$icon&url=$url&tag=$tag", "null"]]];
+            if($userID !=  null) {
+                $this->send_email($userID, $title, $body);
+            }
             return json_encode($return);
         }
         function show_notification_list(array $data) {

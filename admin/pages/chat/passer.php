@@ -34,7 +34,7 @@
         $update_last_seen = $ch->update_last_seen($userID, time()); 
     }
     if(isset($_POST['get_user_chat_list'])) {
-         $chats = $ch->get_chats($userID); 
+         $chats = $ch->get_chats($userID, htmlspecialchars($_POST['time'] ?? 0)); 
         echo $ch->list_chat_users($chats, $userID);
     }
     if(isset($_POST['get_last_seen'])) {

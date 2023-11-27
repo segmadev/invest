@@ -1,6 +1,6 @@
 <?php
 $script[] = 'dashboard3';
-$allrecent_trades = $d->getall("trades", "status = ? ORDER BY trade_time DESC LIMIT 100", ["closed"], fetch: "moredetails");
+$allrecent_trades = $d->getall("trades", "status = ? ORDER BY trade_time DESC LIMIT 5", ["closed"], fetch: "moredetails");
 ?>
 <style>
     /* div.owl-item {

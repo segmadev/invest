@@ -16,11 +16,6 @@
 </div>
 
 <div class="app-chat">
-    <ul class="chat-users" id="chat-users" data-simplebar>
-        <?php
-        $ch->list_chat_users($chats, $userID);
-
-        ?>
-    </ul>
+    <ul class="chat-users" id="chat-users" data-simplebar>loading...</ul>
 </div>
 

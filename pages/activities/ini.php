@@ -10,7 +10,7 @@ $activities = [
     "action_for" => [],
     "action_for_ID" => [],
 ];
-$activities = $d->getall("activities", "userID = ? order by date DESC", [$userID], fetch: "moredetails");
+$activities = $d->getall("activities", "userID = ? order by date DESC LIMIT 50", [$userID], fetch: "moredetails");
 $act_title = 'Activity';
 $act_des = 'Notifications and activity on your account';
 // $d->create_table("activities", $activities);
