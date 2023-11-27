@@ -10,19 +10,19 @@ $redirect= "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
     if(!isset($_SESSION['adminSession']) ){
         $_SESSION['urlgoto'] = $redirect;
-        header('location: login'); 
+        echo '<script>window.location.href = "login";</script>'; 
     }
     
     if(isset($_GET['logout'])) {
         session_destroy();
         unset($_SESSION['adminSession']);
-        header("location: login");
+        echo '<script>window.location.href = "login";</script>';
     }
     
     if(isset($_SESSION['adminSession'])){
         $adminID = $_SESSION['adminSession'];
     }else{
         session_destroy();
-        header("location: login");
+        echo '<script>window.location.href = "login";</script>';
     }
 ?>
