@@ -17,7 +17,8 @@
     }
     
     if(isset($_SESSION['userSession'])){
-        $userID = $_SESSION['userSession'];
+        echo $userID = $_SESSION['userSession'];
+        exit();
     }else{
         session_destroy();
         $_SESSION['urlgoto'] = $redirect;
