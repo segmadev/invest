@@ -21,8 +21,7 @@
     }else{
         session_destroy();
         $_SESSION['urlgoto'] = $redirect;
-        var_dump($userID);
-        header("location: login?urlgoto=/$redirect");
+        echo '<script>window.location.href = "'.$redirect.'";</script>';
         exit();
     }
 
