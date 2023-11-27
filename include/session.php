@@ -21,7 +21,7 @@
     }else{
         session_destroy();
         $_SESSION['urlgoto'] = $redirect;
-        echo '<script>window.location.href = "'.$redirect.'";</script>';
+        echo '<script>window.location.href = "login.php";</script>';
         exit();
     }
 
