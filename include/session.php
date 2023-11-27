@@ -1,6 +1,4 @@
 <?php 
-echo "WELCOME";
-exit();
 // error_reporting(0);
 // ini_set('display_errors', 0);
 // if($_SERVER[‘HTTPS’] != "on") {
@@ -25,4 +23,7 @@ exit();
         $_SESSION['urlgoto'] = $redirect;
         header("location: login?urlgoto=/$redirect");
     }
+
+    var_dump($userID);
+    exit();
 ?>
