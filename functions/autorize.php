@@ -27,6 +27,10 @@ class autorize extends database
 
             // $d->updateadmintoken($value['ID'], "users");
             $_SESSION['userSession'] = htmlspecialchars($info['ID']);
+            if(!$this->set_cookies("userSession", htmlspecialchars($info['ID']), time() + 60 * 60 * 24 * 30)){
+                echo $this->message("You account was created successfuly. But we are having issues logging you in. <a href='login'>Click here</a> to login.", "error");
+                return ;
+            }
             $actInfo = ["userID" => $info['ID'],  "date_time" => date("Y-m-d H:i:s"), "action_name" => "Registration", "description" => "Account Registration."];
             $this->new_activity($actInfo);
             $return = [
@@ -37,6 +41,13 @@ class autorize extends database
         }
     }
 
+
+    function set_cookies($name, $value, $time = null) {
+        if($time == null) { $time = time() + 60 * 2;} // current time + 1 hour
+        $secureOnly = true; // Set the cookie to be transmitted only over HTTPS
+        if(setcookie($name, $value, $time, "/", "", $secureOnly, true)){ return true; }else{ return false; };
+    
+    }
     public function signin()
     {
         $d = new database;
@@ -64,6 +75,10 @@ class autorize extends database
                         session_unset();
                         // $d->updateadmintoken($value['ID'], "users");
                         $_SESSION['userSession'] = htmlspecialchars($value['ID']);
+                        if(!$this->set_cookies("userSession", htmlspecialchars($value['ID']), time() + 60 * 60 * 24 * 30)){
+                            echo $this->message("Sorry we are having issues logging you in. Please try again", "error");
+                            return ;
+                        }
                         $actInfo = ["userID" => $value['ID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "Login", "description" => "Account login access."];
                         $this->new_activity($actInfo);
                         // $d->message("Account logged in Sucessfully <a href='index.php'>Click here to proceed.</a>", "error");

@@ -5,7 +5,7 @@ $chat_form = [
     "user2"=>["unique"=>"user1"], 
     "is_group"=>[],
 ];
-if(isset($_SESSION['adminSession']) && !isset($_SESSION['userSession'])){
+if(isset($_SESSION['adminSession']) && !isset($_COOKIE['userSession'])){
     $userID =  "admin";
 }
 $u->create_default_group_chat($chat_form, $userID);

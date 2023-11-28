@@ -12,14 +12,14 @@
     
     if(isset($_GET['logout'])) {
         session_destroy();
-        unset($_SESSION['userSession']);
+        unset($_COOKIE['userSession']);
         header("location: login.php");
     }
     
-    if(isset($_SESSION['userSession'])){
-        $userID = $_SESSION['userSession'];
+    if(isset($_COOKIE['userSession'])){
+        $userID = $_COOKIE['userSession'];
     }else{
-        session_destroy();
+        // session_destroy();
         $_SESSION['urlgoto'] = $redirect;
         echo '<script>window.location.href = "login.php?urlgoto='.$redirect.'";</script>';
         exit();

@@ -114,7 +114,7 @@ private $chat_holder = [];
 
     function get_chat($chatID, $userID)
     {
-        if (isset($_SESSION['adminSession']) && !isset($_SESSION['userSession'])) {
+        if (isset($_SESSION['adminSession']) && !isset($_COOKIE['userSession'])) {
             return $this->getall("chat", "ID = ?", [$chatID]);
         } else {
             $chat =  $this->getall("chat", "ID = ?", [$chatID]);
@@ -546,7 +546,7 @@ function reply_message(array $message) {
         if ($row['is_group'] == "yes") {
             $what = "groups";
         }
-        if($row['is_group'] != "yes" && isset($_SESSION['adminSession'])) {
+        if($row['is_group'] != "yes" && isset($_SESSION['adminSession']) && side == "admin") {
             return $this->admin_user_list($row, $userID, $active);
         }
         $no = $this->get_unseen_message($userID, $row['ID']);
