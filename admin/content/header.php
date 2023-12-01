@@ -79,7 +79,7 @@
                             <span class="hide-menu">Generate</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="index?p=users&action=new" aria-expanded="false">
+                            <a class="sidebar-link" href="index?p=users&action=generate" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user-bolt"></i>
                                 </span>

@@ -2,7 +2,6 @@
     class plans extends database {
         private  $plan;
         function new_plan($plans) {
-            $_POST['ID'] = uniqid();
             if($this->validate_plan($plans)) {
                 if(isset($this->plan['input_data'])) { unset($this->plan['input_data']); }
                 $this->quick_insert("plans", $this->plan, message: "Plan created successfully.");
