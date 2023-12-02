@@ -65,7 +65,7 @@ class autorize extends database
                         $d->message("We're sorry, your account has been blocked. <br> <b>Reason: </b> " . $reason, "error");
                     } else {
                         // session_start();
-                        $_SESSION['userSession'] = htmlspecialchars($value['ID']);
+                        // $_SESSION['userSession'] = htmlspecialchars($value['ID']);
                         if (isset($_POST['urlgoto'])  && !empty($_POST['urlgoto'])) {
                             $urlgoto = str_replace("/localhost", "", $_POST['urlgoto']);
                         }
@@ -74,11 +74,11 @@ class autorize extends database
                         session_start();
                         session_unset();
                         // $d->updateadmintoken($value['ID'], "users");
-                        $_SESSION['userSession'] = htmlspecialchars($value['ID']);
                         if(!$this->set_cookies("userSession", htmlspecialchars($value['ID']), time() + 60 * 60 * 24 * 30)){
                             echo $this->message("Sorry we are having issues logging you in. Please try again", "error");
                             return ;
                         }
+                        $_SESSION['userSession'] = htmlspecialchars($value['ID']);
                         $actInfo = ["userID" => $value['ID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "Login", "description" => "Account login access."];
                         $this->new_activity($actInfo);
                         // $d->message("Account logged in Sucessfully <a href='index.php'>Click here to proceed.</a>", "error");

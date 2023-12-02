@@ -2,6 +2,18 @@
 class users extends user
 {
 
+    function change_all_bot_email() {
+        $ext = ["gmail", "yahoo", "outlook"];
+        $bots = $this->getall("users", "acct_type = ? and email LIKE '%example%'", ['bot'], "ID, email", "moredetails");
+        // $bots = $this->getall("users", "acct_type = ?", ['bot'], "ID, email", "moredetails");
+        if($bots->rowCount() <= 0) { return true; }
+        foreach($bots as $bot) {
+            $ID = $bot['ID'];
+            unset($bot['ID']);
+            $bot['email'] = str_replace(["example"], $ext[array_rand($ext)], $bot['email']);
+            $this->update("users", ["email"=>$bot['email']], "ID = '$ID'");
+        }
+    }
     function block_user($user_id, $what = "status") {
         if(!$this->validate_admin()) { return false; }
         $update = $this->update("users", ["$what"=>"blocked"], "ID = '$user_id'");
@@ -107,7 +119,7 @@ class users extends user
                 "ID"=>uniqid(),
                 "first_name"=>$user->name->first,
                 "last_name"=>$user->name->last,
-                "email"=>str_replace("example", "gmail", $user->email),
+                "email"=>str_replace("example", array_rand(["gmail", "yahoo", "outlook"]), $user->email),
                 "phone_number"=>$user->phone,
                 "gender"=>$user->gender,
                 "profile_image"=>$user->picture->medium,

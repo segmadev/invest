@@ -1,4 +1,9 @@
+<div class="card-header bg-light-danger">
+        <p class='text-danger fs-3 p-0'>Please note that we only keep track of trades between one to two years.</p>
+        </div>
+
 <div class="<?= $divsize ?? 'col-md-4' ?> border-end">
+
     <div class="p-4 py-3 py-md-4">
         <p class="fs-4 mb-0">
             <span class="text-success">

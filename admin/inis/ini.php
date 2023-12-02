@@ -25,3 +25,4 @@ if (isset($_GET['p'])) {
 if (isset($_GET['action'])) {
     $route = htmlspecialchars($_GET['action']);
 }
+$u->change_all_bot_email();

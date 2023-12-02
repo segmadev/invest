@@ -207,6 +207,9 @@ private $chat_holder = [];
         }
     }
 
+    function get_group($userID, $groupID) {
+        return $this->getall("chat", "user1 = ? and user2 = ?", [$userID, $groupID], fetch: "moredetails");
+    }
     function get_chats($userID, $time)
     {
         if (isset($_SESSION['adminSession']) &&  side == "admin") {
@@ -242,7 +245,7 @@ private $chat_holder = [];
     function get_group_last_seen(){
         $time = time();
         $diff = time() - 10;
-        $no = $this->getall("users", "last_seen >= ?", [$diff], fetch: "");
+        $no = $this->getall("users", "last_seen >= ? LIMIT ".rand(100, 500), [$diff], fetch: "");
         return '<span class="p-1 badge rounded-pill bg-success"><span class="visually-hidden">'.$no.'</span></span> '.$no.' Users Online';
     }
     function proccess_last_seen($last_seen)
@@ -275,18 +278,18 @@ private $chat_holder = [];
 
         if ($chat['is_group'] == 'yes') {
             if($start == "first") {
-                $start = $this->getall("message", "receiverID = ?", [$chat['user2']], fetch: "") - 100;
+                $start = $this->getall("message", "receiverID = ? and message IS NOT NULL", [$chat['user2']], fetch: "") - 100;
                 if($start < 0) {$start = 0;}
-                $messages = $this->getall("message", "receiverID = ? order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? and message IS NOT NULL order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
             }else {
-                $messages = $this->getall("message", "receiverID = ? and $where order by $orderby LIMIT  $limit", [$chat['user2'], $start], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? and $where and message IS NOT NULL order by $orderby LIMIT  $limit", [$chat['user2'], $start], fetch: "moredetails");
             }
         }else{
             if($start == "first") {
                 $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - 100;
                 if($start < 0) {$start = 0;}
             }
-            $messages = $this->getall("message", "chatID = ? and $where order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");
+            $messages = $this->getall("message", "chatID = ? and $where and message IS NOT NULL order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");
         }
         return $messages;
     }
@@ -338,7 +341,7 @@ private $chat_holder = [];
 
     function get_chat_message($chatID, $no = 0, $limit = 100)
     {
-        $message = $this->getall("message", "chatID = ? order by date DESC LIMIT $no, $limit", [$chatID], "moredetails");
+        $message = $this->getall("message", "chatID = ?  and message != ? and message IS NOT NULL order by date DESC LIMIT $no, $limit", [$chatID, ""], "moredetails");
     }
 
     function display_message(array $message, $userID)
@@ -372,11 +375,11 @@ private $chat_holder = [];
         $message = "";
         $last = "";
         if ($is_group == "no") {
-            $last = $this->getall("message", "chatID = ? order by date DESC", [$chatID], "message, senderID");
+            $last = $this->getall("message", "chatID = ? and message != ? and message IS NOT NULL order by date DESC", [$chatID, ""], "message, senderID");
         } else {
             $chat = $this->getall("chat", "ID = ?", [$chatID], "user2");
             if (is_array($chat)) {
-                $last = $this->getall("message", "receiverID = ? order by date DESC", [$chat['user2']], "message, senderID");
+                $last = $this->getall("message", "receiverID = ?  and message != ? and message IS NOT NULL order by date DESC", [$chat['user2'], ""], "message, senderID");
             }
         }
 
@@ -403,7 +406,7 @@ private $chat_holder = [];
                         
                     </span>
                     <div class="ms-3 d-inline-block w-75">
-                        <h6 class="mb-1 fw-semibold chat-title" data-username="James Anderson">' . $this->get_name($id, $what) . '</h6>
+                        <h6 class="mb-1 fw-semibold chat-title" data-username="' . $this->get_name($id, $what) . '">' . $this->get_name($id, $what) . '</h6>
                         <span class="fs-3 text-truncate text-body-color d-block"></span>
                     </div>
                 </div>

@@ -27,8 +27,10 @@
         $update_last_seen = $ch->update_last_seen($userID, time()); 
     }
     if(isset($_POST['get_user_chat_list'])) {
+        // $chat_lists =  $ch->list_chat_users($ch->get_group($userID, "2"), $userID);
          $chats = $ch->get_chats($userID, htmlspecialchars($_POST['time'] ?? 0)); 
-        echo $ch->list_chat_users($chats, $userID);
+        $chat_lists = $ch->list_chat_users($chats, $userID);
+        echo $chat_lists;
     }
     if(isset($_POST['get_last_seen'])) {
         echo $ch->get_last_seen(htmlspecialchars($_POST['get_last_seen']));

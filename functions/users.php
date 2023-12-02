@@ -397,7 +397,13 @@ class user extends Notifications {
             $_POST['user2'] = $row['ID'];
            $_POST['is_group'] = "yes";
            $this->create_chat($chat_from);
+           
         }    
+    }
+
+    function insert_default_message($userID, $groupID) {
+        if($this->getall("message", "senderID = ? and receiverID = ?", [$userID, $groupID], fetch: "") > 0) { return true; }
+        $this->quick_insert("message", ["senderID"=>$userID, "receiverID"=>$groupID, "is_group"=>"yes", "time_sent"=>0]);
     }
     function create_chat($chat_from) {
         $info = $this->validate_form($chat_from, "chat", "insert");

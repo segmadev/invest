@@ -37,8 +37,8 @@
                                                     } ?>" class="form-control" id="">
             <button type="submit" class="ms-2 btn btn-primary">Fliter</button>
             <a href="index?p=investment&action=trades" type="submit" class="ms-2 btn btn-outline-warning">Reset</a>
-
         </div>
+        
     </form>
 <?php   }  ?>
 </div>
@@ -55,6 +55,5 @@
         </div>
     </div>
 </div>
-
 <?php
 require_once "pages/investment/trade_table.php"; ?>
