@@ -403,7 +403,9 @@ class user extends Notifications {
 
     function insert_default_message($userID, $groupID) {
         if($this->getall("message", "senderID = ? and receiverID = ?", [$userID, $groupID], fetch: "") > 0) { return true; }
-        $this->quick_insert("message", ["senderID"=>$userID, "receiverID"=>$groupID, "is_group"=>"yes", "time_sent"=>0]);
+        $chat = $this->getall("chat", "user1 = ? and user2 = ?",[$userID, $groupID], "ID");
+        if(!is_array($chat)) { return false; }
+        $this->quick_insert("message", ["chatID"=>$chat['ID'],"senderID"=>$userID, "receiverID"=>$groupID, "is_group"=>"yes", "time_sent"=>0]);
     }
     function create_chat($chat_from) {
         $info = $this->validate_form($chat_from, "chat", "insert");
