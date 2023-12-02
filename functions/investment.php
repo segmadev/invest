@@ -547,7 +547,7 @@ class investment extends user
             // echo "<br>";
             $coin = trim($coins[array_rand($coins)])."USDT";
             // $data https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue
-            $data = $this->api_call("https://api.binance.com/api/v3/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp");
+            $data = $this->api_call("https://api.binance.us/api/v3/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp");
             // $data = $this->api_call("https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue");
             if (!is_array($data) || count($data) < $limitvalue) {
                 if($data->msg) {
