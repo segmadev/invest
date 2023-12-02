@@ -550,7 +550,10 @@ class investment extends user
             $data = $this->api_call("https://api.binance.com/api/v3/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp");
             // $data = $this->api_call("https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue");
             if (!is_array($data) || count($data) < $limitvalue) {
-                var_dump($data);
+                if($data->msg) {
+                    echo $data->msg;
+                }
+                // var_dump($data);
                 // echo "https://api.binance.com/api/v2/klines?symbol=$coin&interval=$interval&limit=$limitvalue&startTime=$startTimestamp";
                 echo $i++." ID: ".$row['ID']." error Date: ".$row['trade_date'];
                 // echo "https://api-testnet.bybit.com/v5/market/kline?category=inverse&symbol=$coin&interval=$interval&start=$startTimestamp&limit=$limitvalue";

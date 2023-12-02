@@ -353,7 +353,7 @@ class user extends Notifications {
                 </span>
                 <div class='ms-6 d-inline-block w-75'>
                     <h6 class='mb-1 fw-semibold chat-title' data-username='" . $this->get_full_name($user) . "'>" . $this->get_full_name($user) . " </h6>
-                    <span class='fs-2 text-body-color d-block'>" . $user['email'] . "</span>
+                    <!-- <span class='fs-2 text-body-color d-block'>" . $user['email'] . "</span> -->
                 </div>
             </a>
         </li>";
