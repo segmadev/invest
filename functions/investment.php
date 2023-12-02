@@ -525,8 +525,8 @@ class investment extends user
             return true;
         }
         $totals = [];
-        $limitvalue = rand(10, 20);
-        $inters = ["1m", "5m", "15m", "30m", "45m", "1h"];
+        $limitvalue = rand(10, 30);
+        $inters = ["1m", "5m", "15m", "30m", "1h"];
         $interval = $inters[array_rand($inters)];
         if($interval == "45m" || $interval == "1h" || $interval == "30m") {
             $limitvalue = rand(2, 4);
