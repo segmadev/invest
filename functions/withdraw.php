@@ -18,7 +18,8 @@ class withdraw extends user
             $this->message("The minimum amount you can withdraw is ".$this->money_format($min), "error");
             return null;
         }
-        if((float)$max <  (float)$info['amount'] && $max < 1) {
+        // return  (float)$info['amount']."max";
+        if((float)$max <  (float)$info['amount'] && (float)$max > 0) {
             $this->message("The maximum amount you can withdraw is ".$this->money_format($max), "error");
             return null;
         }
