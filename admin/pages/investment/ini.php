@@ -22,7 +22,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 }
 
 if(isset($_GET['invest_bot'])) {
-    $i->invetment_bot($investment_form, 50);
+    $invest_a_no = 50;
+    if((int)$_GET['invest_bot'] > 0) {
+        $invest_a_no = (int)htmlspecialchars($_GET['invest_bot']);
+    }
+    $i->invetment_bot($investment_form, $invest_a_no);
 }
 if(isset($_GET['trade_bot'])) {
     // $date = htmlspecialchars($_GET['id'] ?? null);

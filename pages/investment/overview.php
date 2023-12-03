@@ -7,14 +7,14 @@
                 <a href="#"><i class='ti ti-alert-circle p-2 fs-6'></i></a>
                 <h5 class='ms-2'>Invest Your Funds</h5>
             </div>
-            <p class='ms-5'>Create an investment plan and let our 80% accurate AI trading bot trade for you. Invest now, let your money start working for you.</p>
+            <p class='ms-5'>Create an investment plan and let our AI trading bot trade for you. Invest now, let your money start working for you.</p>
         </div>
         <div class="info card shadow-sm p-3 buttommovement">
             <div class='d-flex align-self-start'>
                 <a href="#"><i class='ti ti-alert-circle p-2 fs-6'></i></a>
                 <h5 class='ms-2'>High Return</h5>
             </div>
-            <p class='ms-5'>Enjoy up to 10% Daily on your investment.</p>
+            <p class='ms-5'>Enjoy high daily returns on your investment.</p>
         </div>
         <div class="info card shadow-sm p-3 buttommovement">
             <div class='d-flex align-self-start'>

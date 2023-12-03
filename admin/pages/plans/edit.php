@@ -13,7 +13,8 @@
             <input type="hidden" name="page" value="plans" id="">
         </div>
         <div id="custommessage"></div>
-        <input type="submit" value="Submit" class="btn btn-primary col-3">
+        <input type="submit" value="Save Changes" class="btn btn-primary col-3">
+        <small class='text-danger'>Please save your Changes at least two times.</small>
     </form>
     </div>
 </div>
