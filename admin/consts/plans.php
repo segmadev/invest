@@ -4,7 +4,7 @@ $invertal = ["daily"=>"Daily", "weekly"=>"Weekly", "monthly"=>"Monthly"];
 $plans_form = [
     "ID"=>["input_type"=>"hidden"],
     "min_amount"=>["input_type"=>"number"],
-    "max_amount"=>["input_type"=>"number", "description"=>"Set value to 0 for any amount."],
+    "max_amount"=>["input_type"=>"number", "is_required"=>false, "description"=>"Set value to 0 for any amount."],
     "return_range_from"=>["input_type"=>"number", "placeholder"=>"3%", "description"=>"What do you want the return on investment range from"],
     "return_range_to"=>["input_type"=>"number", "placeholder"=>"10%"],
     "retrun_interval"=>["placeholder"=>"Select return interval","options"=>$invertal, "type"=>"select", "description"=>"How offen should the retrun on investment be."],
