@@ -18,7 +18,7 @@
             <div class="modal-footer">
                 <div class="text-center">
                     Want to make enquires?
-                    <a href="mailto:<?= $d->get_settings("support_email") ?>"><?= $d->get_settings("support_email") ?></a> or use the live chat at the buttom left.
+                    <a href="mailto:<?= $d->get_settings("support_email") ?>"><?= $d->get_settings("support_email") ?></a> or use the live chat at the buttom right.
                 </div>
             </div>
         </div>
