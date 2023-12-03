@@ -12,6 +12,7 @@ $(function () {
         nav: false,
         dots: false,
         rtl: false,
+        
   
         // items:10,   
         //   itemsDesktop : [1199,10],
@@ -61,5 +62,29 @@ $(function () {
         },
       },
     });
+
+
+    $(".counter-carousel-withdraw").owlCarousel({
+      loop: true,
+      margin: 30,
+      mouseDrag: true,
+      autoplay: true,
+      autoplayTimeout: 4000,
+      autoplaySpeed: 2000,
+      nav: false,
+      rtl: true,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        576: {
+          items: 1,
+        },
+        768: {
+          items: 4,
+        },
+      },
+    });
+
 
 });

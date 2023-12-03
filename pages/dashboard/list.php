@@ -10,6 +10,7 @@ if (isset($_SESSION['newuser'])) {
     <div class="row">
         <?php  require_once "content/slide-notify.php"; ?>
         <?php require_once "pages/promo/overview.php"; ?>
+       
         <div class="col-lg-8 d-flex align-items-stretch">
             <div class="card w-100 bg-light-info overflow-hidden shadow-none">
                 <div class="card-body position-relative">
@@ -52,7 +53,7 @@ if (isset($_SESSION['newuser'])) {
                 </div>
             </div>
         </div>
-
+        
         <div class="col-lg-4 d-flex align-items-strech card bg-light-success">
             <div class="card-body">
                 <div class="text-dark card p-3 d-flex m-0"><b>Invested: <?= $d->money_format($user_data['amount_invest'], currency) ?></b></div>
@@ -74,12 +75,16 @@ if (isset($_SESSION['newuser'])) {
 
             </div>
         </div>
-
+        <?php  
+        if($d->get_settings("robot_withdraw_live_notification") == "yes") {
+            require_once "content/widthdraw-slide.php"; 
+        }
+        ?>
         <div class="row">
             <div class="col-md-8 col-12">
                 <div class="card p-3">
                     <div class="card-header">
-                        <h5>Recent Trades</h5>
+                        <h5>Your Recent Trades</h5>
                         <p>Chart of recent trades taken for you.</p>
                     </div>
                     <div id="invest-chat"></div>

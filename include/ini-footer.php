@@ -20,7 +20,7 @@
 <!-- Dashboard3 -->
 <?php if (in_array("dashboard3", $script)) { ?>
     <script src="dist/libs/owl.carousel/dist/owl.carousel.min.js"></script>
-    <script src="dist/js/dashboard3.js?n=01"></script>
+    <script src="dist/js/dashboard3.js?n=45"></script>
 <?php } ?>
 <!-- qr code js -->
 <?php if (in_array("qrcode", $script)) { ?>
