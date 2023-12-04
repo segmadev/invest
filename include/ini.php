@@ -55,7 +55,7 @@ $upromo = $d->getall("promo", "assigned_users LIKE '%$userID%' and status = ? or
 // exit;
 
 $form_trans = [
-    "ID"=>[],
+    "ID"=>["input_type"=>"number"],
     "userID"=>[],
     "forID"=>["is_required"=>false],
     "trans_for"=>["is_required"=>false],
