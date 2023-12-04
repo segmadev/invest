@@ -7,7 +7,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
   $invest = $d->getall("investment", "ID = ? and userID = ?", [$id, $userID]);
   if (is_array($invest)) {
     $no = htmlspecialchars($_GET['no'] ?? 0);
-    $trades = $d->getall("trades", "investmentID = ? and status = ? order by trade_time DESC limit $no, 2", [$id, "closed"], fetch: "moredetails");
+    $trades = $d->getall("trades", "investmentID = ? and status = ? order by trade_time DESC limit $no, 20", [$id, "closed"], fetch: "moredetails");
   }
 }
 
