@@ -54,3 +54,5 @@ $script[] = "fetcher";
     //         // echo "<hr>";
     //     }
     // }
+
+    var_dump($i->get_times());
