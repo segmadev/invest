@@ -589,7 +589,7 @@ class investment extends user
                 $date = $this->date_format(date("Y-m-d H:i:s", (int)($row['trade_time']  / 1000)));
                 // $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "New trade taken", "description" => "A new trade was taken on your investment with an intrest of ".$info['percentage'], "action_for"=>"trades", "action_for_ID"=>$id];
                 // $this->new_activity($actInfo);
-                $update = $this->credit_debit($row['userID'], $info['intrest_amount'], "trading_balance", "trades", $id);
+                $update = $this->credit_debit($row['userID'], $info['intrest_amount'], "trading_balance", for: "trades", forID: $id);
                 echo "Success: for ".$row['ID']." <br>";
             }
             // echo "success: ".$row['investmentID']." <br>";
