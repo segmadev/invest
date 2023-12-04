@@ -744,7 +744,7 @@ class investment extends user
         $now = strtotime($date);
         //  $now = strtotime("-2 day");
         $random_time = [];
-        $endOfDay = strtotime($date . ' +1 day') - 1;
+        $endOfDay = strtotime($date . ' +2 day') - 1;
         if($now == strtotime('today')){
             $endOfDay = time();
         }
