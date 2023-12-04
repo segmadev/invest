@@ -50,9 +50,14 @@ function loadAjaxData(what, displayId, limit = 1, start = 0) {
         start = 0;
         return null;
     }
+    if(document.getElementById(displayId).innerHTML == response) {
+     return false;
+    } 
+
     document.getElementById(displayId).innerHTML += response;
     start = parseInt(start) + parseInt(limit);
     loadAjaxData(what, displayId, limit, start);
+    
   });
 
 }

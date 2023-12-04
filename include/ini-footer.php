@@ -52,7 +52,7 @@
 <?php } ?>
 <!-- fetch data -->
 <?php if (in_array("fetcher", $script)) { ?>
-    <script src="dist/js/fetcher.js?n=45"></script>
+    <script src="dist/js/fetcher.js?n=5453"></script>
 <?php } ?>
 <!-- sweetalert -->
 <?php if (in_array("sweetalert", $script)) { ?>
