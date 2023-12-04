@@ -97,7 +97,7 @@ class user extends Notifications {
         return json_encode($return);
     }
 
-    protected function credit_debit($userID, $amount, $what, $action = "credit")
+    protected function credit_debit($userID, $amount, $what, $action = "credit", $for = "", $forID = "")
     {
         unset($_COOKIE['user_data']);
         $user = $this->getall("users", "ID = ?", [$userID], "$what");
@@ -129,6 +129,8 @@ class user extends Notifications {
             $this->message("We have issue performing this task", "error");
             return null;
         }
+        $trans = ["userID"=>$userID, "forID"=>$forID, "trans_for"=>$for, "action_type"=>$action, "acct_type"=>$what, "amount"=>$amount,  "current_balance"=>$user[$what]];
+        $this->quick_insert("transactions", $trans);
         return true;
     }
 
@@ -182,11 +184,15 @@ class user extends Notifications {
             if((float)$info['amount'] > (float)$user[$from]) {
                 return $this->message("Insufficient ".str_replace("_", " ", $from).".", "error");
             }
-            $update[$from] = (float)$user[$from] - (float)$info['amount'];
-            $update[$to] = (float)$info['amount'] + (float)$user[$to];
+            // $update[$from] = (float)$user[$from] - (float)$info['amount'];
+            // $update[$to] = (float)$info['amount'] + (float)$user[$to];
             
             $id = $info['userID'];
-            $update = $this->update("users", $update, "ID = '$id'");
+            // $update = $this->update("users", $update, "ID = '$id'");
+
+            $update = $this->credit_debit($info['userID'], $info['amount'], $from, "debit", "Transfer");
+            if(!$update) { return false; }
+            $update = $this->credit_debit($info['userID'], $info['amount'], $to, "credit", "Transfer");
             if($update) {
                 if($from == "trading_balance") {
                     $this->last_from_trading_balance(date("Y-m-d"), $info['userID']);

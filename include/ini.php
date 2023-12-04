@@ -53,3 +53,15 @@ $upromo = $d->getall("promo", "assigned_users LIKE '%$userID%' and status = ? or
 // echo $userID;
 // var_dump($u->get_all_emails());
 // exit;
+
+$form_trans = [
+    "ID"=>[],
+    "userID"=>[],
+    "forID"=>["is_required"=>false],
+    "trans_for"=>["is_required"=>false],
+    "action_type"=>[],
+    "acct_type"=>[],
+    "amount"=>["input_type"=>"number"],
+    "current_balance"=>["input_type"=>"number"],
+];
+$d->create_table("transactions", $form_trans);
