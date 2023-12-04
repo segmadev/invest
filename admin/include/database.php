@@ -697,6 +697,8 @@ class database
     }
     function smtpmailer($to, $subject, $body, $name = "", $message = '', $smtpid = 1)
     {
+        // return $to;
+        require_once rootFile."include/phpmailer/PHPMailerAutoload.php";
         // require_once "";
         $d = new database;
         $smtp = $d->getall("smtp_config", "ID = ?", ["$smtpid"]);
@@ -739,11 +741,11 @@ class database
             }
         } catch (phpmailerException $e) {
 
-            // echo $e->errorMessage(); //Pretty error messages from PHPMailer
+            echo $e->errorMessage(); //Pretty error messages from PHPMailer
             // $d->message("Error Sending message. You can try new SMTP", "error");
             return false;
         } catch (Exception $e) {
-            // echo $e->getMessage(); //Boring error messages from anything else!
+            echo $e->getMessage(); //Boring error messages from anything else!
             // $d->message("Error Sending message. You can try new SMTP", "error");
             return false;
         }

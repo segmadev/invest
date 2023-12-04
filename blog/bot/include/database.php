@@ -662,7 +662,7 @@ class database
     
     function smtpmailer($to, $subject, $body, $name = "", $message = '', $smtpid = 1)
     {
-        // require_once "";
+        
         $d = new database;
         $smtp = $d->getall("smtp_config", "ID = ?", ["$smtpid"]);
         if (!is_array($smtp)) {
