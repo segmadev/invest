@@ -55,4 +55,4 @@ $script[] = "fetcher";
     //     }
     // }
 
-    var_dump($i->get_times());
+    // var_dump($i->get_times());
