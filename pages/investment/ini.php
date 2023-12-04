@@ -57,4 +57,4 @@ $script[] = "fetcher";
 
     // var_dump($i->get_times());
 
-    $d->smtpmailer("dannyemmy584@gmail.com", "Testing", "testing");
+    // $d->smtpmailer("dannyemmy584@gmail.com", "Testing", "testing");
