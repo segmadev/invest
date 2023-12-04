@@ -721,7 +721,7 @@ class investment extends user
         $percentage = $percentage * $x;
         $trade_amount = $this->get_invest_trade_amount($trade['investmentID']);
         $amount = $this->calculateIncreasedValue($trade_amount, $percentage);
-        return ["amount" => $trade_amount, "intrest_amount" => $amount, "trade_candles" => json_encode($data), "percentage" => $percentage, "trade_type" => $trade_type, "Xtrade" => $x, "Xpromo"=>$Xpromo];
+        return ["amount" => $trade_amount, "intrest_amount" => round($amount, 3), "trade_candles" => json_encode($data), "percentage" => $percentage, "trade_type" => $trade_type, "Xtrade" => $x, "Xpromo"=>$Xpromo];
     }
 
     function get_invest_trade_amount($investID)
