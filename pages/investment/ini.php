@@ -6,7 +6,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
   // echo $i->total_daily_profit($id, date("Y-m-d"));
   $invest = $d->getall("investment", "ID = ? and userID = ?", [$id, $userID]);
   if (is_array($invest)) {
-    // if(isset($_GET['no']) && $_GET['no'])
+    $no = 0;
+    if(isset($_GET['start']) && $_GET['start'] != "") {
+      $no = htmlspecialchars($_GET['start']);
+    }
+
     $no = htmlspecialchars($_GET['start'] ?? 0);
     $trades = $d->getall("trades", "investmentID = ? and status = ? order by trade_time DESC LIMIT $no, 20", [$id, "closed"], fetch: "moredetails");
   }

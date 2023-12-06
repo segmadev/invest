@@ -100,7 +100,7 @@ class user extends Notifications {
     protected function credit_debit($userID, $amount, $what, $action = "credit", $for = "", $forID = "")
     {
         unset($_COOKIE['user_data']);
-        $user = $this->getall("users", "ID = ?", [$userID], "$what");
+        $user = $this->getall("users", "ID = ?", [$userID], "$what, acct_type");
         if (!is_array($user)) {
             $this->message("Error getting user", "error");
             return;
@@ -124,13 +124,17 @@ class user extends Notifications {
                 # code...
                 break;
         }
+        $acct_type = $user['acct_type'];
+        unset($user['acct_type']);
         $update = $this->update("users", $user, "ID = '$userID'");
         if (!$update) {
             $this->message("We have issue performing this task", "error");
             return null;
         }
-        $trans = ["userID"=>$userID, "forID"=>$forID, "trans_for"=>$for, "action_type"=>$action, "acct_type"=>$what, "amount"=>$amount,  "current_balance"=>$user[$what]];
-        $this->quick_insert("transactions", $trans);
+        if($acct_type != "bot") {
+            $trans = ["userID"=>$userID, "forID"=>$forID, "trans_for"=>$for, "action_type"=>$action, "acct_type"=>$what, "amount"=>$amount,  "current_balance"=>$user[$what]];
+            $this->quick_insert("transactions", $trans);
+        }
         return true;
     }
 

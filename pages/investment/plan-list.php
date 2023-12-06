@@ -11,6 +11,7 @@ if ($plans->rowCount() == 0) {
             <div class="info row col-md-12">
                 <?php
                 foreach ($plans as $data) {
+                    // require "plan-display.php";
                     echo $c->plan_list($data);
                 }
                 ?>
