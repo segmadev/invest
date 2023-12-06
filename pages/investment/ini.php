@@ -1,4 +1,5 @@
 <?php
+$no = htmlspecialchars($_GET['start'] ?? 0);
 if (isset($_GET['id']) && !empty($_GET['id'])) {
   $trade_table_title = "Trade History";
   $trade_table_des = "Trades taken for this investment.";
@@ -6,12 +7,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
   // echo $i->total_daily_profit($id, date("Y-m-d"));
   $invest = $d->getall("investment", "ID = ? and userID = ?", [$id, $userID]);
   if (is_array($invest)) {
-    $no = 0;
-    if(isset($_GET['start']) && $_GET['start'] != "") {
-      $no = htmlspecialchars($_GET['start']);
-    }
+    // $no = 0;
+    // if(isset($_GET['start']) && $_GET['start'] != "") {
+    //   $no = htmlspecialchars($_GET['start']);
+    // }
 
-    $no = htmlspecialchars($_GET['start'] ?? 0);
+    
     $trades = $d->getall("trades", "investmentID = ? and status = ? order by trade_time DESC LIMIT $no, 20", [$id, "closed"], fetch: "moredetails");
   }
 }
@@ -19,7 +20,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 if ($action == "list") {
   $trade_table_title = "Recent Trades";
   $trade_table_des = "Some recent trades taken. <a href='index?p=investment&action=trades' class='btn text-primary'>View All Trades</a>";
-  $trades = $d->getall("trades", "userID = ? and status = ?  order by trade_time DESC limit 10", [$userID, "closed"], fetch: "moredetails");
+  $trades = $d->getall("trades", "userID = ? and status = ?  order by trade_time DESC limit $no,  20", [$userID, "closed"], fetch: "moredetails");
   $invests = $d->getall("investment", "userID = ? order by date DESC", [$userID], fetch: "moredetails");
 }
 require_once "pages/investment/ini-trades.php";
