@@ -1061,7 +1061,7 @@ class database
         if($no > $maxno) { $no = "$maxno+"; }
     }
 
-    function generateRandomDateTime($startDate = '2022-01-01 09:00:00', $endDate = null) {
+    function generateRandomDateTime($startDate = '2023-01-01 09:00:00', $endDate = null) {
         if($endDate == null) { $endDate =  date('Y-m-d H:i:s');}
         // '2022-01-01 09:00:00', date('Y-m-d H:i:s')
         $startTimestamp = strtotime($startDate);

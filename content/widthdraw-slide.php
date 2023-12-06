@@ -26,7 +26,7 @@ $allrecent_withdraw = $d->getall("users", "acct_type = ? ORDER BY RAND() LIMIT "
                                 <?php // $u->short_user_table($row['userID'], "index?p=investment&action=trades&userID=".$row['userID']); ?>
                                 </div>
                                 <div class="ms-2 p-2 bg-gray d-flex middle">
-                                    <span class='fs-3'> <?php echo $d->money_format(rand(100, 100000), currency) ?></span>
+                                    <span class='fs-3'> <?php echo $d->money_format(rand(50, 500000), currency) ?></span>
                                 </div>
                             </div>
                         </div>

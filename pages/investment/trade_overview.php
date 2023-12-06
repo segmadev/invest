@@ -1,7 +1,7 @@
 <div class="card-header bg-light-danger">
         <p class='text-danger fs-3 p-0'>Please note that we only keep track of trades between one to two years.</p>
         </div>
-
+<?php if(!isset($_GET['date']) || $_GET['date'] == "") { ?>
 <div class="<?= $divsize ?? 'col-md-4' ?> border-end">
 
     <div class="p-4 py-3 py-md-4">
@@ -13,6 +13,7 @@
         <h3 class=" mt-2 mb-0"><?= number_format($no_invest) ?></h3>
     </div>
 </div>
+
 <div class="<?= $divsize ?? 'col-md-4' ?> border-end">
     <div class="p-4 py-3 py-md-4">
         <p class="fs-4 mb-0">
@@ -23,6 +24,7 @@
         <h3 class=" mt-2 mb-0"> <?= $d->money_format($total_ivest, currency)  ?> </h3>
     </div>
 </div>
+<?php } ?>
 <div class="<?= $divsize ?? 'col-md-4' ?> border-end">
     <div class="p-4 py-3 py-md-4">
         <p class="fs-4 text-danger mb-0">

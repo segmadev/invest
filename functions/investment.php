@@ -680,9 +680,6 @@ class investment extends user
         return 0;
     }
 
-
-
-
     function cal_trade_percent($data, $trade)
     {
         $x = 1;
@@ -744,10 +741,10 @@ class investment extends user
         $now = strtotime($date);
         //  $now = strtotime("-2 day");
         $random_time = [];
-        $endOfDay = strtotime($date . ' +3 day');
-        if($now == strtotime('today')){
-            $endOfDay = time();
-        }
+        $endOfDay = strtotime($date . ' +1 day');
+        // if($now == strtotime('today')){
+        //     $endOfDay = time();
+        // }
         for ($i = 0; $i < rand(10, 20); $i++) {
             $random_time[] = rand($now, $endOfDay);
         }
