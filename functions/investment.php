@@ -510,7 +510,7 @@ class investment extends user
         }
     }
 
-    function take_pending_trades()
+    function take_pending_trades($no = 25)
     {
         $coins = $this->get_settings("trade_coins");
         $coins = explode(",", $coins);
@@ -518,7 +518,7 @@ class investment extends user
         // get all pending plans where date less or equal today
         $today = date("Y-m-d");
         //$trades = $this->getall("trades", 'status = ? order by trade_time ASC LIMIT 50', ["pending"], fetch: "moredetails");
-        $trades = $this->getall("trades", 'trade_date <= ? and trade_time <= ? and status = ? GROUP BY investmentID order by trade_time ASC LIMIT 25', [$today, time(), "pending"], fetch: "moredetails");
+        $trades = $this->getall("trades", 'trade_date <= ? and trade_time <= ? and status = ? GROUP BY investmentID order by trade_time ASC LIMIT '.$no, [$today, time(), "pending"], fetch: "moredetails");
         // $trades = $this->getall("trades", 'trade_candles = ? or trade_candles = ?', ["", null], fetch: "moredetails");
         // var_dump($trades->rowCount());
         if ($trades->rowCount() == 0) {
