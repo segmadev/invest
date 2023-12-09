@@ -5,6 +5,9 @@
         $i->change_trade_date();
         exit;
     }
-    $i->auto_genarate_trading_days();
+
+    if(isset($_GET['type'])) {
+        $i->auto_genarate_trading_days(htmlspecialchars($_GET['type'] ?? null));   
+    }
     
 ?>
