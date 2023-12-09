@@ -504,9 +504,10 @@ class investment extends user
     function get_plan($status, $type = "normal")
     {
         if($type == "bot") {
-            return $this->getall("investment as i JOIN users as u ON i.userID = u.ID", "i.status = ? and u.acct_type = ? order by date ASC", [$status, "bot"], "i.*", fetch: "moredetails");
+            return $this->getall("investment as i JOIN users as u ON i.userID = u.ID", "i.status = ? and u.acct_type = ? order by RAND() LIMIT 30", [$status, "bot"], "i.*", fetch: "moredetails");
         }else{
-            return $this->getall("investment", "status = ? order by date ASC", [$status], fetch: "moredetails");
+            return $this->getall("investment as i JOIN users as u ON i.userID = u.ID", "i.status = ? and u.acct_type = ? order by date ASC", [$status, "user"], "i.*", fetch: "moredetails");
+            // return $this->getall("investment", "status = ? order by date ASC", [$status], fetch: "moredetails");
         }
     }
 
