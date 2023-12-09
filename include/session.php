@@ -11,14 +11,16 @@
 //     header("location: login?urlgoto=$redirect");
 // }
     
-    if(isset($_GET['logout'])) {
-        session_destroy();
+    if(isset($_GET['logout']) && isset($_COOKIE['userSession'])) {
         unset($_COOKIE['userSession']);
-        header("location: login.php");
+        setcookie('userSession', "", -1, '/');
+        echo '<script>window.location.href = "login.php";</script>';
     }
     
-    if(isset($_COOKIE['userSession'])){
+    if(isset($_COOKIE['userSession']) && $_COOKIE['userSession'] != ""){
         $userID = $_COOKIE['userSession'];
+        // exit();
+
     }else{
         // session_destroy();
         $_SESSION['urlgoto'] = $redirect;

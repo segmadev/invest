@@ -1,5 +1,5 @@
-<?php 
-  require_once "include/ini-session.php";
+<?php
+require_once "include/ini-session.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,8 +30,9 @@
       /* padding-top: ; */
 
     }
+
     li {
-      list-style: none!important;
+      list-style: none !important;
     }
   </style>
 </head>
@@ -92,7 +93,7 @@
                   <i class="ti ti-messages"></i>
                 </span>
                 <span class="hide-menu">Chat</span>
-                <span class="sidebar-link text-danger bg-light-danger fs-2 p-1"  id="message-no"></span>
+                <span class="sidebar-link text-danger bg-light-danger fs-2 p-1" id="message-no"></span>
               </a>
             </li>
             <!-- ============================= -->
@@ -233,12 +234,23 @@
             <!-- ============================= -->
 
           </ul>
-          <div class="unlimited-access hide-menu position-relative my-7 rounded">
-            <div class="d-flex">
-            <?= $u->short_user_table($userID, "index?p=profile") ?>
-            </div>
-          </div>
+       
+          <form action="index?logout=" method="post">
+            <div class=" fixed-profile bg-light-secondary rounded sidebar-ad m-0 p-0 p-3 mt-3">
+              <a href='index?p=profile' class="hstack gap-3">
+                <div class="john-img">
+                  <img src="<?= $u->get_profile_icon_link($userID) ?>" class="rounded-circle" width="40" height="40" alt="">
+                </div>
+                <div class="john-title">
+                  <h6 class="mb-0 fs-3 fw-semibold"><?= $d->short_text($u->get_name($userID), 8) ?></h6>
 
+                </div>
+                <button class="border-0 p-2 rounded-1 text-danger bg-light-danger ms-auto" tabindex="0" type="submit" aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout">
+                  <i class="ti ti-power fs-6"></i>
+                </button>
+              </a>
+            </div>
+          </form>
           <div class="unlimited-access hide-menu bg-light-primary position-relative my-7 rounded">
             <div class="d-flex">
               <div class="unlimited-access-title">
