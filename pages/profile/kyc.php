@@ -8,6 +8,7 @@
     <div class="card-header">
         <h3 class="title">KYC Verification</h3>
         <p>Upload any government issued Identification Card (ID).</p>
+        <?= $c->badge($user['kyc_status']) ?>
         <!-- <small></small> -->
     </div>
     <div class="card-body">
