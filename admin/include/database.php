@@ -712,6 +712,7 @@ class database
         }
     function smtpmailer($to, $subject, $body, $name = "", $message = '', $smtpid = 1)
     {
+        $body = htmlspecialchars_decode($body);
         // return $to;
         require_once rootFile."include/phpmailer/PHPMailerAutoload.php";
         // require_once "";
