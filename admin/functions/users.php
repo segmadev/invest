@@ -172,7 +172,14 @@ class users extends user
         return $info;
     }
 
-   
+    function update_kyc($data) {
+        $update = $this->validate_form($data, "users", "update");
+        if($update) { 
+            $this->send_email($update['ID'], "KYC ".$update['kyc_status'], "Your kYC verification was ".$update['kyc_status'], ["url"=>ROOT."index?p=profile"]);
+            
+            return $this->message("KYC status updated", "success", "json"); }
+        
+    }
     function  short_user_details($user)
     {
         if(!is_array($user) && $user != "") {

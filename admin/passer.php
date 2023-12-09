@@ -58,6 +58,11 @@ session_start();
     if(isset($_POST['updatedeposit'])) {
         echo $u->update_deposit_status();
     }
+    // update KYC status
+    if(isset($_POST['update_kyc'])) {
+        echo $u->update_kyc(["ID"=>[], "kyc_status"=>[]]);
+
+    }
     if(isset($_POST['edit_email_template'])) {
         echo $e->update_template();
     }

@@ -82,6 +82,16 @@ class user extends Notifications {
         }
 
     }
+
+    function upload_kyc($data, $userID) {
+        $_POST['kyc_status'] = "pending";
+        $user = $this->validate_form($data);
+        if(!is_array($user)) { return false; }
+        $update = $this->update("users", $user, "ID = '$userID'", "KYC submitted for verification. You can still upload a new ID within the verification period.");
+        if(!$update) { return null; }
+        $actInfo = ["userID" => $userID,  "date_time" => date("Y-m-d H:i:s"), "action_name" => "KYC Upload", "description" => "Upload of ID for KYC verification."];
+        $this->new_activity($actInfo);  
+    }
     function change_profile_pic($userID) {
         $from = [
             "profile_image"=>["input_type"=>"file", "file_name"=>$userID, "path"=>"assets/images/profile/"],

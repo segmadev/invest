@@ -686,15 +686,30 @@ class database
         return "3" . $rand;
     }
     
-    function send_email($userID, $subject, $message) {
+    function send_email($userID, $subject, $message, $notify = false) {
+            if(is_array($notify)) {
+                $data = [];
+                $data['userID'] = $userID;
+                $data['n_for'] = "users";
+                $data['title'] = $subject;
+                $data['description']  = $message;
+                $data['time_set'] = time();
+                $data['date_set'] = date("Y-m-d");
+                $data['url'] = $notify['url'];
+                $this->new_notification($data);
+            }
             $smessage = $this->get_email_template("default")['template'];
             $user =  $this->getall("users", "ID = ?", [$userID], "first_name, last_name, email");
             if(!is_array($user)){ return false; }
             // ${amount} ${reason} ${website_url} 
             $smessage = $this->replace_word(['${first_name}'=>$user['first_name'], '${last_name}'=>$user['last_name'], '${message_here}'=>$message, '${website_url}'=>$this->get_settings("website_url")], $smessage);
             $sendmessage = $this->smtpmailer($user['email'], $subject, $smessage);
-            if($sendmessage) { return true; }else{ return false; }
-    }
+            if($sendmessage) { 
+                return true; 
+            }else{ return false; }
+    
+                
+        }
     function smtpmailer($to, $subject, $body, $name = "", $message = '', $smtpid = 1)
     {
         // return $to;

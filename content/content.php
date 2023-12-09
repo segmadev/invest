@@ -25,6 +25,11 @@ class content extends database
     //     "tell_us_more"=>["placeholder"=>"Tell us more about your self", "is_required"=>false, "type"=>"textarea",],
     //     "input_data"=>["full_name"=>"seriki gbenga"],
     // ];
+    function display_image($path, $ID = "") {
+        echo '<div id="image-' . $ID . '" data-url="modal?p=viewer&path='.$path.'" data-title="Image Viewer" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" class="rounded-2 overflow-hidden">
+                <img src="'.$path.'" alt="uploaded"  style="width: 30px">
+            </div>';
+    }
     function create_form($datas)
     {
         if (!is_array($datas)) {
@@ -130,7 +135,7 @@ class content extends database
                 $path = $this->data['path'] . $this->datas["input_data"][$this->key];
             }
             $onchange = "onchange=\"showPreview(event, 'image-preview-" . $this->key . "')\"";
-            $info .= "<div id= 'image-preview-" . $this->key . "' class='card shadow-md w-30 h-20 bg-gray p-3'><img src='$path' style='width: 100px' alt=''></div>";
+            $info .= "<div id= 'image-preview-" . $this->key . "' class='card shadow-md w-30 h-20 bg-gray p-3'><img src='$path?n=".rand(10, 100)."' style='width: 100px' alt=''></div>";
         }
 
         $required = "";
@@ -161,6 +166,39 @@ class content extends database
     }
     function select()
     {
+        if (isset($this->data['options'])) {
+            $bracket = "";
+            $placeholder = "";
+            $word = "multiple='multiple'";
+            if (strpos($this->data['atb'], $word) !== false) {
+                $bracket = "[]";
+                $placeholder = $this->data['placeholder'];
+                unset($this->data['placeholder']);
+            }
+
+            $info = "<select data-placeholder='$placeholder' class='form-control " . $this->data['class'] . "' id='" . $this->data['class'] . "' " . $this->data['atb'] . " name='" . $this->key . $bracket . "'>";
+            if (isset($this->data['placeholder'])) {
+                $info .= "<option value=''>" . $this->data['placeholder'] . "</option>";
+            }
+            foreach ($this->data['options'] as $key => $value) {
+                // if($key )
+                $selected = "";
+                if(is_array($this->data['value']) && in_array($key, $this->data['value'])) {
+                    $selected = "selected";
+                }
+                if ($key == $this->data['value'] && !is_array($this->data['value'])) {
+                    $selected = "selected";
+                }
+                $info .= "<option value='$key' $selected>$value</option>";
+            }
+            $info .= "</select>";
+            return $info;
+        }
+
+        return null;
+    }
+
+    function radio() {
         if (isset($this->data['options'])) {
             $bracket = "";
             $placeholder = "";
@@ -233,7 +271,7 @@ class content extends database
         $info = "<span class='badge bg-light-primary text-primary fw-semibold fs-2'>$data</span>";
         $info = match ($data) {
             'Active', 'Approved','Success'   => "<span class='badge bg-light-success text-success fw-semibold fs-2'>$data</span>",
-            'Disable', 'Rejected' => "<span class='badge bg-light-danger text-danger fw-semibold fs-2'>$data</span>",
+            'Disable', 'Reject', 'Rejected' => "<span class='badge bg-light-danger text-danger fw-semibold fs-2'>$data</span>",
             'Pending' => "<span class='badge bg-light-warning text-warning fw-semibold fs-2'>$data</span>",
             "" => "<span class='badge bg-light-primary text-primary fw-semibold fs-2'>$data</span>"
         };

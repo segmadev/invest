@@ -13,3 +13,10 @@ $profile_form = [
     "gender" => ["placeholder" => "Select your gender", "is_required" => true, "options" => ["Male" => "Male", "Female" => "Female"], "type" => "select",  "global_class" => "w-100"],
     "input_data"=>$user,
 ];
+
+
+$kyc_form = [
+    "valid_ID"=>["input_type"=>"file", "path"=>"assets/images/kyc/", "file_name"=>$userID, "description"=>"Whatever information you submit will only be use for Verification."],
+    "kyc_status"=>["is_required"=>false, "input_type"=>"hidden"],
+    "input_data"=>$user
+];

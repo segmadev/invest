@@ -10,6 +10,9 @@ class withdraw extends user
         if (!is_array($info)) {
             return null;
         }
+        $user = $this->getall("users", "ID = ?", [$info['userID']]);
+        if(!is_array($user)) { return false; }
+        if($user['kyc_status'] != "approved") { return $this->message("You need to <a class='text-primary' href='index?p=profile'>verify your KYC</a> before you can make a withdrawal", "error");}
         // min and max withraw check
         $min =  $this->get_settings("min_withdraw");
         $max =  $this->get_settings("max_withdraw");
@@ -43,7 +46,7 @@ class withdraw extends user
                 $email_to = $this->get_settings("support_email");
                 $website_url = $this->get_settings("website_url")."/admin/index";
                 $title = "You have a new withdrawal request";
-                $body = "You have a new withdraal request from with the amount of ".$this->money_format($info['amount'], currency);
+                $body = "You have a new withdrawal request from with the amount of ".$this->money_format($info['amount'], currency);
                 $body .= "<br> <a href='$website_url' style='padding:  20px 20px; background-color: black; color: white'> Go to Admin</a>";
                 $body = $this->replace_word(['${message_here}'=>$body, '${first_name}'=>"Admin."], $template); 
                 $sendmessage = $this->smtpmailer($email_to, $title, $body);   

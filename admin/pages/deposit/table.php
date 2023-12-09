@@ -10,8 +10,8 @@
     </thead>
     <tbody class="border-top">
         <?php
-        $script[] ="modal";
-        $script[] ="sweetalert";
+        $script[] = "modal";
+        $script[] = "sweetalert";
         foreach ($deposit as $row) {
             $wallet = $d->getall("wallets", "ID = ?", [$row['wallet']], "coin_name, wallet_address");
             $coin = $de->get_coin_details($wallet['coin_name']);
@@ -61,7 +61,7 @@
                                     <button type="submit" class="dropdown-item d-flex align-items-center gap-3 text-success" href="#"><i class="fs-4 ti ti-check"></i>Approve</button>
                                 </form>
                             </li>
-<hr>
+                            <hr>
                             <li>
                                 <button class="dropdown-item d-flex align-items-center gap-3 text-danger" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" id="modal-reject-<?= $row['ID'] ?>" data-url="modal?p=deposit&action=rejected&id=<?= $row['ID'] ?>" data-title="Reject Deposit of <?= $d->money_format($row['amount'], currency) ?>" onclick="modalcontent(this.id)"><i class="fs-4 ti ti-close"></i>Reject</button>
                             </li>

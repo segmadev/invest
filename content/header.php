@@ -30,6 +30,9 @@
       /* padding-top: ; */
 
     }
+    li {
+      list-style: none!important;
+    }
   </style>
 </head>
 
@@ -230,6 +233,12 @@
             <!-- ============================= -->
 
           </ul>
+          <div class="unlimited-access hide-menu position-relative my-7 rounded">
+            <div class="d-flex">
+            <?= $u->short_user_table($userID, "index?p=profile") ?>
+            </div>
+          </div>
+
           <div class="unlimited-access hide-menu bg-light-primary position-relative my-7 rounded">
             <div class="d-flex">
               <div class="unlimited-access-title">

@@ -24,6 +24,7 @@
     if(isset($_POST['change_profile_pic'])){
         echo $u->change_profile_pic($userID);
     }
+
     // change password
     if(isset($_POST['change_password'])) {
         echo $u->change_password($change_password_from, $userID);
@@ -31,6 +32,10 @@
     // update profile
     if(isset($_POST['update_profile'])) {
         echo $u->update_profile($profile_form, $userID);
+    }
+    // upload KYC
+    if(isset($_POST['upload_kyc'])) {
+       echo $u->upload_kyc($kyc_form, $userID);
     }
     if(isset($_POST['new_compound_profits'])) {
         echo $i->activate_compound_profits($compound_profits_form);
