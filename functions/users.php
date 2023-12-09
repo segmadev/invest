@@ -122,7 +122,7 @@ class user extends Notifications {
                 break;
             case 'debit':
                 // check if enough balance
-                if((float)$user[$what] < (float)$amount && (float)$user[$what] > 0){
+                if((float)$user[$what] < (float)$amount){
                     $this->message("Insufficient ".str_replace("_", " ", $what), "error");
                     return false;
                 }
