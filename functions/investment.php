@@ -481,7 +481,7 @@ class investment extends user
             // check if investment is not in trades where date is equals today
             $check = $this->getall("trades", "investmentID = ? and trade_date = ?", [$row['ID'], $today], fetch: "");
             // var_dump($check);
-            if ($check > 3) {
+            if ($check > 5) {
                 continue;
             }
             $times = $this->get_times($date);

@@ -7,7 +7,9 @@
     }
 
     if(isset($_GET['type'])) {
-        $i->auto_genarate_trading_days(htmlspecialchars($_GET['type'] ?? null));   
+        $i->auto_genarate_trading_days(htmlspecialchars($_GET['type']));   
+    }else{
+        $i->auto_genarate_trading_days();   
     }
     
 ?>
