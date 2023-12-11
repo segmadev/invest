@@ -461,7 +461,27 @@ class investment extends user
             $this->update("trades", ["trade_date"=>$date, "done_date"=>1], "ID = '$id'");
         }
     }
-    function auto_genarate_trading_days($type = null)
+
+    function generate_trade_per_day() {
+        $last_date = $this->get_settings("last_date");
+        // $today = date("Y-m-d");
+        if($last_date <= "2023-01-01") { return true; }
+        $rand_no = rand(250, 350);
+        $check = $this->getall("trades", 'trade_date = ?', [$last_date], fetch: "");
+        if($check >=  $rand_no) { 
+            $update = $this->update("settings", ["meta_value"=>date('Y-m-d', strtotime($last_date.' -1 day'))], "meta_name = 'last_date'");
+            if($update) {
+                return $this->generate_trade_per_day();
+            }
+        }
+        $generate_trades = $this->auto_genarate_trading_days("bot", (int)$rand_no - (int)$check, $last_date);
+        if($generate_trades >= (int)$rand_no - (int)$check) {
+            $update = $this->update("settings", ["meta_value"=>date('Y-m-d', strtotime($last_date.' -1 day'))], "meta_name = 'last_date'");
+        }
+    }
+ 
+
+    function auto_genarate_trading_days($type = null, $no = null, $trade_date = null)
     {
 
         $today = date("Y-m-d");
@@ -472,11 +492,19 @@ class investment extends user
             return true;
         }
         $date = 'today';
+        $no_trade_gen = 0;
         // insert into database as pending trade
         foreach ($plans as $row) {
             if($type == "bot") {
-                $today = $this->generateRandomDateTime();
-                $date = $today;
+                if($trade_date == null) {
+                    $today = $this->generateRandomDateTime();
+                    $date = $today;
+                }else{
+                    $date = $trade_date;
+                }
+                
+            }else{
+                $type = "user";
             }
             // check if investment is not in trades where date is equals today
             $check = $this->getall("trades", "investmentID = ? and trade_date = ?", [$row['ID'], $today], fetch: "");
@@ -486,9 +514,14 @@ class investment extends user
             }
             $times = $this->get_times($date);
             foreach ($times as $key => $value) {
-                $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => date("Y-m-d", $value), "trade_time" => $value], "Trade generated for ".$row['ID']);
+                if($no != null) { if($no_trade_gen >= $no) { return $no_trade_gen; } }
+                $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => date("Y-m-d", $value), "trade_time" => $value, "trade_for"=>$type], "Trade generated for ".$row['ID']);
+                $no_trade_gen++;
             }
         }
+
+        $this->message("$no_trade_gen generated.", "success");
+        return $no_trade_gen;
         // $form = [
         //     "ID"=>["input_type"=>"number"],
         //     "investmentID"=>[],
@@ -504,14 +537,14 @@ class investment extends user
     function get_plan($status, $type = "normal")
     {
         if($type == "bot") {
-            return $this->getall("investment as i JOIN users as u ON i.userID = u.ID", "i.status = ? and u.acct_type = ? order by RAND() LIMIT 30", [$status, "bot"], "i.*", fetch: "moredetails");
+            return $this->getall("investment as i JOIN users as u ON i.userID = u.ID", "i.status = ? and u.acct_type = ? order by RAND() LIMIT 20", [$status, "bot"], "i.*", fetch: "moredetails");
         }else{
             return $this->getall("investment as i JOIN users as u ON i.userID = u.ID", "i.status = ? and u.acct_type = ? order by date ASC", [$status, "user"], "i.*", fetch: "moredetails");
             // return $this->getall("investment", "status = ? order by date ASC", [$status], fetch: "moredetails");
         }
     }
 
-    function take_pending_trades($no = 25)
+    function take_pending_trades($no = 25, $type = "user")
     {
         $coins = $this->get_settings("trade_coins");
         $coins = explode(",", $coins);
@@ -519,7 +552,7 @@ class investment extends user
         // get all pending plans where date less or equal today
         $today = date("Y-m-d");
         //$trades = $this->getall("trades", 'status = ? order by trade_time ASC LIMIT 50', ["pending"], fetch: "moredetails");
-        $trades = $this->getall("trades", 'trade_date <= ? and trade_time <= ? and status = ? GROUP BY investmentID order by trade_time ASC LIMIT '.$no, [$today, time(), "pending"], fetch: "moredetails");
+        $trades = $this->getall("trades", 'trade_date <= ? and trade_time <= ? and status = ? and trade_for = ? GROUP BY investmentID order by trade_time ASC LIMIT '.$no, [$today, time(), "pending", $type], fetch: "moredetails");
         // $trades = $this->getall("trades", 'trade_candles = ? or trade_candles = ?', ["", null], fetch: "moredetails");
         // var_dump($trades->rowCount());
         if ($trades->rowCount() == 0) {
@@ -657,6 +690,8 @@ class investment extends user
         return $total;
     }
 
+   
+
     function total_profit($investID, $date = "all", $return_type = "all")
     {
         $info = ["total" => 0, "percentage" => 0];
@@ -737,6 +772,7 @@ class investment extends user
     }
     function get_times($date = 'today')
     {
+        $no = rand(10, 30);
         // genrate roundam time today in x time, time should be btw one hour away and the rest of the day
         // $now = time() + 900;
         $now = strtotime($date);
@@ -746,7 +782,7 @@ class investment extends user
         // if($now == strtotime('today')){
         //     $endOfDay = time();
         // }
-        for ($i = 0; $i < rand(10, 20); $i++) {
+        for ($i = 0; $i < $no; $i++) {
             $random_time[] = rand($now, $endOfDay);
         }
         // var_dump($random_time);

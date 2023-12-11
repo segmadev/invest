@@ -6,8 +6,9 @@
         exit;
     }
 
-    if(isset($_GET['type'])) {
-        $i->auto_genarate_trading_days(htmlspecialchars($_GET['type']));   
+    if(isset($_GET['type']) && $_GET['type'] == "bot") {
+        $i->generate_trade_per_day();
+        // $i->auto_genarate_trading_days(htmlspecialchars($_GET['type']));   
     }else{
         $i->auto_genarate_trading_days();   
     }
