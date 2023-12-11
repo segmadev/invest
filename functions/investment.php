@@ -552,7 +552,7 @@ class investment extends user
         // get all pending plans where date less or equal today
         $today = date("Y-m-d");
         //$trades = $this->getall("trades", 'status = ? order by trade_time ASC LIMIT 50', ["pending"], fetch: "moredetails");
-        $trades = $this->getall("trades", 'trade_date <= ? and trade_time <= ? and status = ? and trade_for = ? GROUP BY investmentID order by trade_time ASC LIMIT '.$no, [$today, time(), "pending", $type], fetch: "moredetails");
+        $trades = $this->getall("trades", 'trade_date <= ? and trade_time <= ? and status = ? and trade_for = ? GROUP BY investmentID order by trade_time '.$order.' LIMIT '.$no, [$today, time(), "pending", $type], fetch: "moredetails");
         // $trades = $this->getall("trades", 'trade_candles = ? or trade_candles = ?', ["", null], fetch: "moredetails");
         // var_dump($trades->rowCount());
         if ($trades->rowCount() == 0) {
