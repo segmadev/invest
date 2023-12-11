@@ -515,7 +515,7 @@ class investment extends user
             $times = $this->get_times($date);
             foreach ($times as $key => $value) {
                 if($no != null) { if($no_trade_gen >= $no) { return $no_trade_gen; } }
-                $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => date("Y-m-d", $value), "trade_time" => $value, "trade_for"=>$type], "Trade generated for ".$row['ID']);
+                $this->quick_insert("trades", ["investmentID" => $row['ID'], "userID" => $row['userID'], "trade_date" => date("Y-m-d", $value), "trade_time" => $value, "trade_for"=>$type]);
                 $no_trade_gen++;
             }
         }
