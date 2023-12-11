@@ -544,7 +544,7 @@ class investment extends user
         }
     }
 
-    function take_pending_trades($no = 25, $type = "user")
+    function take_pending_trades($no = 25, $type = "user", $order = "ASC")
     {
         $coins = $this->get_settings("trade_coins");
         $coins = explode(",", $coins);
