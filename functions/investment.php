@@ -144,6 +144,7 @@ class investment extends user
             $this->message("We are having issue creating your plan.", "error");
             return null;
         }
+        $this->activate_pending_compound($info['userID']);
         $actInfo = ["userID" => $info['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "Create Investment", "description" => "An investment of ".$this->money_format($info['amount'], currency)." was created.", "action_for"=>"investment", "action_for_ID"=>$info['ID']];
         $this->new_activity($actInfo);
         $userID = $info['userID'];
@@ -160,7 +161,31 @@ class investment extends user
         return json_encode($return);
     }
 
-    
+    function activate_pending_compound($userID) {
+        $compound = $this->getall("compound_profits_assigned", "userID = ?", [$userID], "compound_profits");
+        if(is_array($compound)) {
+            $this->activate_compound_on_all_investment($compound['compound_profits'], $userID);
+        }
+    } 
+    function activate_compound_on_all_investment($compound_profitID, $userID) : bool {
+        // get all users investment that are not in compund_profit
+        // loop through it and insert the new data.
+        $compound = $this->getall("compound_profits", "ID = ? and assigned_users LIKE '%$userID%' and status = ? ", [$compound_profitID, 'active'], fetch: "");
+        if($compound == 0) { return false; }
+        // $investments = $this->getall("investment JOIN compound_profits_assigned on investment.ID != compound_profits_assigned.investmentID", "investment.userID = ? and compound_profits_assigned.userID = ?", [$userID, $userID], "investment*", fetch: "moredetails");
+        $investments = $this->getall("investment inner join compound_profits_assigned on investment.ID != compound_profits_assigned.investmentID", "investment.userID = ? GROUP BY investment.userID", [$userID], "investment.*", fetch: "moredetails");
+        // var_dump($investments->rowCount()); 
+        if($investments->rowCount() == 0) { return true; }
+        
+        foreach($investments as $row) {
+            // var_dump($row); 
+            $data = ["compound_profits"=>$compound_profitID, "investmentID"=>$row['ID'], "userID"=>$userID];
+            // check again
+             if($this->getall("compound_profits_assigned", "investmentID = ?", [$row['ID']], fetch: "") > 0) { continue; }
+             $this->quick_insert("compound_profits_assigned", $data);
+        }
+        return true;
+    }
 
     function activate_compound_profits($data)
     {
@@ -185,8 +210,9 @@ class investment extends user
             }
         }
 
-        $insert = $this->quick_insert("compound_profits_assigned", $info, "Compound profits assigned to investment successfully");
+        $insert = $this->quick_insert("compound_profits_assigned", $info, "Compound profits assigned to investments successfully");
         if($insert) {
+            $this->activate_compound_on_all_investment($info['compound_profits'], $info['userID']);
             $actInfo = ["userID" => $info['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "compound_profits Activated", "description" => "A compound_profits was actiaved on an investment.", "action_for"=>"compound_profits_assigned", "action_for_ID"=>$info['ID']];
         $this->new_activity($actInfo);
         }

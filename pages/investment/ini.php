@@ -1,5 +1,6 @@
 <?php
 $no = htmlspecialchars($_GET['start'] ?? 0);
+$i->activate_pending_compound($userID);
 if (isset($_GET['id']) && !empty($_GET['id'])) {
   $trade_table_title = "Trade History";
   $trade_table_des = "Trades taken for this investment.";

@@ -454,7 +454,7 @@ private $chat_holder = [];
     }
 
 function reply_message(array $message) {
-    return '<button onclick="reply_to(\''.$message['ID'].'\', \''.addslashes($message['message']).'\')" class="text-success btn"><i class="ti ti-arrow-back-up"></i> Reply</button>';
+    return '<button onclick="reply_to(\''.$message['ID'].'\', \''.addslashes($message['message']).'\')" class="text-success btn btn-sm w-3 bg-light-success"><i class="ti ti-arrow-back-up"></i> Reply</button>';
 }
     function message_options_btn($message)
     {
@@ -525,8 +525,8 @@ function reply_message(array $message) {
                 ' . $upload . '
                 <div class="p-2 bg-light-info text-dark rounded-1 d-inline-block fs-3 m-0"> ' . $message['message'] . '</div>
                 <br>
-                ' . $this->ago($message['time_sent']) . '
-                '.$this->reply_message($message).'
+                <p class="text-dark">' . $this->ago($message['time_sent']) . '
+                '.$this->reply_message($message).'</p>
             </div>
             ' . $this->message_options_btn($message) . '
         </div>';
