@@ -7,5 +7,4 @@ $currency = currency;
         "amount"=>["input_type"=>"number", "description"=>"What is the amount you want to invest in this plan? ($currency)", "placeholder"=>"000"],
         
     ];
-
     // $d->create_table("investment", $investment_form);

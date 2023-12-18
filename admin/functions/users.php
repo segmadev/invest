@@ -41,6 +41,8 @@ class users extends user
             }    
         // activate pending investment if avilable
         $this->activate_pending($deposit['userID']);
+        // allocate pending referral 
+        $this->allocate_pending_referral($deposit['userID'], $data['amount']);
         }
         // check and send email to user
         if($this->get_settings("send_email_to_user_deposit_".$data['status']) == "yes") {
@@ -60,7 +62,50 @@ class users extends user
             return json_encode($return);
     }
 
-    function activate_pending($userID) {
+
+    protected function allocate_pending_referral($userID, $amount_deposited) {
+        // check if any pending referral
+        $ref_a = $this->getall("referral_allocation", "userID = ? and status = ?",[$userID, "pending"]);
+        if(!is_array($ref_a)) { return true; }
+        // get refferal id where referral_code
+        $ref = $this->getall("referrals", "referral_code = ? and status = ?", [$ref_a['referral_code'], "active"]);
+        if(!is_array($ref)) { return true; }
+        // get the referral program
+        $ref_p = $this->getall("referral_programs", "ID = ?", [$ref['referralID']]);
+        if(!is_array($ref_p)) { return true; }
+        // get the percentage ad cal the percentage
+        $amount = $this->money_percentage($ref_p['percentage_return_on_deposit'], $amount_deposited);
+        // ceridt the percentage into your's balance
+        $allocate = $this->credit_debit($ref['userID'], $amount, "balance", for: "referrals", forID: $ref['ID']);
+        if($allocate) {
+            $this->update("referral_allocation", ["status"=>"allocated", "percentage_amount"=>$amount], "ID = '".$ref_a['ID']."'");
+        }else{
+            return false;
+        }
+        // check number of referral allocated if equal or grather than the ref_p no_of_user 
+        $no_ref_a = $this->getall("referral_allocation", "referral_code = ? and status = ?", [$ref_a['referral_code'], "allocated"], fetch: "");
+        if($no_ref_a < $ref_p['no_of_users']) { return true; }
+        $new_invest = ["ID"=>uniqid(), "planID"=>$ref_p['planID'], "userID"=>$ref['userID'], "amount"=>$ref_p['plan_amount'], "trade_amount"=>$ref_p['plan_amount']];
+        // create a plan for the user with the planID assigned to the ref_p
+        if($this->quick_insert("investment", $new_invest)){
+            $update = ["investID"=>$new_invest['ID'], "status"=>"completed"];
+            $this->update("referrals", $update, "ID = '".$ref['ID']."'");
+        } 
+        // 8071953984
+        // notify the user.
+        $notify = [
+            "userID"=>$ref['userID'],
+            "n_for"=>"referrals",
+            "forID"=>$ref['ID'],
+            "url"=>"index?p=referral&action=view&id=".$ref['ID'],
+            "title"=>"A reward on your referral.",
+            "description"=>"You just earn a reward on your referral program.",
+            "time_set"=>time(),
+            "date_set"=>date("Y-m-d"),
+        ];
+        $this->new_notification($notify);
+    }
+    protected function activate_pending($userID) {
         $invest = $this->getall("investment", "userID = ? and status  =?", [$userID, "pending"], fetch: "moredetails");
         if($invest->rowCount() == 0) {
             return true;

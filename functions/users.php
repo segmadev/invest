@@ -457,4 +457,87 @@ class user extends Notifications {
     function get_all_chat_notification($userID) {
         
     }
+
+    function activate_referral($userID, $referralID) {
+        $data = ['ID'=>["input_type"=>"number"],
+            "userID"=>[],
+            "referralID"=>[],
+            "referral_code"=>[],
+            "investID"=>["is_required"=>false],
+            "status"=>[],
+            "input_data"=>["investID"=>""],
+        ];
+    $this->create_table('referrals', $data);
+    unset($data['ID']);
+    unset($data['investID']);
+    $_POST['userID'] = $userID;  $_POST['referralID'] = $referralID; 
+    $_POST['referral_code'] = $this->genrate_code();
+    $_POST['status'] = "active";
+    $data = $this->validate_form($data);
+    // valiadte is the exact plan not active
+    if(!is_array($data)) { return false; }
+        if ($this->getall("referrals", 
+            "userID = ? and referralID = ? and status = ?", 
+            [$data['userID'], $data['referralID'], "active"], 
+            fetch: "") > 0) {
+            $this->message("This referral is currently active for you.", "error");
+            return false;
+        }
+        if(!$this->quick_insert("referrals", $data, "Referral Activated")){
+            return false;
+        }
+            return true;
+        
+    }
+    
+    function get_ref_info($code) {
+        // no of active ref
+        // no of pending
+        // percentage
+        // get referralID from referral where referral_code equal code
+        // get referral program details through the ID
+        // check percentage of active_ref againts the no_of_users in referral_program 
+        $info = ["no_allocated"=>0, "no_pending"=>0, "percentage"=>0, "no_of_users"=>0];
+        $info['no_allocated'] = $this->getall("referral_allocation", "referral_code = ? and status = ?", [$code, "allocated"], fetch: "");
+        $info['no_pending'] = $this->getall("referral_allocation", "referral_code = ? and status = ?", [$code, "pending"], fetch: "");
+        $refID = $this->getall("referrals", "referral_code = ?", [$code], "referralID");
+        if(!is_array($refID)) { return $info; }
+        $ref_program = $this->getall("referral_programs", "ID = ?", [$refID['referralID']], "no_of_users");
+        if(!is_array($ref_program)) { return $info; }
+        $info['no_of_users'] = $ref_program['no_of_users'];
+        $info['percentage'] = $this->cal_percentage($info['no_allocated'], $ref_program['no_of_users']);
+        return $info;
+        // $info = ["no_allocated", "no_pending", "percentage"]
+    }
+
+    function genrate_code() {
+        $code = $this->RandomCode($length = 5);
+        if($this->getall("referrals", "referral_code = ?", [$code], fetch: "") > 0) { 
+            $this->genrate_code(); 
+        }else{
+            return $code;
+        }
+    }
+
+    
+    function RandomCode($length = 5)
+    {
+        $code = '';
+        $total = 0;
+    
+        do
+        {
+            if (rand(0, 1) == 0)
+            {
+                $code.= chr(rand(97, 122)); // ASCII code from **a(97)** to **z(122)**
+            }
+            else
+            {
+                $code.= rand(0, 9); // Numbers!!
+            }
+            $total++;
+        } while ($total < $length);
+    
+        return strtoupper($code);
+    }
 }

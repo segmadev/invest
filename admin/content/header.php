@@ -188,6 +188,14 @@
                                 <span class="hide-menu">Withdraw</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link text-success" href="index?p=referral" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-award"></i>
+                                </span>
+                                <span class="hide-menu">Referral</span>
+                            </a>
+                        </li>
 
                         <!-- PLANS -->
 

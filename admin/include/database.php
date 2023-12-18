@@ -320,10 +320,25 @@ class database
     function options_list($table, $key = "ID", $value = "name") {
         if($table->rowCount() > 0) {
             foreach($table as $row) {
-                $data[$row[$key]] = $row[$value];
+                $data[$row[$key]] = $this->pass_value($value, $row);
             }
         }
         return $data ?? [];
+    }
+
+    function pass_value($value, $row) {
+        if(is_array($value)) {
+            $no = 0;
+            $count = count($value);
+            $data = "";
+            foreach($value as $key => $val) {
+                $no++; 
+                if($no == $count){  $data .= $row[$val]; }else{ $data .= $row[$val]." - ";  }
+            }
+        }else{
+            $data = $row[$value];
+        }
+        return $data;
     }
 
     function validate_form($datas, $what = "", $action = null)
@@ -624,12 +639,12 @@ class database
         //     <div class='bg-text'>$message</div>
         // </div>";
         if ($type == "success" && $method == "default") {
-            echo "<div class='message $type' style='color:green!important'>
+            echo "<div class='message p-2 mt-1 rounded-2 bg-light-success $type' style='color:green!important'>
                 <span class='closebtn' onclick=\"this.parentElement.style.display='none';\">&times;</span>
                 $message
                 </div>";
         } elseif ($type == "danger" && $method == "default") {
-            echo "<div class='message $type' style='color:red!important'>
+            echo "<div class='message mt-1 p-2 rounded-2 bg-light-danger $type' style='color:red!important'>
                 <span class='closebtn' onclick=\"this.parentElement.style.display='none';\">&times;</span>
                 $message
                 </div>";
@@ -1044,6 +1059,14 @@ class database
     {
         $date = date_create($date);
         return date_format($date, "D, d M Y h:i:sa");
+    }
+
+    function cal_percentage(int | float $no, int | float $total) {
+        return round(($no * 100) / $total);
+    }
+
+    function money_percentage($percentage, $amount){
+        return round($amount * ($percentage / 100));
     }
 
     function calculateProfitPercentage($buyingPrice, $sellingPrice) {

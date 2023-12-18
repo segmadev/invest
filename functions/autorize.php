@@ -17,8 +17,18 @@ class autorize extends database
         $info['password'] = password_hash($info['password'], PASSWORD_DEFAULT);
         unset($info['confrim_password']);
         $info['ip_address'] = $this->get_visitor_details()['ip_address'];
+        // check referral code if active.
+        // var_dump($info['referral_code']);
+        // exit();
+        if(!empty($info['referral_code']) && $this->getall("referrals", "referral_code = ? and status = ?", [$info['referral_code'], "active"], fetch:"") == 0){
+            $this->message("You referral code is no more active or doesn't exist", "error");
+            return false;
+        }
         $insert = $this->quick_insert("users", $info);
         if ($insert) {
+            if(!empty($info['referral_code'])) {
+                $this->apply_referral_code(htmlspecialchars($info['ID']), $info['referral_code']);
+            }
             session_start();
             session_unset();
             $expiry = strtotime('+6 months'); // Calculate the expiry time for 3 months from now
@@ -28,7 +38,7 @@ class autorize extends database
             // $d->updateadmintoken($value['ID'], "users");
             $_SESSION['userSession'] = htmlspecialchars($info['ID']);
             if(!$this->set_cookies("userSession", htmlspecialchars($info['ID']), time() + 60 * 60 * 24 * 30)){
-                echo $this->message("You account was created successfuly. But we are having issues logging you in. <a href='login'>Click here</a> to login.", "error");
+                echo $this->message("Your account was created successfuly. But we are having issues logging you in. <a href='login'>Click here</a> to login.", "error");
                 return ;
             }
             $actInfo = ["userID" => $info['ID'],  "date_time" => date("Y-m-d H:i:s"), "action_name" => "Registration", "description" => "Account Registration."];
@@ -41,6 +51,25 @@ class autorize extends database
         }
     }
 
+    private function apply_referral_code($userID, $code) {
+        // check if active
+        // insert data into DB as pending
+      
+        // check if active
+        if($this->getall("referrals", "referral_code = ? and status = ?", [$code, "active"], fetch: "") == 0) {
+            $this->message("Referral code not active anymore", 'error');
+            return false;
+        }
+        $info = ["userID"=>$userID, "referral_code"=>$code];
+        if($this->quick_insert("referral_allocation", $info)){
+            return true;
+        }
+       
+    }
+
+    private function check_referral_status(){
+
+    }
 
     function set_cookies($name, $value, $time = null) {
         if($time == null) { $time = time() + 60 * 2;} // current time + 1 hour

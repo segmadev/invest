@@ -45,5 +45,3 @@ if(isset($_GET['id'])  && !empty($_GET['id'])) {
     $profit['amount'] = $trade_report['profit'];
     $trade_no = $trade_report['trade_no'];
 }
-
-

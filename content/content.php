@@ -270,7 +270,7 @@ class content extends database
         $data = ucfirst($data);
         $info = "<span class='badge bg-light-primary text-primary fw-semibold fs-2'>$data</span>";
         $info = match ($data) {
-            'Active', 'Approved','Success'   => "<span class='badge bg-light-success text-success fw-semibold fs-2'>$data</span>",
+            'Active', 'Approved','Success', "Allocated", "Completed"   => "<span class='badge bg-light-success text-success fw-semibold fs-2'>$data</span>",
             'Disable', 'Reject', 'Rejected' => "<span class='badge bg-light-danger text-danger fw-semibold fs-2'>$data</span>",
             'Pending' => "<span class='badge bg-light-warning text-warning fw-semibold fs-2'>$data</span>",
             "" => "<span class='badge bg-light-primary text-primary fw-semibold fs-2'>$data</span>"
@@ -336,6 +336,15 @@ class content extends database
             </a>";
     }
 
+    function referral_list($data, $link, $class = "")
+    {
+        return "<a href='$link' class='card shadow-md p-3 col-12 col-md-5 m-1 zoom $class'>
+                <div class='d-flex align-items-start justify-content-between'><h6 class='mr-auto p-2 m-0'>Referral " . $data['no_of_users'] . " People</h6> <ahref='$link' class='btn btn-sm btn-success'>Join.</ahref=></div>
+                <b class='ps-2 text-success'>You will get:</b>
+                <li class='ps-2 ml-auto text-right '>- Automatic free " . $this->money_format($data['plan_amount'], currency) . " investment when " . $data['no_of_users'] . " people are compeleted.</li>
+                <li class='ps-2 ml-auto text-right '>- " . $data['percentage_return_on_deposit'] . "% on each referral first deposit.</li>
+            </a>";
+    }
     function terms_message()
     {
         return "<b>By proceeding you agree to our <a href='https://proloomtrading.com/page.php?t=terms_and_conditions' target='_blank'>team and conditions</a> and <a target='_blank' href='https://proloomtrading.com/page.php?t=policy'> privacy policy</a>.</b>";
@@ -358,5 +367,20 @@ class content extends database
         <p class='text-dark me-1 fs-3 mb-0'> $percent%</p>
         <p class='fs-3 mb-0'>$word</p>
       </div>";
+    }
+
+    function get_percent_theme($percent){
+        $p = str_replace('%', "", $percent);
+        if($p <= 33){
+            return "danger";
+        }
+        if($p >= 33 && $p < 60){
+            return "warning";
+        }
+        if($p >= 60){
+            return "success";
+        }
+        return "primary";
+
     }
 }

@@ -217,6 +217,14 @@ require_once "include/ini-session.php";
                 </li>
               </ul>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link text-success" href="index?p=referral" aria-expanded="false">
+                <span>
+                  <i class="ti ti-award "></i>
+                </span>
+                <span class="hide-menu">Refer & Earn</span>
+              </a>
+            </li>
 
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

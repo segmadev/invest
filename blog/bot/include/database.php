@@ -996,6 +996,7 @@ class database
         $profitPercentage = (($sellingPrice - $buyingPrice) / $buyingPrice) * 100;
         return $profitPercentage;
     }
+  
 
     function calculateIncreasedValue($originalValue, $percentageIncrease) {
          $percentageIncrease = $percentageIncrease / 100;
