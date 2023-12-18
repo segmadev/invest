@@ -30,7 +30,7 @@ if ($ref_pa->rowCount() > 0) {
                 <ul class="hstack mb-0 ms-2">
 
                 </ul>
-                <a href="index?p=referral&action=view&id=<?= $row['ID'] ?>" class="bg-light rounded py-1 px-8 d-flex align-items-center text-decoration-none">
+                <a href="index?p=referral&action=overview&refid=<?= $row['ID'] ?>" class="bg-light rounded py-1 px-8 d-flex align-items-center text-decoration-none">
                     view
                 </a>
             </div>

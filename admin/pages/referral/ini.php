@@ -15,3 +15,8 @@ $ref_p_s = [];
 if(isset($_GET['id']) && $_GET['id'] != "") {
     $ref_p_s = $d->getall("referral_programs", "ID = ?", [htmlspecialchars($_GET['id'])]);
 }
+
+if(isset($_GET['refid']) && !empty($_GET['refid'])) {
+    $ref = $d->getall("referrals", "ID = '".htmlspecialchars($_GET['refid'])."'");
+    $ref_a = $d->getall("referral_allocation", "referral_code = ?", [$ref['referral_code']], fetch: "moredetails");
+}
