@@ -341,8 +341,8 @@ class content extends database
         return "<a href='$link' class='card shadow-md p-3 col-12 col-md-5 m-1 zoom $class'>
                 <div class='d-flex align-items-start justify-content-between'><h6 class='mr-auto p-2 m-0'>Referral " . $data['no_of_users'] . " People</h6> <ahref='$link' class='btn btn-sm btn-success'>Join.</ahref=></div>
                 <b class='ps-2 text-success'>You will get:</b>
-                <li class='ps-2 ml-auto text-right '>- Automatic free " . $this->money_format($data['plan_amount'], currency) . " investment when " . $data['no_of_users'] . " people are compeleted.</li>
-                <li class='ps-2 ml-auto text-right '>- " . $data['percentage_return_on_deposit'] . "% on each referral first deposit.</li>
+                <li class='ps-2 ml-auto text-right '>- Automatic free <b class='text-success'>" . $this->money_format($data['plan_amount'], currency) . "</b> investment when " . $data['no_of_users'] . " people are compeleted.</li>
+                <li class='ps-2 ml-auto text-right '>- <b class='text-success'>" . $data['percentage_return_on_deposit'] . "% </b> on each referral first deposit.</li>
             </a>";
     }
     function terms_message()
