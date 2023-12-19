@@ -799,11 +799,12 @@ class investment extends user
             // $trades = $this->getall("trades", "userID = ? and trade_time >= ? and trade_time <= ? and Xpromo = ? and status = ?", 
             // [$data['userID'], $data['start_date'], $data['end_date'], 0, "closed"], fetch: "moredetails");
             // var_dump($trades->rowCount());
-            // $query = $this->db->prepare("UPDATE trades SET intrest_amount = intrest_amount * $rate 
-            // WHERE userID = '".$data['userID']."' and trade_time >= ".$data['start_date']." and trade_time <= ".$data['end_date']." and Xpromo = 0 and status = 'closed'");
-            // $query->execute([]);
+            // intrest_amount = intrest_amount * $rate 
+            $query = $this->db->prepare("UPDATE trades SET Xpromo = $rate 
+            WHERE userID = '".$data['userID']."' and trade_time >= ".$data['start_date']." and trade_time <= ".$data['end_date']." and Xpromo = 0 and status = 'closed'");
+            $query->execute([]);
         }
-        
+
         
     }
     // get all active promo 
