@@ -6,6 +6,7 @@
         </div>
         <form class="card-body" id="foo">
             <?= $c->create_form($withdraw_form); ?>
+            <a href="index?p=wallets&action=new">+ add a wallet</a>
             <input type="hidden" name="page" value="withdraw">
             <input type="hidden" name="new_withdraw">
             <div id="custommessage"></div>
