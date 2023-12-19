@@ -15,6 +15,7 @@
         unset($_COOKIE['userSession']);
         setcookie('userSession', "", -1, '/');
         echo '<script>window.location.href = "login.php";</script>';
+        exit();
     }
     
     if(isset($_COOKIE['userSession']) && $_COOKIE['userSession'] != ""){
