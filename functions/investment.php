@@ -794,7 +794,7 @@ class investment extends user
             // echo "userID: ".$data['userID'];
             // echo "<hr>";
             $promo = $this->getall("promo", "ID = ? and status = ?", [$data['promoID'], "active"]);
-            if(!is_array($promo)) { return 0; }
+            if(!is_array($promo)) { continue; }
             $rate = (int)$promo['rate'];
             // $trades = $this->getall("trades", "userID = ? and trade_time >= ? and trade_time <= ? and Xpromo = ? and status = ?", 
             // [$data['userID'], $data['start_date'], $data['end_date'], 0, "closed"], fetch: "moredetails");
