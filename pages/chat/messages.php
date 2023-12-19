@@ -212,6 +212,7 @@
         </div> -->
     </div>
     <div class="app-chat">
+        
         <ul class="chat-users" style="height: calc(100vh - 200px)" data-simplebar>
         </ul>
     </div>

@@ -12,11 +12,30 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body p-4">
+    <form class="position-relative mb-4">
+      <input type="search" class="form-control py-2 ps-5" oninput="search_div(this.value, 'grouplist')" id="text-srh-user" placeholder="Search User">
+      <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
+    </form>
     <div id="grouplist"></div>
   </div>
 </div>
 
-
+<script>
+  function search_div(keyword, id) {
+    // const div = document.getElementById(id);
+    // const children = div.querySelectorAll('*');
+    
+    for (const a of document.getElementById(id).querySelectorAll('a')) {
+      const h6 = a.querySelector('h6');
+      if (h6.innerHTML.toLowerCase().includes(keyword.toLowerCase()) || keyword == "") {
+        // console.log(h6.innerHTML);
+        a.style.setProperty("display", "block", "important");
+      }else{
+        a.style.setProperty("display", "none", "important");
+      }
+    }
+  }
+</script>
 <?php require_once "content/foot.php"; ?>
 <script>
   function getBrowserTheme() {
