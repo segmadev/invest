@@ -26,7 +26,7 @@ if ($action == "list") {
 }
 require_once "pages/investment/ini-trades.php";
 $script[] = "fetcher";
-$i->apply_pending_promo();
+// $i->apply_pending_promo();
 // $i->apply_daily_compound_profits();
 // $i->auto_genarate_trading_days();
 // $i->take_pending_trades();
