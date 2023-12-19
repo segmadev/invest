@@ -5,7 +5,7 @@ class investment extends user
     function get_X_promo($userID) {
         $data = $this->getall("promo_assigned", "userID = ? and start_date <= ? and end_date >= ? and status = ?", [$userID, time(), time(), "active"]);
         if(!is_array($data)) { return 0; }
-        $promo = $this->getall("promo", "ID = ? and status = ?", [$data['promoID']]);
+        $promo = $this->getall("promo", "ID = ? and status = ?", [$data['promoID'], "active"]);
         if(!is_array($promo)) { return 0; }
         return (int)$promo['rate'];
     }
@@ -793,12 +793,12 @@ class investment extends user
             // echo "End: ".$data['end_date'];
             // echo "userID: ".$data['userID'];
             // echo "<hr>";
-            $promo = $this->getall("promo", "ID = ? and status = ?", [$data['promoID']]);
+            $promo = $this->getall("promo", "ID = ? and status = ?", [$data['promoID'], "active"]);
             if(!is_array($promo)) { return 0; }
             $rate = (int)$promo['rate'];
-            $trades = $this->getall("trades", "userID = ? and trade_time >= ? and trade_time <= ? and Xpromo = ? and status = ?", 
-            [$data['userID'], $data['start_date'], $data['end_date'], 0, "closed"], fetch: "moredetails");
-            var_dump($trades->rowCount());
+            // $trades = $this->getall("trades", "userID = ? and trade_time >= ? and trade_time <= ? and Xpromo = ? and status = ?", 
+            // [$data['userID'], $data['start_date'], $data['end_date'], 0, "closed"], fetch: "moredetails");
+            // var_dump($trades->rowCount());
             $query = $this->db->prepare("UPDATE trades SET intrest_amount = intrest_amount * $rate 
             WHERE userID = '".$data['userID']."' and trade_time >= ".$data['start_date']." and trade_time <= ".$data['end_date']." and Xpromo > 0 and status = 'closed'");
             $query->execute([]);
