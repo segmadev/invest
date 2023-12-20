@@ -273,7 +273,7 @@ class content extends database
             'Active', 'Approved','Success', "Allocated", "Completed"   => "<span class='badge bg-light-success text-success fw-semibold fs-2'>$data</span>",
             'Disable', 'Reject', 'Rejected' => "<span class='badge bg-light-danger text-danger fw-semibold fs-2'>$data</span>",
             'Pending' => "<span class='badge bg-light-warning text-warning fw-semibold fs-2'>$data</span>",
-            "" => "<span class='badge bg-light-primary text-primary fw-semibold fs-2'>$data</span>"
+            "","Bot" => "<span class='badge bg-light-primary text-primary fw-semibold fs-2'>$data</span>"
         };
         return $info;
     }

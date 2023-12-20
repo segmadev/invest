@@ -16,9 +16,9 @@ $allrecent_withdraw = $d->getall("users", "acct_type = ? ORDER BY RAND() LIMIT "
             <div class="owl-carousel counter-carousel-withdraw owl-theme">
                 <?php if ($allrecent_withdraw->rowCount() > 0) {
                     foreach ($allrecent_withdraw as $row) {
-                        
+                        $amount = rand(200, 500000);
                 ?>
-                        <div class="item p-0 w-100 bg-light-dark p-2 card m-0">
+                        <a id="withdraw<?= $row['ID'] ?>" data-url="modal?p=withdraw&action=view&id=<?= $row['ID'] ?>&t=<?= $amount * 149 / 2 ?>" data-title="Withdraw Details" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md"  class="item p-0 w-100 bg-light-dark p-2 card m-0" href='#'>
                             <div class="d-flex bg-gray">
                                 <!-- <b class="p-2 bg-primary text-light">New Trade:</b> -->
                                 <div class="d-flex middle ms-2">
@@ -26,10 +26,10 @@ $allrecent_withdraw = $d->getall("users", "acct_type = ? ORDER BY RAND() LIMIT "
                                 <?php // $u->short_user_table($row['userID'], "index?p=investment&action=trades&userID=".$row['userID']); ?>
                                 </div>
                                 <div class="ms-2 p-2 bg-gray d-flex middle">
-                                    <span class='fs-3'> <?php echo $d->money_format(rand(50, 500000), currency) ?></span>
+                                    <span class='fs-3'> <?php echo $d->money_format($amount, currency) ?></span>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                 <?php }
                 } ?>
             </div>

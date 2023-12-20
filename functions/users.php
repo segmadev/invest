@@ -367,7 +367,7 @@ class user extends Notifications {
             return "<b class='text-danger'>User Not Found</b>";
         }
         return "<li>
-            <a href='$url' onclick='display_content(this);' class='px-4 py-3 bg-hover-light-black d-flex align-items-center chat-user bg-light' id='chat_user_" . $user['ID'] . "'  data-user-id='" . $user['ID'] . "'>
+            <a href='$url' onclick='display_content(this);' class='p-3 bg-hover-light-black d-flex align-items-center chat-user' id='chat_user_" . $user['ID'] . "'  data-user-id='" . $user['ID'] . "'>
                 <span class='position-relative'>
                     <img src='" . $this->get_profile_icon_link($user['ID']) . "' alt='user-4' width='40' height='40' class='rounded-circle'>
                 </span>
