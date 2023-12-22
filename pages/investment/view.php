@@ -73,7 +73,7 @@ $script[] = "modal";
                     <?php if(is_array($compound_profit_d)){?>
                     <div class="card bg-light-success p-0 p-3">
                         <div class="card-body p-0">
-                            <h6>Amount Earn: <?= $d->money_format((float)$invest['trade_amount'] - (float) $invest['amount']); ?></h6>
+                            <h6>Compound Earnings: <?= $d->money_format((float)$invest['trade_amount'] - (float) $invest['amount']); ?></h6>
                         </div>
                     </div>
                     <?php } ?>
