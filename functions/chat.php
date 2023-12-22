@@ -356,7 +356,7 @@ private $chat_holder = [];
     function get_group_users($groupID, $start, $limit)
     {
         if($this->getall("groups", "ID = ? and users = ?", [$groupID, "all"], fetch: "") > 0){
-            $chats = $this->getall("users", "acct_type = ? order by date DESC LIMIT $start, $limit", ['bot'], "ID as user1", fetch: "moredetails");
+            $chats = $this->getall("users", "acct_type != ? order by date DESC LIMIT $start, $limit", [''], "ID as user1", fetch: "moredetails");
         }else{
             $chats = $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ? order by date DESC LIMIT $start, $limit", [$groupID, "yes", "yes"], fetch: "moredetails");
         }
