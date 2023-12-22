@@ -256,7 +256,7 @@ class content extends database
     function get_users_option_data()
     {
         $info = [];
-        $users = $this->getall("users", "status = ?", ["active"], "ID, first_name, last_name", "moredetails");
+        $users = $this->getall("users", "status != ?", [""], "ID, first_name, last_name", "moredetails");
         if ($users->rowCount() == 0) {
             return $info;
         }
