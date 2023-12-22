@@ -5,13 +5,6 @@
         $pageexclude = "yes";
         $page = htmlspecialchars($_POST['page']);
         require_once "pages/page-ini.php";
-        // match ($page) {
-        //    "deposit", "deposits"  => require_once "inis/deposit-ini.php",
-        //    "plan", "plans", "plandetails"  => require_once "inis/plans-ini.php",
-        //    "setting", "settings"  => require_once "inis/settings-ini.php",
-        //    "wallets","wallet" => require_once "include/ini-wallets.php",
-        //    ""=>null,
-        // };
     }
 
     $_POST['userID'] = $userID;

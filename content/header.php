@@ -127,14 +127,14 @@ require_once "include/ini-session.php";
                 <span class="hide-menu">Promo</span>
               </a>
             </li>
-            <!-- <li class="sidebar-item">
-              <a class="sidebar-link" href="index?p=investment&action=compound" aria-expanded="false">
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="index?p=compound_profits&action=new" aria-expanded="false">
                 <span>
                   <i class="ti ti-topology-star-3"></i>
                 </span>
                 <span class="hide-menu">Compound your Profits</span>
               </a>
-            </li> -->
+            </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="index?p=stocks" aria-expanded="false">
                 <span>

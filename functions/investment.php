@@ -193,10 +193,23 @@ class investment extends user
         if (!is_array($info)) {
             return;
         }
+        // chceck of active one 
+        // if active and amount is gater the minus
+
         $roll = $this->getall("compound_profits", "ID = ? and status = ?", [$info['compound_profits'], "active"]);
         if (!is_array($roll)) {
             $this->message("Compound profits deleted or not active anymore", "error");
             return;
+        }
+        $check = $this->getall("compound_profits_assigned", "userID = ? and status = ?", [$info['userID'], "active"]);
+        if(is_array($check)){
+            $compound = $this->getall("compound_profits", "ID = ?", [$check['compound_profits']]);
+            $roll['purchase_price'] = $roll['purchase_price'] - $compound['purchase_price'];
+            if($roll['purchase_price'] < 0){
+                $this->message("Sorry we can not activate this compound profit for you at the moment.", "error");
+                return false;
+            }
+
         }
         //  debit amount
         if (!$this->credit_debit($info['userID'], $roll['purchase_price'], "balance", "debit")) {
@@ -242,7 +255,7 @@ class investment extends user
     }
 
     function get_compound_profits($investID) {
-        $data = $this->getall("compound_profits_assigned", "investmentID = ?", [$investID]);
+        $data = $this->getall("compound_profits_assigned", "investmentID = ? or userID = ?", [$investID, $investID]);
         if(!is_array($data)) { return false; }
         return $data;
     }
@@ -338,7 +351,19 @@ class investment extends user
         }
         $info = [];
         foreach ($data as $row) {
-            $info[$row['ID']] = ucfirst($row['type']) . ' Compound Profits - Purchase Price: ' . $this->money_format($row['purchase_price'], currency) . ' <b class="text-success">(Bonus of: ' . $this->money_format($row['bonus_price'], currency) . ")</b>";
+            $place = "";
+            // check if the compound is active or amount is less than the active one
+            $compound_a = $this->getall("compound_profits_assigned", "userID = ? and status = ?", [$userID, "active"]);
+            if(is_array($compound_a)){
+                $compound = $this->getall("compound_profits", "ID = ?", [$compound_a['compound_profits']]);
+                if($compound_a['compound_profits'] == $row['ID'] || $compound['purchase_price'] < $row['purchase_price']){
+                    continue;
+                }
+                $row['purchase_price'] =   $row['purchase_price'] - $compound['purchase_price'];
+                $place = "Upgrade to: ";
+            }
+            $info[$row['ID']] = $place.ucfirst($row['type']) . ' Compound Profits - Purchase Price: ' . $this->money_format($row['purchase_price'], currency) . ' <b class="text-success">(Bonus of: ' . $this->money_format($row['bonus_price'], currency) . ")</b>";
+            
         }
         return $info;
     }

@@ -70,8 +70,17 @@ $script[] = "modal";
             <div class="col-lg-12 col-md-6 col-sm-12 m-0">
                 <div class="card mb-1 p-3 bg-light-success">
                     <h5>Compound profits</h5>
-                    <p><?= htmlspecialchars_decode($d->get_settings("compound_profits_short_title")) ?>  <button class='btn' id="compound_profit" data-url="modal?p=compound_profits&action=overview" data-title="Compound profits" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md">Read more</button></p>
-                    <?php $c->get_compound_profits_btn($invest['ID'], $i->get_compound_profits($invest['ID']))  ?>
+                    <?php if(is_array($compound_profit_d)){?>
+                    <div class="card bg-light-success p-0 p-3">
+                        <div class="card-body p-0">
+                            <h6>Amount Earn: <?= $d->money_format((float)$invest['trade_amount'] - (float) $invest['amount']); ?></h6>
+                        </div>
+                    </div>
+                    <?php } ?>
+                    <p><?= htmlspecialchars_decode($d->get_settings("compound_profits_short_title")) ?> <button class='btn' id="compound_profit" data-url="modal?p=compound_profits&action=overview" data-title="Compound profits" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md">Read more</button></p>
+                    <?php
+
+                    $c->get_compound_profits_btn($invest['ID'], $compound_profit_d)  ?>
 
                 </div>
             </div>

@@ -2,23 +2,23 @@
 
 <!-- Core Css -->
 <link id="themeColors" rel="stylesheet" href="dist/css/custom.css?n=992" />
-<?php 
+<?php
 
-if(isset($_COOKIE['browser_theme'])) {
-   switch ($_COOKIE['browser_theme']) {
-    case 'dark':
-        $logo = $light_logo;
-        echo '<link  id="themeColors"  rel="stylesheet" href="dist/css/style-dark.min.css?n=4" />';
-        $theme_btn = '<a href="index?theme=light" class=" btn btn-light text-dark rounded-pill font-medium me-2 mb-2" style="background-color: white"> <i class="ti ti-sun"></i> Change to Light Theme</a>';
-        # code...
-        break;
-        
+if (isset($_COOKIE['browser_theme'])) {
+    switch ($_COOKIE['browser_theme']) {
+        case 'dark':
+            $logo = $light_logo;
+            echo '<link  id="themeColors"  rel="stylesheet" href="dist/css/style-dark.min.css?n=4" />';
+            $theme_btn = '<a href="index?theme=light" class=" btn btn-light text-dark rounded-pill font-medium me-2 mb-2" style="background-color: white"> <i class="ti ti-sun"></i> Change to Light Theme</a>';
+            # code...
+            break;
+
         default:
-        $logo = $dark_logo;
-        echo  '<link id="themeColors" rel="stylesheet" href="dist/css/style.min.css?n=4" />';
-        $theme_btn = '<a href="index?theme=dark" class="btn btn-dark rounded-pill font-medium me-2 mb-2" for="option1"><i class="ti ti-moon"></i> Change to Dark Theme</a>';
-        break;
-   }
+            $logo = $dark_logo;
+            echo  '<link id="themeColors" rel="stylesheet" href="dist/css/style.min.css?n=4" />';
+            $theme_btn = '<a href="index?theme=dark" class="btn btn-dark rounded-pill font-medium me-2 mb-2" for="option1"><i class="ti ti-moon"></i> Change to Dark Theme</a>';
+            break;
+    }
 }
 
 ?>
@@ -47,3 +47,9 @@ if(isset($_COOKIE['browser_theme'])) {
         z-index: 110 !important;
     }
 </style>
+
+
+
+<script type="text/javascript">var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();(function(){var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;s1.src='https://embed.tawk.to/6585690607843602b804b9e1/1hi8i4gpn';s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');s0.parentNode.insertBefore(s1,s0);})();</script>
