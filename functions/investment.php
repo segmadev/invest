@@ -193,6 +193,7 @@ class investment extends user
         if (!is_array($info)) {
             return;
         }
+            // echo "yes";
         // chceck of active one 
         // if active and amount is gater the minus
 
@@ -223,10 +224,15 @@ class investment extends user
             }
         }
 
+        if(isset($check['ID'])){
+            $insert = $this->update("compound_profits_assigned", ["compound_profits"=>$info['compound_profits']], "ID = '".$check['ID']."' and userID = '".$info['userID']."'", "Compound profits assigned to investments successfully");
+        }else{
         $insert = $this->quick_insert("compound_profits_assigned", $info, "Compound profits assigned to investments successfully");
+        }
+
         if($insert) {
             $this->activate_compound_on_all_investment($info['compound_profits'], $info['userID']);
-            $actInfo = ["userID" => $info['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "compound_profits Activated", "description" => "A compound_profits was actiaved on an investment.", "action_for"=>"compound_profits_assigned", "action_for_ID"=>$info['ID']];
+            $actInfo = ["userID" => $info['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "compound_profits Activated", "description" => "A compound_profits was actiaved on an investment.", "action_for"=>"compound_profits_assigned", "action_for_ID"=>$roll['ID']];
         $this->new_activity($actInfo);
         }
     }
@@ -356,7 +362,7 @@ class investment extends user
             $compound_a = $this->getall("compound_profits_assigned", "userID = ? and status = ?", [$userID, "active"]);
             if(is_array($compound_a)){
                 $compound = $this->getall("compound_profits", "ID = ?", [$compound_a['compound_profits']]);
-                if($compound_a['compound_profits'] == $row['ID'] || $compound['purchase_price'] < $row['purchase_price']){
+                if($compound_a['compound_profits'] == $row['ID'] || $compound['purchase_price'] > $row['purchase_price']){
                     continue;
                 }
                 $row['purchase_price'] =   $row['purchase_price'] - $compound['purchase_price'];
