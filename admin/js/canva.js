@@ -35,7 +35,7 @@ let datepattern = document.getElementById("datepattern");
 let edit = [];
 edit.width = canvas.clientWidth;
 edit.height = canvas.clientHeight;
-edit.img = "../assets/images/screenshot/coinbase.jpg";
+edit.img = "";
 edit.shapes = [];
 canvas.querySelector("img").src = edit.img;
 
