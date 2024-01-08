@@ -2,9 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once "../consts/main.php";
-if(!Regex){
+if (!defined('Regex')) {
     define("Regex", "");
-}
+} 
 require_once "include/database.php";
 $d = new database;
 $screenshot_settings = [
