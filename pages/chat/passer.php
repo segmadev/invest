@@ -46,7 +46,7 @@
                     echo $ch->display_message($row, $userID);
                 }
             }else {
-                echo "null";
+                // echo "null";
             }
         
     }
@@ -62,7 +62,7 @@
                     echo $ch->display_message($row, $userID);
                 }
             }else {
-                echo "null";
+                // echo "null";
             }
         
     }

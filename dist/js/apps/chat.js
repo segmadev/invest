@@ -233,7 +233,7 @@ function get_message() {
       },
       success: function (response) {
         // console.log(response);
-        if (response != "null") {
+        if (response != "null" && response != "" && response != null) {
           if (lastchat == 0 || lastchat == "0") {
             document.getElementById("chatnew").innerHTML = response;
           } else {
@@ -266,7 +266,7 @@ function get_old_message() {
       },
       success: function (response) {
         // console.log(response);
-        if (response != "null") {
+        if (response != "null" && response != "" && response != null) {
           document
             .getElementById("chatnew")
             .insertAdjacentHTML("beforebegin", response);
@@ -354,6 +354,9 @@ function get_user_chat_list() {
 }
 
 function handleChatDisplay(displayID, content, type) {
+  if(content == null || content == "null" || content == "") {
+    return ;
+  }
   if (!document.getElementById(displayID)) {
     return false;
   }

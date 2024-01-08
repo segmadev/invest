@@ -438,9 +438,9 @@ private $chat_holder = [];
         if($message['message'] == "" || $message == null) {
             return ;
         }
-        if($message['message'] == "." && $message['upload'] != ""){
-            $message['message'] = "";
-        }
+        // if($message['message'] == "." && $message['upload'] != ""){
+        //     $message['message'] = "";
+        // }
         
         echo '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
@@ -517,9 +517,9 @@ function reply_message(array $message) {
         if($message['message'] == "" || $message == null) {
             return ;
         }
-        if($message['message'] == "." && $message['upload'] != ""){
-            $message['message'] = "";
-        }
+        // if($message['message'] == "." && $message['upload'] != ""){
+        //     $message['message'] = "";
+        // }
         echo '
 
 
