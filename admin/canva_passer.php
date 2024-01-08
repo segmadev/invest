@@ -244,6 +244,7 @@ function generate_static($data)
 
 function convertBTC($usdAmount)
 {
+    $d = new database;
     // var_dump($usdAmount);
     $usdAmount = preg_replace("/[^0-9\.]/", "", $usdAmount);
     // var_dump($usdAmount);
@@ -265,14 +266,8 @@ function convertBTC($usdAmount)
      
     } else {
         // The amount in USD you want to convert
-        $apiUrl = "https://api.coingecko.com/api/v3/simple/price?ids=$coinId&vs_currencies=usd";
-
-        // Make a GET request to the API
-        $response = file_get_contents($apiUrl);
-
-        // Parse the JSON response
-        $data = json_decode($response, true);
-        echo "API";
+        $data = $d->api_call('https://api.coingecko.com/api/v3/simple/price?ids=$coinId&vs_currencies=usd');
+                echo "API";
         setcookie("btc_price", serialize($data), time() + 30 * 60);
     }
 
