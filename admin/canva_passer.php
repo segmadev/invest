@@ -264,7 +264,7 @@ function convertBTC($usdAmount)
         setcookie("btc_price", serialize($data), time() + 30 * 60);
     }
 
-
+    var_dump($data);
     // Get the BTC price in USD
     $price = $data[$coinId]['usd'];
     // Perform the conversion
