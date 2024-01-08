@@ -1,4 +1,7 @@
 <?php
+if (!defined('Regex')) {
+    define("Regex", "");
+}
 // $2y$10$zaHI56uHbjpe0xfZdAVVZO4gruUDPE/NZmIGc3s3iX78e5/vZtTYe
 class database
 {
