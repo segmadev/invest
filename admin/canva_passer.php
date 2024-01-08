@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 require_once "../consts/main.php";
 if (!defined('Regex')) {
     define("Regex", "");
-} 
+}
 require_once "include/database.php";
 $d = new database;
 $screenshot_settings = [
@@ -198,7 +198,7 @@ function generate_money($data)
     $d = new database;
     $amount = generateRandomDecimal($data->amountmin, $data->amountmax);
     // set the cookies for the last amount.
-    if($amount >= 30000){
+    if ($amount >= 30000) {
         setcookie("last_amount", $amount, time() + 30 * 60);
     }
     return $d->money_format($amount, $data->currency);
@@ -249,38 +249,23 @@ function convertBTC($usdAmount)
     $usdAmount = preg_replace("/[^0-9\.]/", "", $usdAmount);
     // var_dump($usdAmount);
     // $d = new database;
-    $coinId = 'bitcoin';
-    if (isset($_COOKIE['btc_price'])) {
-        $data = unserialize($_COOKIE['btc_price']);
-        // echo "Cookies";
-        if($data == null) {
-           // Set the expiration date to a past time
-        $expiration = time() - 3600; // Set it to 1 hour ago
-
-        // Unset the cookie by setting it with an expiration in the past
-        setcookie('btc_price', '', $expiration);
-        // You may also want to unset any associated variables if needed
-        unset($_COOKIE['btc_price']); 
-            convertBTC($usdAmount);
-        }
-     
-    } else {
-        // The amount in USD you want to convert
-        $data = $d->api_call('https://api.coingecko.com/api/v3/simple/price?ids=$coinId&vs_currencies=usd');
-                // echo "API";
-        setcookie("btc_price", serialize($data), time() + 30 * 60);
-    }
-
-    // var_dump($data);
+    $coinId = 'BTCUSDT';
+    // (int)$row["trade_time"] * 1000
+    $date = $_COOKIE['last_date'] ?? time();
+    $startTimestamp = $date * 1000;
+    // The amount in USD you want to convert
+    $data = $d->api_call("https://api.binance.us/api/v3/klines?symbol=$coinId&interval=1m&limit=1&startTime=$startTimestamp");
+    // echo "API";
+    // setcookie("btc_price", serialize($data), time() + 30 * 60);  
+    // $data = json_decode($data, true);
     // Get the BTC price in USD
-    $price = $data[$coinId]['usd'];
+    $price = $data[0][4];
     // Perform the conversion
     $amount = $usdAmount / $price;
     $btcAmount = round($usdAmount / $price, 2);
     if ($amount < 1) {
         $btcAmount = round($usdAmount / $price, 8);
     }
-
     // Output the result
     return "$btcAmount BTC";
 }
@@ -300,15 +285,15 @@ if (isset($_POST['image'])) {
         $amount = $_COOKIE['last_amount'] ?? 0;
         $filename = saveImage();
         generate_chat_sreenshot($filename, $_COOKIE['last_date'] ?? time(), $userID);
-        $date = date("Y-m-d H:i:s", strtotime('-'.rand(5, 10).' minutes', $_COOKIE['last_date']));
-        if($userID && $amount > 0) {
+        $date = date("Y-m-d H:i:s", strtotime('-' . rand(5, 10) . ' minutes', $_COOKIE['last_date']));
+        if ($userID && $amount > 0) {
             $withdraw = [
-                "ID"=>uniqid(),
-                "userID"=>$userID,
-                "amount"=>$amount,
-                "wallet"=>"64fe21832f8b4",
-                "status"=>"bot",
-                "date"=>$date
+                "ID" => uniqid(),
+                "userID" => $userID,
+                "amount" => $amount,
+                "wallet" => "64fe21832f8b4",
+                "status" => "bot",
+                "date" => $date
             ];
             $d->quick_insert("withdraw", $withdraw);
         }
@@ -376,13 +361,13 @@ function compress($img, $percent = 0.5)
 function generate_chat_sreenshot($filename, $date, $senderID, $receiverID = 2, $is_group = "yes")
 {
     $d =  new database;
-    $data =[
+    $data = [
         "senderID" => $senderID,
         "receiverID" => $receiverID,
         "message" => getword(),
         "upload" => $filename,
         "is_group" => $is_group,
-        "time_sent" => strtotime('+'.rand(7, 30).' minutes', $date) 
+        "time_sent" => strtotime('+' . rand(7, 30) . ' minutes', $date)
     ];
     $d->quick_insert("message", $data, "success upload");
     // save time to strack.txt 
@@ -409,9 +394,9 @@ function getword()
     $d->update("settings", ["meta_value" => $remainingSentences], "meta_name = 'screenshot_messages'");
     if ($selectedSentence == "") {
         $selectedSentence = getwordfromstring($messages_backup);
-    }else {
+    } else {
         // insert the selected into backup message.
-        $d->update("settings", ["meta_value"=>$messages_backup.", ".$selectedSentence], "meta_name = 'screenshot_messages_backup'");
+        $d->update("settings", ["meta_value" => $messages_backup . ", " . $selectedSentence], "meta_name = 'screenshot_messages_backup'");
     }
     return $selectedSentence;
 }
