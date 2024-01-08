@@ -109,7 +109,7 @@ require_once "include/ini-session.php";
                 <span>
                   <i class="ti ti-plus"></i>
                 </span>
-                <span class="hide-menu">New Investment</span>
+                <span class="hide-menu">New Investment.</span>
               </a>
             </li>
             <li class="sidebar-item">
