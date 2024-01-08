@@ -278,18 +278,18 @@ private $chat_holder = [];
 
         if ($chat['is_group'] == 'yes') {
             if($start == "first") {
-                $start = $this->getall("message", "receiverID = ? and time_sent <= ? and message IS NOT NULL", [$chat['user2'], time()], fetch: "") - 100;
+                $start = $this->getall("message", "receiverID = ? and message IS NOT NULL", [$chat['user2']], fetch: "") - 100;
                 if($start < 0) {$start = 0;}
-                $messages = $this->getall("message", "receiverID = ? and time_sent <= ? and message IS NOT NULL order by $orderby LIMIT $start, $limit", [$chat['user2'], time()], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? and message IS NOT NULL order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
             }else {
-                $messages = $this->getall("message", "receiverID = ? and time_sent <= ? and $where and message IS NOT NULL order by $orderby LIMIT  $limit", [$chat['user2'], time(), $start], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? and $where and message IS NOT NULL order by $orderby LIMIT  $limit", [$chat['user2'], $start], fetch: "moredetails");
             }
         }else{
             if($start == "first") {
-                $start = $this->getall("message", "chatID = ? and time_sent <= ?", [$chatID, time()], fetch: "") - 100;
+                $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - 100;
                 if($start < 0) {$start = 0;}
             }
-            $messages = $this->getall("message", "chatID = ? and time_sent <= ? and $where and message IS NOT NULL order by $orderby LIMIT $limit", [$chatID, time(), $start], fetch: "moredetails");
+            $messages = $this->getall("message", "chatID = ? and $where and message IS NOT NULL order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");
         }
         return $messages;
     }
@@ -375,11 +375,11 @@ private $chat_holder = [];
         $message = "";
         $last = "";
         if ($is_group == "no") {
-            $last = $this->getall("message", "chatID = ? and message != ? and time_sent <= ? and message IS NOT NULL order by date DESC", [$chatID, "", time()], "message, senderID");
+            $last = $this->getall("message", "chatID = ? and message != ? and message IS NOT NULL order by date DESC", [$chatID, ""], "message, senderID");
         } else {
             $chat = $this->getall("chat", "ID = ?", [$chatID], "user2");
             if (is_array($chat)) {
-                $last = $this->getall("message", "receiverID = ?  and message != ? and time_sent <= ? and message IS NOT NULL order by date DESC", [$chat['user2'], "", time()], "message, senderID");
+                $last = $this->getall("message", "receiverID = ?  and message != ? and message IS NOT NULL order by date DESC", [$chat['user2'], ""], "message, senderID");
             }
         }
 
