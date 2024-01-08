@@ -251,6 +251,18 @@ function convertBTC($usdAmount)
     $coinId = 'bitcoin';
     if (isset($_COOKIE['btc_price'])) {
         $data = unserialize($_COOKIE['btc_price']);
+        echo "Cookies";
+        if($data == null) {
+           // Set the expiration date to a past time
+        $expiration = time() - 3600; // Set it to 1 hour ago
+
+        // Unset the cookie by setting it with an expiration in the past
+        setcookie('btc_price', '', $expiration);
+        // You may also want to unset any associated variables if needed
+        unset($_COOKIE['btc_price']); 
+            convertBTC($usdAmount);
+        }
+     
     } else {
         // The amount in USD you want to convert
         $apiUrl = "https://api.coingecko.com/api/v3/simple/price?ids=$coinId&vs_currencies=usd";
@@ -260,7 +272,7 @@ function convertBTC($usdAmount)
 
         // Parse the JSON response
         $data = json_decode($response, true);
-
+        echo "API";
         setcookie("btc_price", serialize($data), time() + 30 * 60);
     }
 
