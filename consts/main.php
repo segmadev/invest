@@ -1,5 +1,6 @@
 <?php
 define("ROOT", "../");
+define("Regex", "");
 define("ROOTFILE", "");
 const db_username = "prolcnoz_public";
 const db_password = "sJjJzBeJx2Qx";

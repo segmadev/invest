@@ -16,6 +16,25 @@ class user extends Notifications {
     //     }
     // }
 
+    function generate_bot_withdraw() {    
+        $no = rand(10, 15);
+        // write a condition to check number for the day b4 runnig
+        if($this->getall("withdraw", "date >= ? and status = ?", [date("Y-m-d"), "bot"], fetch: "") >= 15){
+            return;
+        }
+        for ($i=0; $i < $no; $i++) { 
+            $date = $this->generateRandomDateTime( date('Y-m-d H:i:s', strtotime('midnight')), date('Y-m-d H:i:s', strtotime('tomorrow') - 1));
+            $user = $this->generate_withdrawal_user(time());
+            $data = [];
+            $data['ID'] = uniqid();
+            $data['userID'] =  $user['ID'];
+            $data['amount'] =  rand(200, 800000);
+            $data['wallet'] = "64fe21832f8b4";
+            $data['status'] = "bot";
+            $data['date'] = $date;
+            $this->quick_insert("withdraw", $data);
+        }
+    }
     function get_all_emails() {
         // SELECT GROUP_CONCAT(email SEPARATOR ',') AS all_emails FROM table_name;
         return $this->getall("users", "acct_type = ?", ["user"], "GROUP_CONCAT(email SEPARATOR ', ') AS all_emails")['all_emails'];
@@ -257,7 +276,7 @@ class user extends Notifications {
     function user_data($userID) {
         if (isset($_COOKIE['user_data'])) {
             // echo "Cookies here";
-            // return  unserialize($_COOKIE['user_data']);
+            return  unserialize($_COOKIE['user_data']);
         }
         // amount_invest number_invet profit_percent lost_percent profit_amount lost_amount trade_balance trade_bonus balance 
         $info = [];

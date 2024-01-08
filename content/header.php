@@ -20,6 +20,7 @@ require_once "include/ini-session.php";
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!--  Favicon -->
   <link rel="shortcut icon" type="image/png" href="<?= $favicon ?>" />
+
   <!-- Owl Carousel  -->
   <?php require_once "content/head.php"; ?>
   <style>

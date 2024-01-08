@@ -219,7 +219,7 @@ private $chat_holder = [];
             return $chats;  
         }
         // $chats = $this->getall("chat c RIGHT JOIN ( SELECT m.chatID, message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message  m  WHERE time_sent >= $time GROUP BY m.chatID ) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", [$userID, $userID, $time], "c.*,  m.time_sent", fetch: "moredetails");
-        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", [$userID, $userID, $time], "c.*", fetch: "moredetails");
+        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent < ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", [$userID, $userID, $time, time()], "c.*", fetch: "moredetails");
     //    var_dump($chats);
         // $chats = $this->getall("chat", "ID = ? ORDER BY date DESC LIMIT $start, $limit", [], fetch: 'moredetails');
         return $chats;
@@ -278,18 +278,18 @@ private $chat_holder = [];
 
         if ($chat['is_group'] == 'yes') {
             if($start == "first") {
-                $start = $this->getall("message", "receiverID = ? and message IS NOT NULL", [$chat['user2']], fetch: "") - 100;
+                $start = $this->getall("message", "receiverID = ? and time_sent <= ? and message IS NOT NULL", [$chat['user2'], time()], fetch: "") - 100;
                 if($start < 0) {$start = 0;}
-                $messages = $this->getall("message", "receiverID = ? and message IS NOT NULL order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? and time_sent <= ? and message IS NOT NULL order by $orderby LIMIT $start, $limit", [$chat['user2'], time()], fetch: "moredetails");
             }else {
-                $messages = $this->getall("message", "receiverID = ? and $where and message IS NOT NULL order by $orderby LIMIT  $limit", [$chat['user2'], $start], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? and time_sent <= ? and $where and message IS NOT NULL order by $orderby LIMIT  $limit", [$chat['user2'], time(), $start], fetch: "moredetails");
             }
         }else{
             if($start == "first") {
-                $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - 100;
+                $start = $this->getall("message", "chatID = ? and time_sent <= ?", [$chatID, time()], fetch: "") - 100;
                 if($start < 0) {$start = 0;}
             }
-            $messages = $this->getall("message", "chatID = ? and $where and message IS NOT NULL order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");
+            $messages = $this->getall("message", "chatID = ? and time_sent <= ? and $where and message IS NOT NULL order by $orderby LIMIT $limit", [$chatID, time(), $start], fetch: "moredetails");
         }
         return $messages;
     }
@@ -375,11 +375,11 @@ private $chat_holder = [];
         $message = "";
         $last = "";
         if ($is_group == "no") {
-            $last = $this->getall("message", "chatID = ? and message != ? and message IS NOT NULL order by date DESC", [$chatID, ""], "message, senderID");
+            $last = $this->getall("message", "chatID = ? and message != ? and time_sent <= ? and message IS NOT NULL order by date DESC", [$chatID, "", time()], "message, senderID");
         } else {
             $chat = $this->getall("chat", "ID = ?", [$chatID], "user2");
             if (is_array($chat)) {
-                $last = $this->getall("message", "receiverID = ?  and message != ? and message IS NOT NULL order by date DESC", [$chat['user2'], ""], "message, senderID");
+                $last = $this->getall("message", "receiverID = ?  and message != ? and time_sent <= ? and message IS NOT NULL order by date DESC", [$chat['user2'], "", time()], "message, senderID");
             }
         }
 
@@ -431,11 +431,15 @@ private $chat_holder = [];
     {
         $upload = "";
         if ($message['upload'] != "" || $message['upload'] != null) {
+            
             $upload =  $upload = $this->display_img($message);
         }
 
         if($message['message'] == "" || $message == null) {
             return ;
+        }
+        if($message['message'] == "." && $message['upload'] != ""){
+            $message['message'] = "";
         }
         
         echo '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
@@ -507,10 +511,14 @@ function reply_message(array $message) {
     {
         $upload = "";
         if ($message['upload'] != "" || $message['upload'] != null) {
+            
             $upload = $this->display_img($message);
         }
         if($message['message'] == "" || $message == null) {
             return ;
+        }
+        if($message['message'] == "." && $message['upload'] != ""){
+            $message['message'] = "";
         }
         echo '
 
@@ -536,7 +544,7 @@ function reply_message(array $message) {
             return  "";
         }
         $reply_message = $this->getall("message", "ID = ?", [$message['reply_to']]);
-        if(!is_array($reply_message)) { return ""; }
+        if(!is_array($reply_message) || $reply_message['message'] == ".") { return ""; }
         return '<h6 class="fs-3 text-muted bg-light-dark p-2 m-0">
         <p class="text-success fs-1 m-0 p-0">'.$this->get_name($reply_message['senderID']).'</p>
          ' . $reply_message['message'] . '

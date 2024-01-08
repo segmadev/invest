@@ -8,6 +8,6 @@
     <div class="card-body">
         <p><b>Transaction ID: <?= $data['ID'] ?></b></p>
         <p><b>Amount: <?= $d->money_format($data['amount'], currency) ?></b></p>
-        <p><b>Date: <?= $data['date'] ?> </b></p>
+        <p><b>Date: <?= date("Y-m-d", strtotime($data['date'])) ?> </b></p>
     </div>
 </div>
