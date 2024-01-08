@@ -7,6 +7,9 @@
     <script src="../dist/libs/owl.carousel/dist/owl.carousel.min.js"></script>
   <script src="../dist/js/dashboard3.js?n=11"></script>
 <?php } ?>
+<?php if (in_array("screenshot", $script)) { ?>
+  <script src="js/screenshot.js"></script>
+<?php } ?>
 
 <?php if (in_array("wizard", $script)) { ?>
     <script src="../dist/libs/jquery-steps/build/jquery.steps.min.js?n=10"></script>

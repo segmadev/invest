@@ -18,6 +18,8 @@
         "trade_stocks"=>["description"=>"<b class='text-danger'>Note:</b> only write the stock symbol not the stock full name and please seprate each stock with a comma(,).", "placeholder"=>"APPL", ],
         "welcome_note"=>["type"=>"textarea", "description"=>"Welcome note will display to new users who is logs into dashboard for the first time.", "global_class"=>"w-100"],
         "live_chat_widget"=>["type"=>"textarea", "global_class"=>"w-100"],
+        "screenshot_messages"=>["type"=>"textarea", "global_class"=>"w-100"],
+        
     ];
 
     $settings_form['input_data'] = $s->getdata($settings_form);

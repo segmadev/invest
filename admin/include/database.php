@@ -818,7 +818,16 @@ class database
         }
     }
 
-    protected function proccess_single_image($key, $value, $datas)
+    function upload_canvas($img, $upload_dir="upload/")
+    {
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        $file = $upload_dir . "image_name.png";
+        $success = file_put_contents($file, $data);
+        return $success;
+    }
+     protected function proccess_single_image($key, $value, $datas)
     {
         if (!$this->check_if_required($value)) {
 
@@ -1044,6 +1053,14 @@ class database
         return $options;
     }
 
+    function generate_withdrawal_user(string $date) {
+        $user = $this->getall("users", "acct_type = ? and status =  ? ORDER BY RAND()", ["bot", "active"]);
+        // check if userID is not the withdrwal in the past two days
+        if($this->getall("withdraw", "userID = ? and date >= ?", [$user['ID'], date("Y-m-d", strtotime("-3 days", $date))], fetch: "") > 0){
+           return $this->generate_withdrawal_user($date);
+        }
+        return $user;
+    }
     function money_format($amount, $currency = '$')
     {
         $tamount = number_format((float)$amount, 2,);
