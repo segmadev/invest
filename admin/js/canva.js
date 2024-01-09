@@ -418,6 +418,7 @@ function getShapesInfo() {
         canvas.querySelector("img").style.display = "block";
         if (response != "") {
             var data = JSON.parse(response);
+            if(!data){ return false; }
             edit.img = data.imageUrl;
             if(data.width == ""){
               data.width = canvas.clientWidth;
@@ -437,7 +438,7 @@ function getShapesInfo() {
             // console.log(edit);
             // var data = response);
             let draw = draw_shapes();
-            if(getGet("generate")){
+            if(getGet("generate") && draw){
               console.log("downloaded");
               $("#download").click();
             }

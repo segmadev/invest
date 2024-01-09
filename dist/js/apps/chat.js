@@ -180,7 +180,7 @@ setInterval(function () {
     // get all messages
     get_message();
       // check user status
-  user_status();
+    user_status();
   }
 
   get_user_chat_list();
@@ -233,12 +233,17 @@ function get_message() {
       },
       success: function (response) {
         // console.log(response);
-        if (response != "null" && response != "" && response != null) {
-          if (lastchat == 0 || lastchat == "0") {
-            document.getElementById("chatnew").innerHTML = response;
-          } else {
-            document.getElementById("chatnew").innerHTML += response;
-          }
+        var Resholder = response.trim();
+        
+        if (Resholder == "null" || Resholder == "" || Resholder == null) {
+          return false;
+        }
+        console.log(Resholder);
+        console.log(lastchat);
+        if (lastchat == 0 || lastchat == "0") {
+          document.getElementById("chatnew").innerHTML = response;
+        } else {
+          document.getElementById("chatnew").innerHTML += response;
         }
       },
     });

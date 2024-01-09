@@ -1,16 +1,13 @@
-<?php 
-
-    // chat issets
-
-    if(isset($_POST['send_message'])){
-        $send = $ch->new_message($message_form);
-        if($send) {
-            $return = [
-                "function"=>["onset_chat", "data"=>["message-input-box", ""]]
-            ];
-            echo json_encode($return);
-        }
+<?php
+if (isset($_POST['send_message'])) {
+    $send = $ch->new_message($message_form);
+    if ($send) {
+        $return = [
+            "function" => ["onset_chat", "data" => ["message-input-box", ""]]
+        ];
+        echo json_encode($return);
     }
+}
 
     // get users in groups
     if(isset($_POST['get_group_users'])) {
@@ -46,7 +43,7 @@
                     echo $ch->display_message($row, $userID);
                 }
             }else {
-                // echo "null";
+                echo "null";   
             }
         
     }
@@ -62,7 +59,7 @@
                     echo $ch->display_message($row, $userID);
                 }
             }else {
-                // echo "null";
+                echo "null";
             }
         
     }

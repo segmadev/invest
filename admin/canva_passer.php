@@ -284,7 +284,9 @@ if (isset($_POST['image'])) {
         $userID = $_COOKIE['last_name'] ?? generate_name()['ID'];
         $amount = $_COOKIE['last_amount'] ?? 0;
         $filename = saveImage();
-        generate_chat_sreenshot($filename, $_COOKIE['last_date'] ?? time(), $userID);
+        if(!generate_chat_sreenshot($filename, $_COOKIE['last_date'] ?? time(), $userID)){
+            exit();
+        }
         $date = date("Y-m-d H:i:s", strtotime('-' . rand(5, 10) . ' minutes', $_COOKIE['last_date']));
         if ($userID && $amount > 0) {
             $withdraw = [
@@ -369,11 +371,15 @@ function generate_chat_sreenshot($filename, $date, $senderID, $receiverID = 2, $
         "is_group" => $is_group,
         "time_sent" => strtotime('+' . rand(7, 30) . ' minutes', $date)
     ];
+    if($data['upload']== "" || $data['upload'] == null) {
+        return false;
+    }
     $d->quick_insert("message", $data, "success upload");
     // save time to strack.txt 
     $file = fopen('strack.txt', 'a');
     fwrite($file, $data['time_sent'] . ", ");
     fclose($file);
+    return true;
 }
 
 

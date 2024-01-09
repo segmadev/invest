@@ -156,7 +156,7 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
         </div>
     </div>
     <script src="../dist/libs/jquery/dist/jquery.min.js"></script>
-    <script src="js/canva.js?n=h7j"></script>
+    <script src="js/canva.js?n=443"></script>
 </body>
 
 </html>

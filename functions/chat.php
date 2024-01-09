@@ -49,6 +49,9 @@ private $chat_holder = [];
             }else if(isset($message['message'])){
                 $data['message'] = $message['message'];
                 if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['message']], fetch: "") > 0) { continue; }
+                if($data['message'] == "" || $data['time_sent'] <= 0) {
+                    continue;
+                }
                 if (!$this->quick_insert("message", $data)) {
                     continue;
                 }
@@ -80,6 +83,7 @@ private $chat_holder = [];
         $data["time_sent"] = strtotime($data['date']);
         $data['senderID'] = $userID;
         unset($data['ID']);
+        if($data['time_sent'] <= 0) { return false; }
         if($this->quick_insert("message", $data)) { return true; }
         return false;
     }
@@ -141,6 +145,9 @@ private $chat_holder = [];
     {
         $data['time_sent'] = [];
         $_POST['time_sent'] = time();
+        if(!isset($_POST['message']) || $_POST['message'] == null || $_POST['message'] == ""){
+            return false;
+        }
         $info = $this->validate_form($data, "message", $action);
         // var_dump($info);
         if (!is_array($info)) {
