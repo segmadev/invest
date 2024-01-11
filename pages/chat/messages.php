@@ -83,7 +83,7 @@
 
                     </div>
                     <div class="px-9 py-6 border-top chat-send-message-footer">
-                        <form action="" id="foo">
+                        <form action="chat-passer" id="foo">
                             <div id="image-preview-upload"></div>
                             <div class="d-flex bg-light" id="reply_div" style="display: none!important">
                                 <div class="p-2 d-inline-block text-dark fs-3 col-11" id="reply_message"></div>
@@ -109,7 +109,7 @@
                                     <li><label for="upload" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-photo-plus"></i></label>
                                     </li>
                                     <!-- <li><a class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-paperclip"></i></a></li> -->
-                                    <li><button type="submit" class="btn border-0 text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 active" href="javascript:void(0)"><i class="ti ti-send"></i></button></li>
+                                    <li><button type="submit" id="sendmessage" class="btn border-0 text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 active" href="javascript:void(0)"><i class="ti ti-send"></i></button></li>
                                 </ul>
                             </div>
                         </form>

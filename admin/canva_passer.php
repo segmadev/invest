@@ -242,6 +242,10 @@ function generate_static($data)
 // convert usd to btc
 
 
+
+
+
+
 function convertBTC($usdAmount)
 {
     $d = new database;
@@ -254,7 +258,7 @@ function convertBTC($usdAmount)
     $date = $_COOKIE['last_date'] ?? time();
     $startTimestamp = $date * 1000;
     // The amount in USD you want to convert
-    $data = $d->api_call("https://api.binance.us/api/v3/klines?symbol=$coinId&interval=1m&limit=1&startTime=$startTimestamp");
+    $data = $d->api_call("https://api.binance.com/api/v3/klines?symbol=$coinId&interval=1m&limit=1&startTime=$startTimestamp");
     // echo "API";
     // setcookie("btc_price", serialize($data), time() + 30 * 60);  
     // $data = json_decode($data, true);

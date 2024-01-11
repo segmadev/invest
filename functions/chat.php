@@ -145,9 +145,9 @@ private $chat_holder = [];
     {
         $data['time_sent'] = [];
         $_POST['time_sent'] = time();
-        if(!isset($_POST['message']) || $_POST['message'] == null || $_POST['message'] == ""){
-            return false;
-        }
+        // if(!isset($_POST['message']) || $_POST['message'] == null || $_POST['message'] == ""){
+        //     return false;
+        // }
         $info = $this->validate_form($data, "message", $action);
         // var_dump($info);
         if (!is_array($info)) {
@@ -272,7 +272,7 @@ private $chat_holder = [];
     {
         return $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ?", [$groupID, "yes", "yes"], fetch: "");
     }
-    function get_all_messages($chatID, $userID,  $start = 0, $limit = 50, $chat = "", $orderby = "date ASC", $where = "time_sent > ?")
+    function get_all_messages($chatID, $userID,  $start = 0, $limit = 10, $chat = "", $orderby = "date ASC", $where = "time_sent > ?")
     {
         if($this->validate_admin()) {
             $chat = $this->get_chat($chatID, $userID);
@@ -285,7 +285,7 @@ private $chat_holder = [];
 
         if ($chat['is_group'] == 'yes') {
             if($start == "first") {
-                $start = $this->getall("message", "receiverID = ? and message IS NOT NULL", [$chat['user2']], fetch: "") - 100;
+                $start = $this->getall("message", "receiverID = ? and message IS NOT NULL", [$chat['user2']], fetch: "") - $limit;
                 if($start < 0) {$start = 0;}
                 $messages = $this->getall("message", "receiverID = ? and message IS NOT NULL order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
             }else {
@@ -293,7 +293,7 @@ private $chat_holder = [];
             }
         }else{
             if($start == "first") {
-                $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - 100;
+                $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - $limit;
                 if($start < 0) {$start = 0;}
             }
             $messages = $this->getall("message", "chatID = ? and $where and message IS NOT NULL order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");

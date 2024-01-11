@@ -176,14 +176,14 @@ setInterval(function () {
       }
     } catch (error) {}
   }
-  if(document.getElementById("chatnew")) {
-    // get all messages
-    get_message();
-      // check user status
-    user_status();
-  }
+  // if(document.getElementById("chatnew")) {
+  //   // get all messages
+  //   get_message();
+  //     // check user status
+  //   user_status();
+  // }
 
-  get_user_chat_list();
+  // get_user_chat_list();
 }, 2000); // 3000 milliseconds = 3 seconds
 
 function get_group_users(start = 0) {
@@ -208,7 +208,7 @@ function get_group_users(start = 0) {
         if (response != "null" && response != null && response != "") {
           // console.log(response);
           document.getElementById("grouplist").innerHTML += response;
-          get_group_users(start + limit);
+          // get_group_users(start + limit);
         }
       },
     });
@@ -229,7 +229,7 @@ function get_message() {
         lastchat: lastchat,
         chatID: chatID,
         page: "chat",
-        get_chat: 50,
+        get_chat: 10,
       },
       success: function (response) {
         // console.log(response);
@@ -249,7 +249,7 @@ function get_message() {
     });
   }
 }
-get_old_message();
+// get_old_message();
 function get_old_message() {
   if(!document.querySelector("#chatnew")) {
     return null;
@@ -411,4 +411,14 @@ function createHiddenDiv(divID) {
 
 function disposeDiv(divID) {
   document.body.removeChild(divID);
+}
+
+
+// send message
+
+var sendmessage = document.getElementById("sendmessage");
+sendmessage.addEventListener("click", sendmessage());
+
+function sendmessage() {
+  console.log("send message");
 }

@@ -17,7 +17,7 @@
        exit();
     }
     
-    if(isset($_COOKIE['userSession']) && $_COOKIE['userSession'] != ""){
+    if(isset($_COOKIE['userSession'])){
         $userID = $_COOKIE['userSession'];
         // exit();
 

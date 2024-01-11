@@ -776,7 +776,7 @@ setInterval(function() {
     get_notifications("get_pending_daily_global_report_notifications");
     get_no_notification();
     get_no_messages();
-  }, 3000); 
+  }, 600000); 
 
 function get_no_notification() {
     var data = {
