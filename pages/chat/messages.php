@@ -70,7 +70,7 @@
                                 <?php
                                 if (isset($messages) && $messages->rowCount()  > 0) {
                                     foreach ($messages as $row) {
-                                        $ch->display_message($row, $userID);
+                                        echo $ch->display_message($row, $userID);
                                     }
                                 } else {
                                     echo "<div data-chat-id='0'>" . $c->empty_page("No chat here yet", icon: "<i class='ti ti-messages text-primary fs-10'></i>") . "</div>";

@@ -1,3 +1,5 @@
+setCookie("isSave", true, 1);
+var url = new URL(window.location.href);
 $(function () {
   var chatarea = $("#chat");
 
@@ -163,7 +165,7 @@ $("body").on("click", ".chat-menu", function () {
   $(this).toggleClass("app-chat-active");
 });
 
-get_group_users();
+
 setInterval(function () {
   if (document.getElementById("chat-users").innerHTML != null) {
     try {
@@ -185,6 +187,18 @@ setInterval(function () {
 
   // get_user_chat_list();
 }, 2000); // 3000 milliseconds = 3 seconds
+
+setInterval(function () {
+  if(getCookie("isSave") && document.getElementById("chatnew")) {
+    user_status();
+    get_message();
+
+  }
+}, 3000);
+
+
+
+
 
 function get_group_users(start = 0) {
   // console.log("Statat " + start);
@@ -295,12 +309,13 @@ function reply_to(id, message) {
 
 setTimeout(function () {
   // get all messages
-
   var chatbox = document.querySelector(".chat-box");
-  var chatdiv = chatbox.querySelector(".simplebar-content-wrapper");
-  console.log(chatdiv.scrollHeight);
-  chatdiv.scrollTop = chatdiv.scrollHeight;
-}, 1000);
+  if (chatbox) {
+    var chatdiv = chatbox.querySelector(".simplebar-content-wrapper");
+    // console.log(chatdiv.scrollHeight);
+    chatdiv.scrollTop = chatdiv.scrollHeight;
+  }
+}, 2000);
 
 // get and display user status
 function user_status() {
@@ -339,7 +354,7 @@ function get_user_chat_list() {
     // console.log('response');
     $.ajax({
       type: "post",
-      url: "passer?users=",
+      url: "chat-passer?get_user_chat_list=",
       data: {
         get_user_chat_list: "",
         page: "chat",
@@ -417,8 +432,24 @@ function disposeDiv(divID) {
 // send message
 
 var sendmessage = document.getElementById("sendmessage");
-sendmessage.addEventListener("click", sendmessage());
-
-function sendmessage() {
-  console.log("send message");
+var inputBox = document.getElementById("message-input-box");
+if(sendmessage) {
+  sendmessage.addEventListener("click", function (e) {
+    if(inputBox.value != "") {
+      // eraseCookie("isSave");
+      setCookie("isSave", false, 1);
+      console.log(getCookie("isSave"));
+    }
+   });
 }
+
+
+function dispay_new_message() {
+
+}
+if(!url.searchParams.get("id")) {
+}
+get_user_chat_list();
+
+
+get_group_users();

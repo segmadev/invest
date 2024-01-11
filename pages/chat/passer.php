@@ -3,7 +3,7 @@ if (isset($_POST['send_message'])) {
     $send = $ch->new_message($message_form);
     if ($send) {
         $return = [
-            "function" => ["onset_chat", "data" => ["message-input-box", ""]]
+            "function" => ["onset_chat", "data" => ["message-input-box", $send]]
         ];
         echo json_encode($return);
     }

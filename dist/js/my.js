@@ -937,7 +937,12 @@ function isCookieExpired(cookieName) {
     document.getElementById("message-input-box").value = "";
     document.getElementById("image-preview-upload").innerHTML = "";
     document.getElementById("upload").value = "";
-
+    if(value2 != "") document.getElementById("chatnew").innerHTML += value2;
+    // eraseCookie("isSave");
+    console.log(getCookie("isSave"));
+    setCookie("isSave", true, 1);
+    console.log(getCookie("isSave"));
+ 
  }
 
  function cancel_reply() {
@@ -957,3 +962,4 @@ function isCookieExpired(cookieName) {
  function make_visible(id_name) {
     document.getElementById(id_name).style.setProperty("visibility", "visible", "important");
 }
+

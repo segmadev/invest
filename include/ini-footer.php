@@ -9,7 +9,7 @@
     </script>
 <?php } ?>
 <?php if (in_array('chat', $script)) { ?>
-    <script src="dist/js/apps/chat.js?n=hh87"></script>
+    <script src="dist/js/apps/chat.js?n=78"></script>
 <?php } ?>
 <!-- wizard js -->
 <?php if (in_array("wizard", $script)) { ?>

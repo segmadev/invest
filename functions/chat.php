@@ -158,7 +158,8 @@ private $chat_holder = [];
         } else {
             $this->user_chat_notification($info, time());
         }
-        return true;
+        $message = $this->getall("message", "time_sent = ? and senderID = ?", [$info['time_sent'], $info['senderID']]);
+        return $this->display_message($message, $info['senderID']);
     }
 
     function read_all_message($userID, $chatID)
@@ -354,9 +355,9 @@ private $chat_holder = [];
     function display_message(array $message, $userID)
     {
         if ($message['senderID']  == $userID) {
-            $this->display_send_message($message);
+           return $this->display_send_message($message);
         } else {
-            $this->display_receive_message($message);
+            return $this->display_receive_message($message);
         }
     }
 
@@ -422,7 +423,7 @@ private $chat_holder = [];
     }
     function display_image_message($message)
     {
-        echo '<div data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
+        return '<div data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
             <img src="dist/images/profile/user-8.jpg" alt="user8" width="40" height="40"
                 class="rounded-circle" />
             <div>
@@ -449,7 +450,7 @@ private $chat_holder = [];
         //     $message['message'] = "";
         // }
         
-        echo '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
+        return '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
                 class="rounded-circle"></a>
             <div>
@@ -527,7 +528,7 @@ function reply_message(array $message) {
         // if($message['message'] == "." && $message['upload'] != ""){
         //     $message['message'] = "";
         // }
-        echo '
+        return '
 
 
         <div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end">
