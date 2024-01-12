@@ -238,7 +238,7 @@ function get_message() {
     var chatID = document.querySelector("#chatID").value;
     $.ajax({
       type: "post",
-      url: "passer?chat=",
+      url: "chat-passer?chat=",
       data: {
         lastchat: lastchat,
         chatID: chatID,
@@ -276,19 +276,21 @@ function get_old_message() {
     var chatID = document.querySelector("#chatID").value;
     $.ajax({
       type: "post",
-      url: "passer?chat=old",
+      url: "chat-passer?chat=old",
       data: {
         firstchat: firstchat,
         chatID: chatID,
         page: "chat",
-        get_chat: 2000,
+        get_chat: 10,
       },
       success: function (response) {
         // console.log(response);
         if (response != "null" && response != "" && response != null) {
           document
             .getElementById("chatnew")
-            .insertAdjacentHTML("beforebegin", response);
+            .insertAdjacentHTML("afterbegin", response);
+              get_old_message();
+            
         }
       },
     });
@@ -450,6 +452,5 @@ function dispay_new_message() {
 if(!url.searchParams.get("id")) {
 }
 get_user_chat_list();
-
-
 get_group_users();
+get_old_message();

@@ -22,6 +22,31 @@
     <!-- /.modal-dialog -->
 </div>
 
+<div id="bs-image-viwer-modal-md" class="modal fade" tabindex="-1" aria-labelledby="bs-image-viwer-modal-md" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-flex align-items-center">
+                <h6 class="modal-title" id="myModalLabel">
+                    Image Viewer
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- <form action="" id="foo"> -->
+                <!-- <div id="custommessage"></div> -->
+                <div class="modal-body col-12"><img src="" id="imageviewer" alt="loading..."></div>
+            <!-- </form> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
 <script>
     function modalcontent(id) {
         var value = document.getElementById(id);

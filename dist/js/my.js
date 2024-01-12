@@ -963,3 +963,10 @@ function isCookieExpired(cookieName) {
     document.getElementById(id_name).style.setProperty("visibility", "visible", "important");
 }
 
+
+function imageviwer(url) {
+    image = document.getElementById("imageviewer");
+    if(image) {
+        image.src = url;
+    }
+}

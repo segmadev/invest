@@ -511,7 +511,7 @@ function reply_message(array $message) {
     }
     function display_img(array $message)
     {
-        return '<div id="image-' . $message['ID'] . '" data-url="modal?p=viewer&path=assets/images/chat/' . $message['upload'] . '" data-title="Image Viewer" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" class="rounded-2 overflow-hidden">
+        return '<div id="image-' . $message['ID'] . '" data-url="" data-title="Image Viewer" onclick="imageviwer(\'assets/images/chat/' . $message['upload'] . '\')" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" class="rounded-2 overflow-hidden">
                 <img src="assets/images/chat/' . $message['upload'] . '" alt="uploaded" class="w-30">
             </div>';
     }

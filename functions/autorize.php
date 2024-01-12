@@ -30,10 +30,10 @@ class autorize extends database
                 $this->apply_referral_code(htmlspecialchars($info['ID']), $info['referral_code']);
             }
             session_start();
-            session_unset();
+            // session_unset();
             $expiry = strtotime('+6 months'); // Calculate the expiry time for 3 months from now
             session_set_cookie_params($expiry); // Set the session cookie expiry time
-            session_start();
+            // session_start();
 
             // $d->updateadmintoken($value['ID'], "users");
             $_SESSION['userSession'] = htmlspecialchars($info['ID']);
