@@ -9,6 +9,12 @@ if (isset($_POST['send_message'])) {
     }
 }
 
+// delete a message
+if(isset($_POST['delete_message'])) {
+    $message_id = htmlspecialchars($_POST['delete_message']);
+    echo $ch->delete_chat($message_id, $userID);
+}
+
     // get users in groups
     if(isset($_POST['get_group_users'])) {
         $groupID = htmlspecialchars($_POST['get_group_users']);

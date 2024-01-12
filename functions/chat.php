@@ -303,11 +303,15 @@ private $chat_holder = [];
     }
     function delete_chat($messageID, $userID)
     {
-        $delete = $this->delete("message", "ID = ? and userID = ?", [$messageID, $userID]);
+        $delete = $this->delete("message", "ID = ? and senderID = ?", [$messageID, $userID]);
         if (!$delete) {
             return false;
         }
-        return $this->message("Chat deleted", "success", "json");
+        $return = [
+            "message" => ["Success", "Message Deleted. You might have to repload page to see update.", "success"],
+            "function" => ["removediv", "data" => ["#chat-ID-".$messageID, "placeholder"]],
+        ];
+        return json_encode($return);
     }
 
     function group_chat_notification($userID, $message, $time_sent, $groupID)
@@ -468,9 +472,34 @@ private $chat_holder = [];
 function reply_message(array $message) {
     return '<button onclick="reply_to(\''.$message['ID'].'\', \''.addslashes($message['message']).'\')" class="text-success btn btn-sm w-3 bg-light-success"><i class="ti ti-arrow-back-up"></i> Reply</button>';
 }
-    function message_options_btn($message)
+    function message_options_btn($message, $position = "receive")
     {
-        if(!$this->validate_admin()) { return ""; }
+        if(!$this->validate_admin()) {  
+            if($position != "send")  { return ;}
+            return '<div class="btn-group m-0 mb-2">
+            <button type="button" class="bg-none border-0 border-2 btn-sm  bg-light-success rounded-5  text-dark" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="ti ti-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><button class="dropdown-item" onclick="reply_to(\''.$message['ID'].'\', \''.addslashes($message['message']).'\')"><i class="ti ti-arrow-back-up"></i> Reply Chat</button></li> 
+                <li>
+                    <hr class="dropdown-divider" />
+                </li>
+                
+                <li>
+                <form action="chat-passer" id="foo">
+                                    <input type="hidden" name="delete_message" value="'.$message['ID'].'">
+                                    <input type="hidden" name="confirm" value="Are you sure you want to delete this message?">
+                                    <input type="hidden" name="page" value="chat" />
+                                    <div id="custommessage"></div>
+                                <input type="submit" name="delete_message" class="dropdown-item text-danger" value="Delete Message">
+                    </form>
+                    
+                    </li>
+
+            </ul>
+        </div>';
+        }
         return '<div class="btn-group mb-2">
             <button type="button" class="bg-none border-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="ti ti-dots-vertical"></i>
@@ -542,9 +571,10 @@ function reply_message(array $message) {
                 <div class="p-2 bg-light-info text-dark rounded-1 d-inline-block fs-3 m-0"> ' . $message['message'] . '</div>
                 <br>
                 <p class="text-dark">' . $this->ago($message['time_sent']) . '
-                '.$this->reply_message($message).'</p>
+                <!-- reply message here -->
+                </p>
             </div>
-            ' . $this->message_options_btn($message) . '
+            ' . $this->message_options_btn($message, "send") . '
         </div>';
     }
     function display_reply_to($message) {

@@ -1,5 +1,6 @@
 <?php
 $script[] = "chat";
+$script[] = "sweetalert";
 $chat_form = [
     "user1" => ["unique" => "user2"],
     "user2" => ["unique" => "user1"],

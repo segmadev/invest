@@ -776,7 +776,7 @@ setInterval(function() {
     get_notifications("get_pending_daily_global_report_notifications");
     get_no_notification();
     get_no_messages();
-  }, 600000); 
+  }, 300000); 
 
 function get_no_notification() {
     var data = {
@@ -970,3 +970,8 @@ function imageviwer(url) {
         image.src = url;
     }
 }
+setInterval(function() {
+if(document.getElementsByClassName("tawk-min-container")){
+    document.getElementsByClassName("tawk-min-container").innerHTML = '';
+}
+}, 300);

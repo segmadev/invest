@@ -41,7 +41,6 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
         }
 
         #canvas img {
-            
             object-fit: contain;
             height: 100vh;
             width: 100%;

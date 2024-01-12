@@ -76,6 +76,11 @@
     }
     ?>
 <?php } ?>
+
+<?php if (in_array("sweetalert", $script)) { ?>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<?php } ?>
+
 <?php if (in_array("google", $script)) { ?>
 
     <script type="text/javascript">

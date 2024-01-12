@@ -66,7 +66,6 @@
     </div>
   </footer>
 <?php } ?>
-<?= htmlspecialchars_decode($d->get_settings("live_chat_widget")) ?>
 </body>
 <!--  footercdd nav -->
 
