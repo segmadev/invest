@@ -298,7 +298,7 @@ function get_old_message() {
             
             // get_old_message();
             
-            chatbox.querySelector(".simplebar-content-wrapper").scrollTop = firstElement.offsetTop;
+            chatbox.querySelector(".simplebar-content-wrapper").scrollTop = firstElement.offsetTop - 20;
           }
           loadinging.style.display = "none";
       },
