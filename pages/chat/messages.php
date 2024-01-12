@@ -66,6 +66,7 @@
                         <div class="chat-list chat active-chat" data-user-id="1">
                             <input type="hidden" id="chatID" value="<?= $chatID ?>">
                             <div id="chatold"></div>
+                            <div id="loadining" style="display: none"><center><button class='btn btn-sm btn-primary opacity-0.5'>Loading</button><center/></div>
                             <div id="chatnew">
                                 <?php
                                 if (isset($messages) && $messages->rowCount()  > 0) {

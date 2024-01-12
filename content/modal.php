@@ -33,7 +33,7 @@
             </div>
             <!-- <form action="" id="foo"> -->
                 <!-- <div id="custommessage"></div> -->
-                <div class="modal-body col-12"><img src="" style="object-fit: contain;" id="imageviewer" alt="loading..."></div>
+                <div class="modal-body col-12"><img src="" style="object-fit: contain; width: 100%;" id="imageviewer" alt="loading..."></div>
             <!-- </form> -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect" data-bs-dismiss="modal">

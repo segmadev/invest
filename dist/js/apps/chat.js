@@ -1,5 +1,8 @@
 setCookie("isSave", true, 1);
 var url = new URL(window.location.href);
+var chatnew = document.getElementById("chatnew");
+var chatbox = document.querySelector(".chat-box");
+const loadinging = document.getElementById("loadining");
 $(function () {
   var chatarea = $("#chat");
 
@@ -271,7 +274,9 @@ function get_old_message() {
   const div = document.querySelector("#chatnew");
   const firstElement = div.firstElementChild;
   var firstchat = firstElement.getAttribute("data-chat-id");
-  if (firstchat != null) {
+  var currentPostion = chatbox.querySelector(".simplebar-content-wrapper").scrollTop;
+  if (firstchat != null && loadinging.style.display != "block") {
+    loadinging.style.display = "block";
     // console.log(firstchat);
     var chatID = document.querySelector("#chatID").value;
     $.ajax({
@@ -281,7 +286,7 @@ function get_old_message() {
         firstchat: firstchat,
         chatID: chatID,
         page: "chat",
-        get_chat: 10,
+        get_chat: 20,
       },
       success: function (response) {
         // console.log(response);
@@ -289,9 +294,13 @@ function get_old_message() {
           document
             .getElementById("chatnew")
             .insertAdjacentHTML("afterbegin", response);
-              get_old_message();
+
             
-        }
+            // get_old_message();
+            
+            chatbox.querySelector(".simplebar-content-wrapper").scrollTop = firstElement.offsetTop;
+          }
+          loadinging.style.display = "none";
       },
     });
   }
@@ -311,12 +320,19 @@ function reply_to(id, message) {
 
 setTimeout(function () {
   // get all messages
-  var chatbox = document.querySelector(".chat-box");
+
   if (chatbox) {
     var chatdiv = chatbox.querySelector(".simplebar-content-wrapper");
     // console.log(chatdiv.scrollHeight);
     chatdiv.scrollTop = chatdiv.scrollHeight;
   }
+
+  chatbox.querySelector(".simplebar-content-wrapper").onscroll = function() {
+    if (chatbox.querySelector(".simplebar-content-wrapper").scrollTop < 90) {
+      get_old_message();
+    }
+  }
+
 }, 2000);
 
 // get and display user status
@@ -453,4 +469,6 @@ if(!url.searchParams.get("id")) {
 }
 get_user_chat_list();
 get_group_users();
-get_old_message();
+
+
+// get_old_message();

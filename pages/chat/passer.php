@@ -52,9 +52,16 @@ if (isset($_POST['send_message'])) {
         $firstchat = htmlspecialchars($_POST['firstchat']);
         $chatID =  htmlspecialchars($_POST['chatID']);
         $limit = htmlspecialchars($_POST['get_chat']);
-        $messages =  $ch->get_all_messages($chatID, $userID, $firstchat, $limit, where: "time_sent < ?", orderby: 'date ASC');
-    
+        $messages =  $ch->get_all_messages($chatID, $userID, $firstchat, $limit, where: "time_sent < ?", orderby: 'time_sent DESC');
+        
+        // $messages 
             if (isset($messages) && $messages->rowCount()  > 0) {
+                $rmessages  = [];
+                foreach ($messages as $row) {
+                    $rmessages[] = $row;
+                }
+                $messages = array_reverse($rmessages);
+
                 foreach ($messages as $row) {
                     echo $ch->display_message($row, $userID);
                 }
