@@ -58,8 +58,7 @@ $script[] = "modal";
             <h2 class="m-0 text-success"><b><?= $i->compounded_profit($userID); ?></b></h2>
             <p class="m-0><small class=" text-light">Total amount gained so far through compound profit. This will keep increasing overtime.</small></p>
         </div>
-        It will be automatically be credited to your balance and can be withdraw immidetly
-
+        
         <!-- <div class="card bg-primary border-0 w-100">
             <div class="card-body pb-0">
                 <h5 class="fw-semibold mb-1 text-white card-title">Investment and return</h5>
