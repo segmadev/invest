@@ -258,11 +258,11 @@ function convertBTC($usdAmount)
     $date = $_COOKIE['last_date'] ?? time();
     $startTimestamp = $date * 1000;
     $api_ROOT = "https://api.binance.us";
-    if(ROOT == "../") {
-        $api_ROOT = "https://api.binance.com";
-    }
+    // if(ROOT == "../") {
+    //     $api_ROOT = "https://api.binance.com";
+    // }
     // The amount in USD you want to convert
-    $data = $d->api_call("$api_ROOT/api/v3/klines?symbol=$coinId&interval=1m&limit=1&startTime=$startTimestamp");
+    $data = $d->api_call("https://api.binance.us/api/v3/klines?symbol=$coinId&interval=1m&limit=1&startTime=$startTimestamp");
     // echo "API";
     // setcookie("btc_price", serialize($data), time() + 30 * 60);  
     // $data = json_decode($data, true);
@@ -278,7 +278,8 @@ function convertBTC($usdAmount)
     return "$btcAmount BTC";
 }
 
-if (isset($_POST['image'])) {
+if (isset($_POST['image'])) 
+{
     // save image
     // insert image into chat.
     $rand_no = rand(5, 10);
