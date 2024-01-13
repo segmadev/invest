@@ -301,7 +301,7 @@ private $chat_holder = [];
             $firstchat = htmlspecialchars($_POST['firstchat']);
             $chatID =  htmlspecialchars($_POST['chatID']);
             $limit = htmlspecialchars($_POST['get_chat']);
-            $messages =  $this->get_all_messages($chatID, $userID, $firstchat, $limit, where: "time_sent < ?", orderby: 'time_sent DESC');
+            $messages =  $this->get_all_messages($chatID, $userID, $firstchat, $limit, where: "time_sent < ?", orderby: 'time_sent DESC', type: "old");
             
             // $messages 
                 if (isset($messages) && $messages->rowCount()  > 0) {
@@ -320,13 +320,15 @@ private $chat_holder = [];
             
         }
     }
-    function get_all_messages($chatID, $userID,  $start = 0, $limit = 10, $chat = "", $orderby = "date ASC", $where = "time_sent > ?")
+    function get_all_messages($chatID, $userID,  $start = 0, $limit = 10, $chat = "", $orderby = "date ASC", $where = "time_sent > ?", $type = "new")
     {
         $more = "and time_sent <= ?";
         $moreValue = time();
-        if($this->validate_admin()) {
+        if($this->validate_admin() || $type == "old") {
             $more = "";
             $moreValue = "";
+        }
+        if($this->validate_admin()) {
             $chat = $this->get_chat($chatID, $userID);
         }
 

@@ -483,8 +483,8 @@ function getGet(key) {
     $("#download").on('click', function(){
       html2canvas(element, {
         onrendered: function(canvas) {
-          var imageData = canvas.toDataURL("image/jpg", 1);
-          var newData = imageData.replace(/^data:image\/jpg/, "data:application/octet-stream");
+          var imageData = canvas.toDataURL("image/png", 0.5);
+          var newData = imageData.replace(/^data:image\/png/, "data:application/octet-stream");
           doCapture(imageData);
         //   $("#download").attr("download", "image.jpg").attr("href", newData);
         }

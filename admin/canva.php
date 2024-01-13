@@ -29,7 +29,7 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
             overflow: hidden;
             height: 100vh;
             width: fit-content;
-            /* background-color: green; */
+            background-color: transparent;
         }
 
         #canvas>* {

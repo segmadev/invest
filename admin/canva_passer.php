@@ -332,8 +332,8 @@ function saveImage()
     $filename = uniqid("S-");
     $path = "../assets/images/chat/";
     // Save the image as filename.jpeg
-    file_put_contents($path . "$filename.jpeg", $image);
-    return "$filename.jpeg";
+    file_put_contents($path . "$filename.png", $image);
+    return "$filename.png";
 }
 
 function compress($img, $percent = 0.5)

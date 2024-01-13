@@ -14,7 +14,7 @@ $u->insert_default_message($userID, "2");
 if (isset($_GET['id'])) {
     $chatID = htmlspecialchars($_GET['id']);
     $chat =  $ch->get_chat($chatID, $userID);
-    $messages = $ch->get_all_messages($chatID, $userID, start: "first",   limit: "10", chat: $chat, orderby: "time_sent ASC");
+    $messages = $ch->get_all_messages($chatID, $userID, start: "first",   limit: "20", chat: $chat, orderby: "time_sent ASC");
     $uID = $chat['user1'];
     $what = "users";
     if ($chat['user1'] == $userID) {

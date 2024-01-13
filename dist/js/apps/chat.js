@@ -246,7 +246,7 @@ function get_message() {
         lastchat: lastchat,
         chatID: chatID,
         page: "chat",
-        get_chat: 10,
+        get_chat: 20,
       },
       success: function (response) {
         // console.log(response);
