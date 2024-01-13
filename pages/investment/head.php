@@ -52,14 +52,14 @@ $script[] = "modal";
     </div>
 
     <div class="col-lg-4 d-flex align-items-strech">
-
+        <?php if(is_array($i->get_compound_profits($userID))) { ?>
         <div class="card card-body border-2 border-success">
             <h4><b>Compounded Amount:</b></h4>
             <h2 class="m-0 text-success"><b><?= $i->compounded_profit($userID); ?></b></h2>
             <p class="m-0><small class=" text-light">Total amount gained so far through compound profit. This will keep increasing overtime.</small></p>
         </div>
-        
-        <!-- <div class="card bg-primary border-0 w-100">
+        <?php }else{ ?>
+        <div class="card bg-primary border-0 w-100">
             <div class="card-body pb-0">
                 <h5 class="fw-semibold mb-1 text-white card-title">Investment and return</h5>
                 <p class="fs-3 mb-3 text-white">Overview</p>
@@ -67,7 +67,8 @@ $script[] = "modal";
                     <img src="dist/images/backgrounds/piggy.png" class="img-fluid" alt="">
                 </div>
             </div>
-        </div> -->
+        </div>
+        <?php } ?>
     </div>
 
 </div>
