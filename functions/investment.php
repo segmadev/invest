@@ -601,6 +601,12 @@ class investment extends user
         }
     }
 
+    function compounded_profit($userID) {
+        $invest = $this->getall("investment", "userID = ? and trade_amount > amount", [$userID], "sum(amount) as amount, sum(trade_amount) as trade_amount");
+        if(!is_array($invest)){ return $this->money_format(0, currency); }
+        // var_dump($invest);
+        return $this->money_format((float)$invest['trade_amount'] - (float)$invest['amount'], currency);
+    }
     function take_pending_trades($no = 25, $type = "user", $order = "ASC")
     {
         $coins = $this->get_settings("trade_coins");

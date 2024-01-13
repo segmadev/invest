@@ -143,8 +143,14 @@ private $chat_holder = [];
     }
     function new_message($data, $action = "insert")
     {
+        
         $data['time_sent'] = [];
-        $_POST['time_sent'] = time();
+        if($this->validate_admin() && isset($_POST['time_sent']) && $_POST['time_sent'] != ""){
+            $_POST['time_sent'] = strtotime($_POST['time_sent']);
+        }else{
+            $_POST['time_sent'] = time();
+        }
+       
         // if(!isset($_POST['message']) || $_POST['message'] == null || $_POST['message'] == ""){
         //     return false;
         // }
@@ -273,9 +279,54 @@ private $chat_holder = [];
     {
         return $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ?", [$groupID, "yes", "yes"], fetch: "");
     }
+
+    function get_new_messages($userID) {
+        if(isset($_POST['get_chat']) && isset($_POST['lastchat'])) {
+            $lastchat = htmlspecialchars($_POST['lastchat']);
+            $chatID =  htmlspecialchars($_POST['chatID']);
+            $limit = htmlspecialchars($_POST['get_chat']);
+            $messages =  $this->get_all_messages($chatID, $userID, $lastchat, $limit, where: "time_sent > ?", orderby: 'time_sent ASC');
+            if (isset($messages) && $messages->rowCount()  > 0) {
+                foreach ($messages as $row) {
+                    return $this->display_message($row, $userID);
+                }
+            }else{
+                return 'null';
+            }
+        }
+    }
+
+    function get_old_messages($userID) {
+        if(isset($_POST['get_chat']) && isset($_POST['firstchat'])) {
+            $firstchat = htmlspecialchars($_POST['firstchat']);
+            $chatID =  htmlspecialchars($_POST['chatID']);
+            $limit = htmlspecialchars($_POST['get_chat']);
+            $messages =  $this->get_all_messages($chatID, $userID, $firstchat, $limit, where: "time_sent < ?", orderby: 'time_sent DESC');
+            
+            // $messages 
+                if (isset($messages) && $messages->rowCount()  > 0) {
+                    $rmessages  = [];
+                    foreach ($messages as $row) {
+                        $rmessages[] = $row;
+                    }
+                    $messages = array_reverse($rmessages);
+    
+                    foreach ($messages as $row) {
+                        return $this->display_message($row, $userID);
+                    }
+                }else {
+                    return "null";
+                }
+            
+        }
+    }
     function get_all_messages($chatID, $userID,  $start = 0, $limit = 10, $chat = "", $orderby = "date ASC", $where = "time_sent > ?")
     {
+        $more = "and time_sent <= ?";
+        $moreValue = time();
         if($this->validate_admin()) {
+            $more = "";
+            $moreValue = "";
             $chat = $this->get_chat($chatID, $userID);
         }
 
@@ -286,20 +337,27 @@ private $chat_holder = [];
 
         if ($chat['is_group'] == 'yes') {
             if($start == "first") {
-                $start = $this->getall("message", "receiverID = ? and message IS NOT NULL", [$chat['user2']], fetch: "") - $limit;
+                $start = $this->getall("message", "receiverID = ? $more and message IS NOT NULL", $this->flitter_array([$chat['user2'], $moreValue]), fetch: "") - $limit;
                 if($start < 0) {$start = 0;}
-                $messages = $this->getall("message", "receiverID = ? and message IS NOT NULL order by $orderby LIMIT $start, $limit", [$chat['user2']], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? $more and message IS NOT NULL order by $orderby LIMIT $start, $limit", $this->flitter_array([$chat['user2'], $moreValue]), fetch: "moredetails");
             }else {
-                $messages = $this->getall("message", "receiverID = ? and $where and message IS NOT NULL order by $orderby LIMIT  $limit", [$chat['user2'], $start], fetch: "moredetails");
+                $messages = $this->getall("message", "receiverID = ? and $where $more and message IS NOT NULL order by $orderby LIMIT  $limit", $this->flitter_array([$chat['user2'], $start, $moreValue]), fetch: "moredetails");
             }
         }else{
             if($start == "first") {
                 $start = $this->getall("message", "chatID = ?", [$chatID], fetch: "") - $limit;
                 if($start < 0) {$start = 0;}
             }
-            $messages = $this->getall("message", "chatID = ? and $where and message IS NOT NULL order by $orderby LIMIT $limit", [$chatID, $start], fetch: "moredetails");
+            $messages = $this->getall("message", "chatID = ? and $where $more and message IS NOT NULL order by $orderby LIMIT $limit", $this->flitter_array([$chatID, $start, $moreValue]), fetch: "moredetails");
         }
         return $messages;
+    }
+
+    function flitter_array(array $array) {
+       return array_filter($array, function($value) {
+            return $value !== "" || $value === 0;
+        });
+
     }
     function delete_chat($messageID, $userID)
     {
@@ -365,13 +423,18 @@ private $chat_holder = [];
         }
     }
 
+
+    function get_group_users_list($groupID, $start, $limit, $orderBy = "date DESC") {
+        if($this->getall("groups", "ID = ? and users = ?", [$groupID, "all"], fetch: "") > 0){
+           return $this->getall("users", "acct_type != ? order by $orderBy LIMIT $start, $limit", [''], "ID as user1", fetch: "moredetails");
+        }else{
+            return $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ? order by $orderBy LIMIT $start, $limit", [$groupID, "yes", "yes"], fetch: "moredetails");
+        }
+    }
     function get_group_users($groupID, $start, $limit)
     {
-        if($this->getall("groups", "ID = ? and users = ?", [$groupID, "all"], fetch: "") > 0){
-            $chats = $this->getall("users", "acct_type != ? order by date DESC LIMIT $start, $limit", [''], "ID as user1", fetch: "moredetails");
-        }else{
-            $chats = $this->getall("chat", "user2 = ? and is_group = ? and is_bot = ? order by date DESC LIMIT $start, $limit", [$groupID, "yes", "yes"], fetch: "moredetails");
-        }
+        $chats = $this->get_group_users_list($groupID, $start, $limit);
+       
         if ($chats->rowCount() > 0) {
             // echo $chats->rowCount();
             foreach ($chats as $row) {
@@ -387,11 +450,11 @@ private $chat_holder = [];
         $message = "";
         $last = "";
         if ($is_group == "no") {
-            $last = $this->getall("message", "chatID = ? and message != ? and message IS NOT NULL order by date DESC", [$chatID, ""], "message, senderID");
+            $last = $this->getall("message", "chatID = ? and message != ? and time_sent <= ? and message IS NOT NULL order by date DESC", [$chatID, "", time()], "message, senderID");
         } else {
             $chat = $this->getall("chat", "ID = ?", [$chatID], "user2");
             if (is_array($chat)) {
-                $last = $this->getall("message", "receiverID = ?  and message != ? and message IS NOT NULL order by date DESC", [$chat['user2'], ""], "message, senderID");
+                $last = $this->getall("message", "receiverID = ?  and message != ? and time_sent <= ? and message IS NOT NULL order by date DESC", [$chat['user2'], "", time()], "message, senderID");
             }
         }
 
@@ -428,12 +491,12 @@ private $chat_holder = [];
     function display_image_message($message)
     {
         return '<div data-chat-id="' . $message['ID'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start">
-            <img src="dist/images/profile/user-8.jpg" alt="user8" width="40" height="40"
+            <img src="'.rootFile.'dist/images/profile/user-8.jpg" alt="user8" width="40" height="40"
                 class="rounded-circle" />
             <div>
                 <h6 class="fs-2 text-muted">Andrew, 2 hours ago</h6>
                 <div class="rounded-2 overflow-hidden">
-                    <img src="dist/images/products/product-1.jpg" alt="" class="w-100">
+                    <img src="'.rootFile.'dist/images/products/product-1.jpg" alt="" class="w-100">
                 </div>
             </div>
         </div>       
@@ -450,6 +513,12 @@ private $chat_holder = [];
         if($message['message'] == "" || $message == null) {
             return ;
         }
+
+        if($message['time_sent'] > time() && $this->validate_admin()) {
+            $ago = "<small class='text-danger'>Future: ".date("Y-m-d H:i:s", $message['time_sent'])."</small>";
+        }else{
+            $ago = $this->ago($message['time_sent']);
+        }
         // if($message['message'] == "." && $message['upload'] != ""){
         //     $message['message'] = "";
         // }
@@ -458,7 +527,7 @@ private $chat_holder = [];
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
                 class="rounded-circle"></a>
             <div>
-            <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><h6 class="fs-2 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $this->ago($message['time_sent']) . '</h6></a>
+            <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><h6 class="fs-2 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $ago . '</h6></a>
             '.$this->display_reply_to($message).'
                 ' . $upload . '
                 
@@ -540,8 +609,8 @@ function reply_message(array $message) {
     }
     function display_img(array $message)
     {
-        return '<div id="image-' . $message['ID'] . '" data-url="" data-title="Image Viewer" onclick="imageviwer(\'assets/images/chat/' . $message['upload'] . '\')" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" class="rounded-2 overflow-hidden">
-                <img src="assets/images/chat/' . $message['upload'] . '" alt="uploaded" class="w-30">
+        return '<div id="image-' . $message['ID'] . '" data-url="" data-title="Image Viewer" onclick="imageviwer(\''.ROOT.'assets/images/chat/' . $message['upload'] . '\')" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" class="rounded-2 overflow-hidden">
+                <img src="'.ROOT.'assets/images/chat/' . $message['upload'] . '" alt="uploaded" class="w-30">
             </div>';
     }
     function display_send_message($message)
@@ -553,6 +622,12 @@ function reply_message(array $message) {
         }
         if($message['message'] == "" || $message == null) {
             return ;
+        }
+
+        if($message['time_sent'] > time() && $this->validate_admin()) {
+            $ago = "<small class='text-danger'>Future: ".date("Y-m-d H:i:s", $message['time_sent'])."</small>";
+        }else{
+            $ago = $this->ago($message['time_sent']);
         }
         // if($message['message'] == "." && $message['upload'] != ""){
         //     $message['message'] = "";
@@ -569,13 +644,15 @@ function reply_message(array $message) {
                 </div>
                 ' . $upload . '
                 <div class="p-2 bg-light-info text-dark rounded-1 d-inline-block fs-3 m-0"> ' . $message['message'] . '</div>
+                
                 <br>
-                <p class="text-dark">' . $this->ago($message['time_sent']) . '
+                <p class="text-dark"> ' . $ago . '
                 <!-- reply message here -->
                 </p>
             </div>
             ' . $this->message_options_btn($message, "send") . '
-        </div>';
+        
+            </div>';
     }
     function display_reply_to($message) {
         if(empty($message['reply_to']) ||  $message['reply_to'] == null) {

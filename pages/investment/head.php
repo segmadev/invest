@@ -1,6 +1,6 @@
-<?php 
+<?php
 $script[] = "modal";
-  //  $invest_and_profit = [$user_data['amount_invest'], $user_data['profit_invest_total']];
+//  $invest_and_profit = [$user_data['amount_invest'], $user_data['profit_invest_total']];
 ?>
 <div class=" p-3  shadow mb-3 d-flex">
     <button id="new-fund" data-url="modal?p=investment&action=transfer&funds_to=trading_account" data-title="Transfer Funds" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" class='btn btn-primary'><i class='ti ti-plus'></i> Add Funds</button>
@@ -52,7 +52,15 @@ $script[] = "modal";
     </div>
 
     <div class="col-lg-4 d-flex align-items-strech">
-        <div class="card bg-primary border-0 w-100">
+
+        <div class="card card-body border-2 border-success">
+            <h4><b>Compounded Amount:</b></h4>
+            <h2 class="m-0 text-success"><b><?= $i->compounded_profit($userID); ?></b></h2>
+            <p class="m-0><small class=" text-light">Total amount gained so far through compound profit. This will keep increasing overtime.</small></p>
+        </div>
+        It will be automatically be credited to your balance and can be withdraw immidetly
+
+        <!-- <div class="card bg-primary border-0 w-100">
             <div class="card-body pb-0">
                 <h5 class="fw-semibold mb-1 text-white card-title">Investment and return</h5>
                 <p class="fs-3 mb-3 text-white">Overview</p>
@@ -60,7 +68,7 @@ $script[] = "modal";
                     <img src="dist/images/backgrounds/piggy.png" class="img-fluid" alt="">
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
 </div>

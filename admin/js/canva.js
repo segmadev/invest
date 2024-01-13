@@ -514,7 +514,6 @@ function getGet(key) {
  
             // Check when the requested is completed
             if (this.readyState == 4 && this.status == 200) {
- 
                 // Displaying response from server
                 console.log(this.responseText);
             }

@@ -8,8 +8,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- <form action="" id="foo"> -->
-                <!-- <div id="custommessage"></div> -->
-                <div class="modal-body col-12" id="modal-body"></div>
+            <!-- <div id="custommessage"></div> -->
+            <div class="modal-body col-12" id="modal-body"></div>
             <!-- </form> -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect" data-bs-dismiss="modal">
@@ -32,8 +32,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- <form action="" id="foo"> -->
-                <!-- <div id="custommessage"></div> -->
-                <div class="modal-body col-12"><img src="" style="object-fit: contain; width: 100%;" id="imageviewer" alt="loading..."></div>
+            <!-- <div id="custommessage"></div> -->
+            <div class="modal-body col-12"><img src="" style="object-fit: contain; width: 100%;" id="imageviewer" alt="loading..."></div>
             <!-- </form> -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect" data-bs-dismiss="modal">
@@ -62,7 +62,72 @@
             data: {},
             success: function(response) {
                 // confirm(response);
-                document.getElementById("modal-body").innerHTML = response;
+                var body = document.getElementById("modal-body");
+                body.innerHTML = response;
+
+                const elements = body.querySelectorAll('#foo');
+                $i = 0;
+                elements.forEach(element => {
+                    element.addEventListener("submit", event => {
+                        // Prevent default posting of form - put here to work in case of errors
+                        event.preventDefault();
+
+                        // Abort any pending request
+                        if (request) {
+                            request.abort();
+                        }
+                        // setup some local variables
+                        var $form = $(event.target);
+                        var fd = new FormData(element);
+                        var action = 'passer';
+                        if (window.location.href != $form[0].action) {
+                            action = $form[0].action;
+                        }
+                        // Let's select and cache all the fields
+                        var $inputs = $form.find("input, select, button, textarea");
+
+                        // Serialize the data in the form
+                        var serializedData = $form.serialize();
+
+                        // Let's disable the inputs for the duration of the Ajax request.
+                        // Note: we disable elements AFTER the form data has been serialized.
+                        // Disabled form elements will not be serialized.
+                        $inputs.prop("disabled", true);
+                        const params = new URLSearchParams(serializedData);
+
+                        // Fire off the request to /form.php
+
+
+                        if (params.has("confirm")) {
+                            swal({
+                                title: "Attention!",
+                                text: params.get("confirm"),
+                                icon: "warning",
+
+                                buttons: true,
+                                dangerMode: true,
+                            }).then((willDelete) => {
+                                if (willDelete) {
+                                    runjax(request, event, $inputs, fd, action);
+                                } else {
+                                    //   close form
+                                }
+                            });
+                        } else {
+                            runjax(request, event, $inputs, fd, action);
+                        }
+
+                        // Callback handler that will be called on success
+
+                        // request.always(function () {
+                        //     // Reenable the inputs
+                        //     $inputs.prop("disabled", false);
+                        // });
+
+                    });
+                    $i++;
+                });
+
             }
         });
         // document.getElementById("modal-body").innerHTML='<object type="text/html" data="'+link+'" style="width: 100%!important; overflow: auto!important; height: 60vh;"></object>';

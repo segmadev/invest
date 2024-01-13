@@ -384,9 +384,9 @@ function generate_chat_sreenshot($filename, $date, $senderID, $receiverID = 2, $
     }
     $d->quick_insert("message", $data, "success upload");
     // save time to strack.txt 
-    $file = fopen('strack.txt', 'a');
-    fwrite($file, $data['time_sent'] . ", ");
-    fclose($file);
+    // $file = fopen('strack.txt', 'a');
+    // fwrite($file, $data['time_sent'] . ", ");
+    // fclose($file);
     return true;
 }
 

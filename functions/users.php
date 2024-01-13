@@ -404,11 +404,15 @@ class user extends Notifications {
         return $user['first_name'].' '.$user['last_name'];
     }
 
-    function get_name($id, $what = "users") {
+    function get_name($id, $what = "users", $type = false) {
         switch ($what) {
             case 'users':
-                $data = $this->getall("users", "ID = ?", [$id], "first_name, last_name");
-                return $this->get_full_name($data);
+                $data = $this->getall("users", "ID = ?", [$id], "first_name, last_name, acct_type");
+                $name =  $this->get_full_name($data);
+                if($type) {
+                    $name .= " - ".$data['acct_type'];
+                }
+                return $name;
                 break;
                 case 'groups':
                     $data = $this->getall("groups", "ID = ?", [$id], "name");

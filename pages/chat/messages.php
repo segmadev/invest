@@ -84,7 +84,7 @@
 
                     </div>
                     <div class="px-9 py-6 border-top chat-send-message-footer">
-                        <form action="chat-passer" id="foo">
+                        <form action="chat-passer" id="foo" onsubmit="return void(0);">
                             <div id="image-preview-upload"></div>
                             <div class="d-flex bg-light" id="reply_div" style="display: none!important">
                                 <div class="p-2 d-inline-block text-dark fs-3 col-11" id="reply_message"></div>
@@ -109,8 +109,11 @@
                                 <ul class="list-unstyledn mb-0 d-flex align-items-center">
                                     <li><label for="upload" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-photo-plus"></i></label>
                                     </li>
-                                    <!-- <li><a class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-paperclip"></i></a></li> -->
                                     <li><button type="submit" id="sendmessage" class="btn border-0 text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 active" href="javascript:void(0)"><i class="ti ti-send"></i></button></li>
+                                    <?php if ($d->validate_admin()) { ?>
+                                        <li><a id="moremessage" data-url="modal?p=chat&action=new&id=<?= htmlspecialchars($_GET['id']); ?>" data-title="More message options" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-dots"></i></a></li>
+                                   <?php } ?>
+
                                 </ul>
                             </div>
                         </form>

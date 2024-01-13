@@ -1,3 +1,7 @@
+<?php if(isset($_GET['id'])){
+    require_once "pages/chat/options.php";
+   
+}else{ ?>
 <div class="card">
     <div class="card-header">
         <h1 class="card-title">Generate Conversation.</h1>
@@ -12,3 +16,5 @@
         </form>
     </div>
 </div>
+
+<?php } ?>

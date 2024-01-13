@@ -38,42 +38,24 @@ if(isset($_POST['delete_message'])) {
     if(isset($_POST['get_last_seen'])) {
         echo $ch->get_last_seen(htmlspecialchars($_POST['get_last_seen']));
     }
-    if(isset($_POST['get_chat']) && isset($_POST['lastchat'])) {
-        $lastchat = htmlspecialchars($_POST['lastchat']);
-        $chatID =  htmlspecialchars($_POST['chatID']);
-        $limit = htmlspecialchars($_POST['get_chat']);
-        $messages =  $ch->get_all_messages($chatID, $userID, $lastchat, $limit);
+    // if(isset($_POST['get_chat']) && isset($_POST['lastchat'])) {
+    //     $lastchat = htmlspecialchars($_POST['lastchat']);
+    //     $chatID =  htmlspecialchars($_POST['chatID']);
+    //     $limit = htmlspecialchars($_POST['get_chat']);
+    //     $messages =  $ch->get_all_messages($chatID, $userID, $lastchat, $limit);
     
-            if (isset($messages) && $messages->rowCount()  > 0) {
-                foreach ($messages as $row) {
-                    echo $ch->display_message($row, $userID);
-                }
-            }else {
-                echo "null";   
-            }
+    //         if (isset($messages) && $messages->rowCount()  > 0) {
+    //             foreach ($messages as $row) {
+    //                 echo $ch->display_message($row, $userID);
+    //             }
+    //         }else {
+    //             echo "null";   
+    //         }
         
-    }
-    // get first messages
-    if(isset($_POST['get_chat']) && isset($_POST['firstchat'])) {
-        $firstchat = htmlspecialchars($_POST['firstchat']);
-        $chatID =  htmlspecialchars($_POST['chatID']);
-        $limit = htmlspecialchars($_POST['get_chat']);
-        $messages =  $ch->get_all_messages($chatID, $userID, $firstchat, $limit, where: "time_sent < ?", orderby: 'time_sent DESC');
-        
-        // $messages 
-            if (isset($messages) && $messages->rowCount()  > 0) {
-                $rmessages  = [];
-                foreach ($messages as $row) {
-                    $rmessages[] = $row;
-                }
-                $messages = array_reverse($rmessages);
-
-                foreach ($messages as $row) {
-                    echo $ch->display_message($row, $userID);
-                }
-            }else {
-                echo "null";
-            }
-        
-    }
+    // }
+    
+        // get old messages
+        echo $ch->get_old_messages($userID);
+        // get recent messages
+        echo $ch->get_new_messages($userID);
     ?>
