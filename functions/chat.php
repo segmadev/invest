@@ -118,7 +118,7 @@ private $chat_holder = [];
 
     function get_chat($chatID, $userID)
     {
-        if (isset($_SESSION['adminSession']) && !isset($_COOKIE['userSession'])) {
+        if (isset($_SESSION['adminSession']) && side == "admin") {
             return $this->getall("chat", "ID = ?", [$chatID]);
         } else {
             $chat =  $this->getall("chat", "ID = ?", [$chatID]);

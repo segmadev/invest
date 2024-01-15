@@ -113,7 +113,7 @@ function loadShapeData($shape, $shapes)
                 break;
             }
             $shape->content = generate_btc(rand(50, 100000));
-
+            if(!$shape->content){ return false; }
             break;
 
         default:

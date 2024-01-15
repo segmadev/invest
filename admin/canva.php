@@ -49,9 +49,8 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
 </head>
 
 <body style="margin: 0; padding: 0;">
-    <!-- <div class="resize"></div> -->
     <div class="row d-flex">
-        <div id="canvas">
+        <div id="canvas" style="margin: 0; padding: 0;">
             <img src="" alt="">
         </div>
         <div class="col-md-7 <?php if(isset($_GET['generate'])) { echo "d-none"; } ?>">
