@@ -259,8 +259,14 @@ private $chat_holder = [];
     function get_group_last_seen(){
         $time = time();
         $diff = time() - 10;
-        $no = $this->getall("users", "last_seen >= ? LIMIT ".rand(100, 500), [$diff], fetch: "");
-        return '<span class="p-1 badge rounded-pill bg-success"><span class="visually-hidden">'.$no.'</span></span> '.$no.' Users Online';
+
+        // $no = $this->getall("users", "last_seen >= ? LIMIT ".rand(10000, 500000), [$diff], fetch: "");
+        $no = rand(10, 20);
+        $rand = rand(1, 3);
+        $get_last_seen = (int)$this->get_settings("get_last_seen");
+        if($rand <= 1 && $get_last_seen <= 1500) { $get_last_seen = $get_last_seen + $no; }else if($rand == 2 && $get_last_seen > 850){ $get_last_seen = $get_last_seen - $no; }
+        $this->update("settings", ["meta_value"=>$get_last_seen], "meta_name = 'get_last_seen'");
+        return '<span class="p-1 badge rounded-pill bg-success"><span class="visually-hidden">'.$get_last_seen.'</span></span> '.$get_last_seen.' Users Online';
     }
     function proccess_last_seen($last_seen)
     {

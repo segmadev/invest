@@ -259,14 +259,18 @@ function convertBTC($usdAmount)
     $startTimestamp = $date * 1000;
     $api_ROOT = "https://api.binance.us";
     // if(ROOT == "../") {
-    //     $api_ROOT = "https://api.binance.com";
+        $api_ROOT = "https://api.binance.com";
     // }
     // The amount in USD you want to convert
     $data = $d->api_call("https://api.binance.us/api/v3/klines?symbol=$coinId&interval=1m&limit=1&startTime=$startTimestamp");
+    
     // echo "API";
     // setcookie("btc_price", serialize($data), time() + 30 * 60);  
     // $data = json_decode($data, true);
     // Get the BTC price in USD
+    if(!isset($data[0])) {
+        return false;
+    }
     $price = $data[0][4];
     // Perform the conversion
     $amount = $usdAmount / $price;

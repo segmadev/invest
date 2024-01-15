@@ -193,14 +193,15 @@ setInterval(function () {
 
 setInterval(function () {
   if(getCookie("isSave") && document.getElementById("chatnew")) {
-    user_status();
+    
     get_message();
 
   }
 }, 3000);
 
-
-
+setInterval(function () {
+  user_status();
+}, 7000);
 
 
 function get_group_users(start = 0) {
@@ -210,11 +211,11 @@ function get_group_users(start = 0) {
     document.querySelector("#grouplist")
   ) {
     var groupID = document.querySelector("#receiverID").value;
-    var limit = 30;
+    var limit = 100;
 
     $.ajax({
       type: "post",
-      url: "passer",
+      url: "chat-passer?get_group_users=",
       data: {
         get_group_users: groupID,
         start: start,
@@ -225,7 +226,7 @@ function get_group_users(start = 0) {
         if (response != "null" && response != null && response != "") {
           // console.log(response);
           document.getElementById("grouplist").innerHTML += response;
-          // get_group_users(start + limit);
+          get_group_users(start + limit);
         }
       },
     });
@@ -469,6 +470,7 @@ if(!url.searchParams.get("id")) {
 }
 get_user_chat_list();
 get_group_users();
+user_status();
 
 
 // get_old_message();

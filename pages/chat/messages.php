@@ -36,7 +36,7 @@
                     href='#'
                     data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" 
                     <?php }else{ ?>
-                        href='?p=investment&action=trades&userID=<?= $uID ?>'
+                        href='#'
                         <?php } ?>
                     >
                         <h6 class="mb-1 name fw-semibold"><?= $u->get_name($uID, $what) ?></h6>

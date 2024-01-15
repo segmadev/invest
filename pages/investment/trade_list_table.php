@@ -18,7 +18,7 @@ if ($trades->rowCount() == 0) {
 ?>
         <tr class="bg-light">
             <td><a id="view_<?= $row['ID'] ?>" href="index?p=investment&action=trade_chart&tradeID=<?= $row['ID'] ?>">View</a></td>
-            <td><?= $u->short_user_table($row['userID'], "index?p=investment&action=trades&userID=".$row['userID']); ?></td>
+            <td><?= $u->short_user_table($row['userID'], "#"); ?></td>
             <td class="rounded-start bg-transparent">
                 <div class="d-flex align-items-center gap-3">
                     <div>
