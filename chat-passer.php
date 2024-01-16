@@ -6,6 +6,7 @@ if (isset($_COOKIE['userSession']) && $_COOKIE['userSession'] != "") {
     // exit
     return false;
 }
+require_once "include/side.php";
 require_once "consts/main.php";
 require_once "admin/include/database.php";
 require_once "functions/notifications.php";

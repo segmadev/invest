@@ -20,3 +20,21 @@
 
 <!-- show: app-chat-offcanvas border-start app-chat-right -->
 <!-- not show: app-chat-offcanvas border-start -->
+
+
+<!-- mobile list of users chats -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="example2" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <div class="offcanvas-title d-flex align-items-center justify-content-between" id="offcanvasExampleLabel">
+            <h5 class="mb-0 fs-5 fw-semibold">Chats</h5>
+            <span class="badge bg-primary rounded-4 px-3 py-1 lh-sm"></span>
+        </div>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul id="mobile-chat-list" class="chat-users">Loading chats...</ul>
+    </div>
+</div>
+<!-- show: app-chat-offcanvas border-start app-chat-right -->
+<!-- not show: app-chat-offcanvas border-start -->

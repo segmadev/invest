@@ -91,16 +91,16 @@
                                 <div class="w-100 justify-content-center align-items-center d-flex"><button class='btn' type='button' onclick='cancel_reply()'><i class="ti ti-x fs-5 text-danger"></i></button></div>
                             </div>
                             <div id="custommessage"></div>
+                            <?php
+                                    unset($message_form['message']);
+                                    unset($message_form['upload']);
+                                    echo  $c->create_form($message_form);
+                                    ?>
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2 w-85">
                                     <!-- <a class="position-relative nav-icon-hover z-index-5" href="javascript:void(0)"> <i class="ti ti-mood-smile text-dark bg-hover-primary fs-7"></i></a> -->
                                     <input onchange="showPreview(event, 'image-preview-upload')" name="upload" value="" id="upload" type="file" class="form-control upload d-none" placeholder="Enter Upload">
-                                    <?php
-                                    unset($message_form['message']);
-                                    unset($message_form['upload']);
-
-                                    echo  $c->create_form($message_form);
-                                    ?>
+                                    
                                     <input type="hidden" name="send_message" value="">
                                     <input type="hidden" name="page" value="chat">
                                     <input name="message" type="text" class="form-control message-type-box text-muted border-0 p-0 ms-2" placeholder="Type a Message" id="message-input-box" />
@@ -167,6 +167,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="offcanvas offcanvas-start user-chat-box chat-offcanvas" tabindex="-1" id="chat-sidebar" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel"> Chats </h5>
@@ -223,3 +225,4 @@
 </div>
 
 <div id="chat-users-holder" style="display: none"></div>
+

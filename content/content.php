@@ -54,16 +54,21 @@ class content extends database
             if (!isset($this->data['atb'])) {
                 $this->data['atb'] = "";
             }
-            if (!isset($this->data['is_required']) || $this->data['is_required'] == true) {
-                $this->data['is_required'] = true;
-                $this->data['star'] = "*";
-            }
+            
             if (!isset($this->data['type'])) {
                 $this->data['type'] = "input";
             }
             if (!isset($this->data['title'])) {
                 $this->data['title'] = ucwords(str_replace("_", " ", $key));
             }
+            
+            if (!isset($this->data['is_required']) || $this->data['is_required'] == true) {
+                $this->data['is_required'] = true;
+                if($this->data['title'] != "") {
+                    $this->data['star'] = "*";
+                }
+            }
+
             if (!isset($this->data['id'])) {
                 $this->data['id'] = $this->key;
             }

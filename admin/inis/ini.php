@@ -1,7 +1,8 @@
 <?php
 // define("ROOT", $_SERVER['DOCUMENT_ROOT']."/invest2/");
 require_once "include/session.php";
-define("side", "admin");
+require_once "include/side.php";
+
 require_once "../consts/main.php";
 require_once "../include/phpmailer/PHPMailerAutoload.php";
 require_once "include/database.php";

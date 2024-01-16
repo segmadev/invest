@@ -49,7 +49,7 @@ $script[] = "table";
                                                     <hr class="dropdown-divider" />
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item text-success" target="_blank" href="index?p=users&action=access&id=<?= $row['ID'] ?>">Gain Access</a>
+                                                    <a class="dropdown-item text-success" target="_blank" href="accessuser?id=<?= $row['ID'] ?>">Gain Access</a>
                                                 </li>
                                             </ul>
                                         </div>

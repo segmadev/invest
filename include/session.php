@@ -10,7 +10,7 @@
 //     $_SESSION['urlgoto'] = $redirect;
 //     header("location: login?urlgoto=$redirect");
 // }
-    
+
     if(isset($_GET['logout']) && isset($_COOKIE['userSession'])) {
        logout();
        echo '<script>window.location.href = "login.php";</script>';
@@ -24,15 +24,15 @@
     }else{
         // session_destroy();
         $_SESSION['urlgoto'] = $redirect;
-        // echo '<script>window.location.href = "login.php?urlgoto='.$redirect.'";</script>';
         logout();
+        echo '<script>window.location.href = "login.php?urlgoto='.$redirect.'";</script>';
         echo "<a href='login'>Click here to Login.</a>";
         exit();
     }
 
    function logout() {
     unset($_COOKIE['userSession']);
-    setcookie('userSession', "", -1, '/');
+    setcookie('userSession', null, time() - 3600, '/');
    }
 ?>
 

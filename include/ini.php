@@ -1,6 +1,6 @@
 <?php 
 require_once "include/session.php";
-define("side", "user");
+require_once "include/side.php";
 if(isset($_GET['theme'])) {
     $expiration = time() + (30 * 24 * 60 * 60); // 30 days * 24 hours * 60 minutes * 60 seconds
     if($_GET['theme'] == "dark") {
@@ -12,7 +12,7 @@ if(isset($_GET['theme'])) {
     // Get the previous page link
 $previousPage = $_SERVER['HTTP_REFERER'];
     // Reload the current page
-header("Location: $previousPage");
+echo '<script>window.location.href = "'.$previousPage.'";</script>';
 exit();
 }
 require_once "consts/main.php";

@@ -15,6 +15,9 @@
 </div>
 
 
+
+<!-- mobile list of users chats -->
+
 <div class="offcanvas offcanvas-start" tabindex="-1" id="example2" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
         <div class="offcanvas-title d-flex align-items-center justify-content-between" id="offcanvasExampleLabel">

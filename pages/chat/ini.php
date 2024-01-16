@@ -34,3 +34,7 @@ $chats = [];
 if (isset($_GET['genrate_chat'])) {
     require_once "pages/chat/chat-bot.php";
 }
+
+if(isset($user) && $user['chat_status'] != "active") {
+    exit();
+}

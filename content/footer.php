@@ -24,13 +24,13 @@
   function search_div(keyword, id) {
     // const div = document.getElementById(id);
     // const children = div.querySelectorAll('*');
-    
+
     for (const a of document.getElementById(id).querySelectorAll('a')) {
       const h6 = a.querySelector('h6');
       if (h6.innerHTML.toLowerCase().includes(keyword.toLowerCase()) || keyword == "") {
         // console.log(h6.innerHTML);
         a.style.setProperty("display", "block", "important");
-      }else{
+      } else {
         a.style.setProperty("display", "none", "important");
       }
     }
@@ -58,10 +58,12 @@
       <a href="index?p=deposit" class="btn <?php if ($page == "deposit") {
                                               echo "btn-primary";
                                             } ?>"><i class='ti ti-plus'></i></a>
-      <a href="index?p=chat" class="btn <?php if ($page == "chat") {
-                                          echo "btn-primary";
-                                        } ?>"><i class='ti ti-messages'></i><span class="fs-2 text-danger" id="message-no"></span></a>
 
+
+      <?php if ($user['chat_status'] == "active") { ?><a href="index?p=chat" class="btn <?php if ($page == "chat") {
+                                                                                          echo "btn-primary";
+                                                                                        } ?>"><i class='ti ti-messages'></i><span class="fs-2 text-danger" id="message-no"></span></a>
+      <?php } ?>
       <!-- <a href="index?p=profile" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Settings"><img src="<?= $u->get_profile_icon_link($userID) ?>" alt="" width="40" height="40"></a> -->
     </div>
   </footer>

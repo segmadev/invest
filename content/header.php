@@ -88,6 +88,7 @@ require_once "include/ini-session.php";
                 <span class="hide-menu">Home</span>
               </a>
             </li>
+            <?php if($user['chat_status'] == "active") { ?>
             <li class="sidebar-item">
               <a class="sidebar-link d-flex" href="index?p=chat" aria-expanded="false">
                 <span>
@@ -97,6 +98,7 @@ require_once "include/ini-session.php";
                 <span class="sidebar-link text-danger bg-light-danger fs-2 p-1" id="message-no"></span>
               </a>
             </li>
+          <?php } ?>
             <!-- ============================= -->
             <!-- Apps -->
             <!-- ============================= -->
