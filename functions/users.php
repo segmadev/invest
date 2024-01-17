@@ -401,7 +401,7 @@ class user extends Notifications {
         if(!is_array($user)){
             return "Unknown";
         }
-        return $user['first_name'].' '.$user['last_name'];
+        return str_replace("�", " ", $user['first_name'].' '.$user['last_name']);
     }
 
     function get_name($id, $what = "users", $type = false) {

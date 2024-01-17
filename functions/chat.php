@@ -526,7 +526,7 @@ private $chat_holder = [];
         if($message['message'] == "" || $message == null) {
             return ;
         }
-
+        $message['message'] = str_replace("�", " ", $message['message']);
         if($message['time_sent'] > time() && $this->validate_admin()) {
             $ago = "<small class='text-danger'>Future: ".date("Y-m-d H:i:s", $message['time_sent'])."</small>";
         }else{
@@ -660,6 +660,7 @@ function reply_message(array $message) {
         }else{
             $ago = $this->ago($message['time_sent']);
         }
+        $message['message'] = str_replace("�", " ", $message['message']);
         // if($message['message'] == "." && $message['upload'] != ""){
         //     $message['message'] = "";
         // }
