@@ -53,6 +53,11 @@
     }
 
 
+    if(isset($_POST['edit_message'])) {
+        $messageID = htmlspecialchars($_POST['edit_message']);
+        echo $ch->edit_message($messageID);
+    }
+
     if(isset($_POST['generate_conversation'])) {
         $data = $d->validate_form($from_generate);
         if(!is_array($data)) { return null; }

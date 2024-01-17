@@ -26,7 +26,7 @@
 
 
                         <button id="show_chat_list" type="button" class='fs-6 btn badge rounded-pill bg-primary d-md-none d-sm-block' type="button" data-bs-toggle="offcanvas" data-bs-target="#example2" aria-controls="example2"><i class='ti ti-arrow-narrow-left'></i></button>
-                        <img src="<?= $u->get_profile_icon_link($uID, $what); ?>" alt="user1" width="48" height="48" class="rounded-circle" />
+                        <img id="imag-profile-icon" data-url="" data-title="Image Viewer" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')" src="<?= $u->get_profile_icon_link($uID, $what); ?>" alt="user1" width="48" height="48" class="rounded-circle" />
                         <!-- <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-success">
                             <span class="visually-hidden">New alerts</span>
                         </span> -->
@@ -34,9 +34,11 @@
                     <a class="" 
                     <?php if($chat['is_group'] ==  "yes"){ ?>
                     href='#'
-                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" 
-                    <?php }else{ ?>
+                     <?php }else{ ?>
                         href='#'
+                        id="profile-name-image" data-url="" data-title="Image Viewer" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" 
+                        onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')"
                         <?php } ?>
                     >
                         <h6 class="mb-1 name fw-semibold"><?= $u->get_name($uID, $what) ?></h6>

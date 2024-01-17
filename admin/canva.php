@@ -1,6 +1,6 @@
-<?php 
+<?php
 // if generate exist and id does not exit
-if(isset($_GET['generate']) && !isset($_GET['id'])) {
+if (isset($_GET['generate']) && !isset($_GET['id'])) {
     require_once "../consts/main.php";
     require_once "include/database.php";
     $d = new database;
@@ -13,18 +13,21 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas Drag and Drop.</title>
     <link id="themeColors" rel="stylesheet" href="../dist/css/style.min.css" />
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js">
     </script>
     <style>
-        * , #canvas img{
+        *,
+        #canvas img {
             margin: 0;
             padding: 0;
-        } 
+        }
+
         #canvas {
             overflow: hidden;
             height: 100vh;
@@ -53,7 +56,9 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
         <div id="canvas" style="margin: 0; padding: 0;">
             <img src="" alt="">
         </div>
-        <div class="col-md-7 <?php if(isset($_GET['generate'])) { echo "d-none"; } ?>">
+        <div class="col-md-7 <?php if (isset($_GET['generate'])) {
+                                    echo "d-none";
+                                } ?>">
             <div class="card">
                 <div class="card-header">
                     <h3>Infomation</h3>
@@ -99,7 +104,7 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
                                 <label for="">Add Css</label>
                                 <textarea name="style" cols="30" class="form-control bg-dark" id="addstyle" rows="10"></textarea>
                             </div>
-                            
+
                         </div>
 
                         <div class="p-3 shadow-sm mt-2">
@@ -155,7 +160,7 @@ if(isset($_GET['generate']) && !isset($_GET['id'])) {
         </div>
     </div>
     <script src="../dist/libs/jquery/dist/jquery.min.js"></script>
-    <script src="js/canva.js?n=443"></script>
+    <script src="js/canva.js?n=440"></script>
 </body>
 
 </html>

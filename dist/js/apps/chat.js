@@ -463,8 +463,12 @@ if(sendmessage) {
 }
 
 
-function dispay_new_message() {
-
+function update_chat(id, message) {
+  console.log([id, message]);
+  let oldMessage = document.getElementById(id);
+  if(oldMessage) {
+    oldMessage.innerHTML = message;
+  }
 }
 if(!url.searchParams.get("id")) {
 }

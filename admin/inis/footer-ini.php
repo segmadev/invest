@@ -27,7 +27,7 @@
     <script src="../dist/js/fetcher.js"></script>
 <?php } ?>
 <?php if(in_array('chat', $script)){ ?>
-    <script src="../dist/js/apps/chat.js?n=7882"></script>
+    <script src="../dist/js/apps/chat.js?n=99554"></script>
 <?php } ?>
 <?php if (in_array("select2", $script)) { ?>
     <script src="../dist/libs/select2/dist/js/select2.full.min.js"></script>

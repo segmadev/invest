@@ -267,6 +267,9 @@ private $chat_holder = [];
         $rand = rand(1, 3);
         $get_last_seen = (int)$this->get_settings("get_last_seen");
         if($rand <= 1 && $get_last_seen <= 1500) { $get_last_seen = $get_last_seen + $no; }else if($rand == 2 && $get_last_seen > 850){ $get_last_seen = $get_last_seen - $no; }
+        if($get_last_seen < 600) {
+            $get_last_seen = rand(800, 1500);
+        }
         $this->update("settings", ["meta_value"=>$get_last_seen], "meta_name = 'get_last_seen'");
         return '<span class="p-1 badge rounded-pill bg-success"><span class="visually-hidden">'.$get_last_seen.'</span></span> '.$get_last_seen.' Users Online';
     }
@@ -541,7 +544,7 @@ private $chat_holder = [];
             '.$this->display_reply_to($message).'
                 ' . $upload . '
                 
-                <div class="p-2 bg-light rounded-1 d-inline-block text-dark fs-3"> ' . $message['message'] . ' </div>
+                <div class="p-2 bg-light rounded-1 d-inline-block text-dark fs-3" id="message-ID-'.$message['ID'].'"> ' . $message['message'] . ' </div>
                 '.$this->reply_message($message).'
                 </div>
             ' . $this->message_options_btn($message) . '
@@ -584,6 +587,7 @@ function reply_message(array $message) {
                 <i class="ti ti-dots-vertical"></i>
             </button>
             <ul class="dropdown-menu">
+                <li><a id="edit-message-'.$message['ID'].'" class="dropdown-item" data-url="modal?p=chat&action=new&messageID='.$message['ID'].'" data-title="Edit Message" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" href="#">Edit Message</a></li>
                 <li><a class="dropdown-item" href="#">View Profile</a></li>
                 <li>
                     <a class="dropdown-item text-success" target="_blank" href="accessuser?id=' . $message['senderID'] . '">Gain Access to Account</a>
@@ -623,6 +627,23 @@ function reply_message(array $message) {
                 <img src="'.ROOT.'assets/images/chat/' . $message['upload'] . '" alt="uploaded" class="w-30">
             </div>';
     }
+
+    function edit_message($messageID)
+    {
+        if (!$this->validate_admin()) {
+            return false;
+        }
+        if(!isset($_POST['message']) || $_POST['message'] == "") { $this->message("Message can not be empty.", "error"); return false; }
+        $message = htmlspecialchars($_POST['message']);
+        $update = $this->update("message", ["message" => $message], "ID = '$messageID'");
+        if ($update) {
+            $return = [
+                "message" => ["Success", "Message Edited", "success"],
+                "function" => ["update_chat", "data" => ["message-ID-" . $messageID, $message]],
+            ];
+            return json_encode($return);
+        }
+    }
     function display_send_message($message)
     {
         $upload = "";
@@ -653,7 +674,7 @@ function reply_message(array $message) {
                 '.$this->display_reply_to($message).'
                 </div>
                 ' . $upload . '
-                <div class="p-2 bg-light-info text-dark rounded-1 d-inline-block fs-3 m-0"> ' . $message['message'] . '</div>
+                <div class="p-2 bg-light-info text-dark rounded-1 d-inline-block fs-3 m-0" id="message-ID-'.$message['ID'].'"> ' . $message['message'] . '</div>
                 
                 <br>
                 <p class="text-dark"> ' . $ago . '

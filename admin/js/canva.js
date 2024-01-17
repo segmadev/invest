@@ -516,6 +516,8 @@ function getGet(key) {
             if (this.readyState == 4 && this.status == 200) {
                 // Displaying response from server
                 console.log(this.responseText);
+                // genare a new message again
+                window.location.href = "canva?generate=";  
             }
         };
    

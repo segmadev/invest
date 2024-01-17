@@ -26,12 +26,7 @@
                 $message_form['senderID']['options'] = $users;
             }
         }
-        // var_dump($users);
-        // $message_form['senderID']['options'] = []; 
-        // $message_form['senderID']['input_type'] = 'text'; 
-        // var_dump(->rowCount());
         echo $c->create_form($message_form);
-        // var_dump($message_form);
         ?>
         <div id="custommessage"></div>
         <input type="hidden" name="custom" value="">
