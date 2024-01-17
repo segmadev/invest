@@ -143,3 +143,13 @@
 		background-position: 0% 50%;
 	}
 }
+
+
+.chat-background {
+  background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-1.svg');
+  background-size: contain;
+  /* background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; */
+ 
+}

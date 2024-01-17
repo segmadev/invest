@@ -540,11 +540,14 @@ private $chat_holder = [];
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
                 class="rounded-circle"></a>
             <div>
-            <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><h6 class="fs-2 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $ago . '</h6></a>
+            <a href="index?p=chat&action=view&userid='.$message['senderID'].'"></a>
             '.$this->display_reply_to($message).'
                 ' . $upload . '
+                <div class="p-2 bg-light rounded-1 d-inline-block text-dark fs-3"> 
+                <h6 class="fs-1 text-muted">' . $this->get_name($message['senderID'], "users") . ', ' . $ago . '</h6>
+                <p class="p-0 m-0" id="message-ID-'.$message['ID'].'">' . $message['message'] . ' </p>
                 
-                <div class="p-2 bg-light rounded-1 d-inline-block text-dark fs-3" id="message-ID-'.$message['ID'].'"> ' . $message['message'] . ' </div>
+                </div>
                 '.$this->reply_message($message).'
                 </div>
             ' . $this->message_options_btn($message) . '
