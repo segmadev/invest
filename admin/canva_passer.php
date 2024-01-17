@@ -204,7 +204,7 @@ function generate_money($data)
     return $d->money_format($amount, $data->currency);
 }
 // regex
-function generate_regex($data)
+function generate_regex($data)  
 {
     $d = new database;
     $data = $d->api_call("https://regex.coinpulse.tech/?regex=" . $data->regexpattern);
@@ -286,7 +286,7 @@ if (isset($_POST['image']))
 {
     // save image
     // insert image into chat.
-    $rand_no = rand(5, 10);
+    $rand_no = rand(7, 15);
     $last_s_date = $d->get_settings("last_screenshot_date");
     $start_of_day = strtotime(date('Y-m-d', $last_s_date));
     $end_of_day = strtotime(date('Y-m-d 23:59:59', $last_s_date));
