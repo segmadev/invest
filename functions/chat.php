@@ -237,7 +237,7 @@ private $chat_holder = [];
         // echo $userID;
         // echo "yes";
         // $chats = $this->getall("chat c RIGHT JOIN ( SELECT m.chatID, message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message  m  WHERE time_sent >= $time GROUP BY m.chatID ) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", [$userID, $userID, $time], "c.*,  m.time_sent", fetch: "moredetails");
-        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent > $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and  m.time_sent < ? and m.time_sent IS NOT NULL ORDER BY m.time_sent DESC", [$userID, $userID, time()], "c.*", fetch: "moredetails");
+        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and  m.time_sent >= ? and  m.time_sent < ? and m.time_sent IS NOT NULL ORDER BY m.time_sent DESC", [$userID, $userID, $time, time()], "c.*", fetch: "moredetails")gg;
     //    var_dump($chats->rowCount());
     //    var_dump($time);
         // $chats = $this->getall("chat", "ID = ? ORDER BY date DESC LIMIT $start, $limit", [], fetch: 'moredetails');
