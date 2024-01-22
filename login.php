@@ -4,15 +4,15 @@
 <!-- Mirrored from demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/html/main/authentication-login2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Aug 2023 16:11:04 GMT -->
 <head>
     <!--  Title -->
-    <title><?= company_name ?></title>
+    <title><?= company_name ?> Sign In</title>
     <!--  Required Meta Tag -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="handheldfriendly" content="true" />
     <meta name="MobileOptimized" content="width" />
-    <meta name="description" content="Mordenize" />
+    <meta name="description" content="Sign In" />
     <meta name="author" content="" />
-    <meta name="keywords" content="Mordenize" />
+    <meta name="keywords" content="Sign In" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!--  Favicon -->
     <link rel="shortcut icon" type="image/png" href="<?= $favicon ?>" />
@@ -75,7 +75,7 @@
                     <button type="submit"  class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign In</button>
                     <div class="d-flex align-items-center justify-content-center">
                       <p class="fs-4 mb-0 fw-medium">New to <?= $c->get_settings("company_name") ?>?</p>
-                      <a class="text-primary fw-medium ms-2" href="register">Create an account</a>
+                      <a class="text-primary fw-medium ms-2" href="register">Sign Up</a>
                     </div>
                   </form>
                 </div>

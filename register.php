@@ -7,15 +7,15 @@ require_once "include/auth-ini.php"
 
 <head>
   <!--  Title -->
-  <title><?= company_name ?></title>
+  <title><?= company_name ?> Sign Up</title>
   <!--  Required Meta Tag -->
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="handheldfriendly" content="true" />
   <meta name="MobileOptimized" content="width" />
-  <meta name="description" content="Mordenize" />
+  <meta name="description" content="sign up" />
   <meta name="author" content="" />
-  <meta name="keywords" content="Mordenize" />
+  <meta name="keywords" content="sign up" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!--  Favicon -->
   <link rel="shortcut icon" type="image/png" href="<?= $favicon ?>" />
@@ -45,7 +45,7 @@ require_once "include/auth-ini.php"
                 </a>
 
                 <div class="position-relative text-center my-4">
-                  <p class="mb-0 fs-4 px-3 d-inline-block bg-white text-dark z-index-5 position-relative">Sign In</p>
+                  <p class="mb-0 fs-4 px-3 d-inline-block bg-white text-dark z-index-5 position-relative">Sign Up</p>
                   <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
                 </div>
                 <form id='foo' action="auth">
@@ -56,10 +56,10 @@ require_once "include/auth-ini.php"
                   
                   <div id="custommessage"></div>
                   <p><?= $c->terms_message(); ?> </p>
-                  <button  class="btn btn-primary col-md-5 col-12 py-8 mb-4 rounded-2">Sign In</button>
+                  <button  class="btn btn-primary col-md-5 col-12 py-8 mb-4 rounded-2">Sign Up</button>
                   <div class="d-flex align-items-center justify-content-center">
                     <p class="fs-4 mb-0 fw-medium">Already have an Account?</p>
-                    <a class="text-primary fw-medium ms-2" href="login">Login</a>
+                    <a class="text-primary fw-medium ms-2" href="login">Sign In</a>
                   </div>
                 </form>
               </div>
