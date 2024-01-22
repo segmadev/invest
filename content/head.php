@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="dist/libs/owl.carousel/dist/assets/owl.carousel.min.css">
 
 <!-- Core Css -->
-<link id="themeColors" rel="stylesheet" href="dist/css/custom.css?n=980" />
+
 <?php
 
 if (isset($_COOKIE['browser_theme'])) {
@@ -22,7 +22,7 @@ if (isset($_COOKIE['browser_theme'])) {
 }
 
 ?>
-
+<link id="themeColors" rel="stylesheet" href="dist/css/custom.css?n=896" />
 <style>
     .bottom-nav {
         position: fixed;

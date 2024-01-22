@@ -153,3 +153,7 @@
   background-size: cover; */
  
 }
+
+.displayChat {
+  max-width: 80%!important;
+}
