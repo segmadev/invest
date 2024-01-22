@@ -541,7 +541,7 @@ private $chat_holder = [];
         //     $message['message'] = "";
         // }
         
-        return '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start displayChat">
+        return '<div  id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-start ">
             <a href="index?p=chat&action=view&userid='.$message['senderID'].'"><img src="' . $this->get_profile_icon_link($message['senderID']) . '" alt="user8" width="40" height="40"
                 class="rounded-circle"></a>
             <div>
@@ -675,7 +675,7 @@ function reply_message(array $message) {
         return '
 
 
-        <div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end displayChat">
+        <div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end ">
            
         <div class="text-end">
         <div class="p-2  text-dark fs-2 m-0">
@@ -702,7 +702,7 @@ function reply_message(array $message) {
         if(!is_array($reply_message) || $reply_message['message'] == ".") { return ""; }
         return '<h6 class="fs-3 bg-light text-dark p-2 m-0 opacity-75">
         <p class="text-success fs-1 m-0 p-0">'.$this->get_name($reply_message['senderID']).'</p>
-         <span class="text-truncate">' . $reply_message['message'] . '</span>
+         <span class="">' . $reply_message['message'] . '</span>
          
         </h6>';
 
