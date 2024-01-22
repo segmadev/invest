@@ -1,3 +1,27 @@
+<style>
+    @media only screen and (max-width: 600px) {
+        header {
+            display: none!important;
+        }
+        .container-fluid, .chat-background {
+            padding: 0!important;
+            /* padding-left: 30px;  */
+        }
+        .chat-background {
+            padding: 20px!important;
+        }
+
+        .chat-background {
+            height: calc(100vh - 220px)!important;
+        }
+        .chat-container {
+            margin-left: 10px!important;
+        }
+    }
+</style>
+<script>
+    document.getElementById("main-wrapper").setAttribute("data-sidebar-position", "");
+</script>
 <?php $script[] = "modal"; ?>
 <div class="w-100 w-xs-100 chat-container">
     <div class="chat-box-inner-part h-100">
@@ -86,7 +110,7 @@
                         <!-- 2 -->
 
                     </div>
-                    <div class="px-9 py-6 border-top chat-send-message-footer">
+                    <div class="chat-send-message-footer p-0 p-2">
                         <form action="chat-passer" id="foo" onsubmit="return void(0);">
                             <div id="image-preview-upload"></div>
                             <div class="d-flex bg-light" id="reply_div" style="display: none!important">

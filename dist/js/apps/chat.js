@@ -3,6 +3,7 @@ var url = new URL(window.location.href);
 var chatnew = document.getElementById("chatnew");
 var chatbox = document.querySelector(".chat-box");
 const loadinging = document.getElementById("loadining");
+
 $(function () {
   var chatarea = $("#chat");
 
