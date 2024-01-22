@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="chatting-box d-block">
-            <div class="p-9 border-bottom chat-meta-user d-flex align-items-center justify-content-between">
+            <div class="p-3 border-bottom chat-meta-user d-flex align-items-center justify-content-between">
                 <div class="hstack gap-3 current-chat-user-name">
                     <div class="position-relative">
                         <!-- <p>my name</p> -->
@@ -25,8 +25,9 @@
           </button> -->
 
 
-                        <button id="show_chat_list" type="button" class='fs-6 btn badge rounded-pill bg-primary d-md-none d-sm-block' type="button" data-bs-toggle="offcanvas" data-bs-target="#example2" aria-controls="example2"><i class='ti ti-arrow-narrow-left'></i></button>
-                        <img id="imag-profile-icon" data-url="" data-title="Image Viewer" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')" src="<?= $u->get_profile_icon_link($uID, $what); ?>" alt="user1" width="48" height="48" class="rounded-circle" />
+                        <a type="button" class='text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative sidebartoggler d-xl-none' type="button"><i class='ti ti-menu-2'></i></a>
+                        <a id="show_chat_list" type="button" class='text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative d-xl-none' type="button" data-bs-toggle="offcanvas" data-bs-target="#example2" aria-controls="example2"><i class='ti ti-messages'></i> <span id="message-no" class="text-danger" style="font-size: 10px"></span></a>
+                        <img id="imag-profile-icon" data-url="" data-title="Image Viewer" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')" src="<?= $u->get_profile_icon_link($uID, $what); ?>" alt="user1" width="30" height="30" class="rounded-circle" />
                         <!-- <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-success">
                             <span class="visually-hidden">New alerts</span>
                         </span> -->
@@ -41,8 +42,8 @@
                         onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')"
                         <?php } ?>
                     >
-                        <h6 class="mb-1 name fw-semibold"><?= $u->get_name($uID, $what) ?></h6>
-                        <p class="mb-0" id="last_seen"><i class='fs-3'>loading...</i></p>
+                        <h6 class="mb-1 name fw-semibold fs-3"><?= $d->short_text($u->get_name($uID, $what), 15) ?></h6>
+                        <p class="mb-0" id="last_seen" style="font-size: 10px!important"><i>loading...</i></p>
                     </a>
                 </div>
                 <ul class="list-unstyled mb-0 d-flex align-items-center">

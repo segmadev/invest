@@ -1,8 +1,30 @@
+<style>
+    @media only screen and (max-width: 600px) {
+        header {
+            display: none!important;
+        }
+        .container-fluid, .chat-background {
+            padding: 0!important;
+            /* padding-left: 30px;  */
+        }
+        .chat-background {
+            padding: 20px!important;
+        }
+
+        .chat-background {
+            height: 65vh!important;
+        }
+        .chat-container {
+            margin-left: 10px!important;
+        }
+    }
+</style>
+<!-- <center><button class="btn btn-light-primary mt-3" style="font-size: 13px"><i class="ti ti-menu"></i> Menu</button></center> -->
 <div class="col-12 d-flex row">
     <div class="col-12 col-md-3 <?php if(isset($_GET['id'])){ echo "d-none d-sm-none d-md-block"; } ?>">
         <?php require_once "pages/chat/chat-list.php"; ?>
     </div>
-    <div class="col-12 col-md-9 <?php if(!isset($_GET['id'])){ echo "d-none d-sm-none d-md-block"; } ?>">
+    <div class="col-12 col-md-9 p-0 <?php if(!isset($_GET['id'])){ echo "d-none d-sm-none d-md-block"; } ?>">
         <?php 
         if(isset($chatID)) {
             require_once "pages/chat/messages.php"; 

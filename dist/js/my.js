@@ -805,7 +805,7 @@ function get_no_messages() {
     };
   
     $.ajax({
-        url: "passer",
+        url: "passer?=notifications",
         data: data,
         type: 'POST',
         success: function (response) {
