@@ -193,15 +193,15 @@ setInterval(function () {
 
 setInterval(function () {
   if(getCookie("isSave") && document.getElementById("chatnew")) {
-    
     get_message();
-
   }
+  
 }, 3000);
 
 setInterval(function () {
   user_status();
-}, 7000);
+  get_user_chat_list();
+}, 9000);
 
 
 function get_group_users(start = 0) {
@@ -263,6 +263,7 @@ function get_message() {
         } else {
           document.getElementById("chatnew").innerHTML += response;
         }
+        iniFromChat();
       },
     });
   }
@@ -295,18 +296,25 @@ function get_old_message() {
           document
             .getElementById("chatnew")
             .insertAdjacentHTML("afterbegin", response);
-
-            
             // get_old_message();
-            
             chatbox.querySelector(".simplebar-content-wrapper").scrollTop = firstElement.offsetTop - 20;
           }
           loadinging.style.display = "none";
+          iniFromChat();
       },
     });
   }
 }
 
+function iniFromChat() {
+  const elements = document.getElementById("chatnew").querySelectorAll('#foo');
+  $i = 0;
+  elements.forEach(element => {
+      console.log("form ini");
+      iniForm(element);
+      $i++;
+  });
+}
 function reply_to(id, message) {
   if (
     document.getElementById("reply_div") &&
@@ -333,7 +341,9 @@ setTimeout(function () {
       get_old_message();
     }
   }
-
+  // if(getCookie("isSave")){
+    
+  // }
 }, 2000);
 
 // get and display user status
@@ -360,7 +370,7 @@ function user_status() {
 
 function get_user_chat_list() {
   if (document.querySelector("#chat-users")) {
-
+    console.log("my fird");
     if(!document.getElementById("lastChatTime")) {
       const input = document.createElement('input');
       input.setAttribute('type', 'hidden');

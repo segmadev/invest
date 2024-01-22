@@ -32,6 +32,7 @@ if(isset($_POST['delete_message'])) {
     if(isset($_POST['get_user_chat_list'])) {
         // $chat_lists =  $ch->list_chat_users($ch->get_group($userID, "2"), $userID);
          $chats = $ch->get_chats($userID, htmlspecialchars($_POST['time'] ?? 0)); 
+        //  var_dump($chats->rowCount());
         $chat_lists = $ch->list_chat_users($chats, $userID);
         echo $chat_lists;
     }

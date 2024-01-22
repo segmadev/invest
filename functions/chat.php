@@ -230,11 +230,14 @@ private $chat_holder = [];
         if (isset($_SESSION['adminSession']) &&  side == "admin") {
             // $chats = $this->getall("chat c RIGHT JOIN ( SELECT m.chatID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY m.chatID ) m ON c.ID = m.chatID ", "c.user1 = ? or c.user2 = ? or c.is_group = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", ["admin","admin", "no", $time], select: "c.*, m.time_sent", fetch: "moredetails");
         $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID or c.user2 = m.receiverID and c.user2 != m.senderID", "c.user1 = ? or c.user2 = ? or c.is_group = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", ["admin", "admin", "no", $time], "c.*", fetch: "moredetails");
-            
+           
             return $chats;  
         }
+        $time = "0";
+        // echo $userID;
+        // echo "yes";
         // $chats = $this->getall("chat c RIGHT JOIN ( SELECT m.chatID, message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message  m  WHERE time_sent >= $time GROUP BY m.chatID ) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent IS NOT NULL ORDER BY m.min_date DESC", [$userID, $userID, $time], "c.*,  m.time_sent", fetch: "moredetails");
-        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent >= $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and m.time_sent >= ? and m.time_sent < ? and m.time_sent IS NOT NULL ORDER BY m.time_sent DESC", [$userID, $userID, $time, time()], "c.*", fetch: "moredetails");
+        $chats = $this->getall("chat c RIGHT JOIN (SELECT m.chatID,  m.senderID, m.receiverID, m.message, m.time_sent as time_sent, MAX(m.date) AS min_date FROM message m  LEFT JOIN chat ON chat.ID = m.chatID WHERE time_sent > $time and time_sent is not null GROUP BY chat.ID) m ON c.ID = m.chatID", "c.user1 = ? or c.user2 = ? and  m.time_sent < ? and m.time_sent IS NOT NULL ORDER BY m.time_sent DESC", [$userID, $userID, time()], "c.*", fetch: "moredetails");
     //    var_dump($chats->rowCount());
     //    var_dump($time);
         // $chats = $this->getall("chat", "ID = ? ORDER BY date DESC LIMIT $start, $limit", [], fetch: 'moredetails');
@@ -298,9 +301,11 @@ private $chat_holder = [];
             $limit = htmlspecialchars($_POST['get_chat']);
             $messages =  $this->get_all_messages($chatID, $userID, $lastchat, $limit, where: "time_sent > ?", orderby: 'time_sent ASC');
             if (isset($messages) && $messages->rowCount()  > 0) {
+                $Dmessage = "";
                 foreach ($messages as $row) {
-                    return $this->display_message($row, $userID);
+                    $Dmessage .= $this->display_message($row, $userID);
                 }
+                return $Dmessage;
             }else{
                 return 'null';
             }
@@ -313,18 +318,18 @@ private $chat_holder = [];
             $chatID =  htmlspecialchars($_POST['chatID']);
             $limit = htmlspecialchars($_POST['get_chat']);
             $messages =  $this->get_all_messages($chatID, $userID, $firstchat, $limit, where: "time_sent < ?", orderby: 'time_sent DESC', type: "old");
-            
             // $messages 
-                if (isset($messages) && $messages->rowCount()  > 0) {
-                    $rmessages  = [];
+            if (isset($messages) && $messages->rowCount()  > 0) {
+                $rmessages  = [];
+                foreach ($messages as $row) {
+                    $rmessages[] = $row;
+                }
+                $messages = array_reverse($rmessages);
+                $Dmessage = "";
                     foreach ($messages as $row) {
-                        $rmessages[] = $row;
+                        $Dmessage .= $this->display_message($row, $userID);
                     }
-                    $messages = array_reverse($rmessages);
-    
-                    foreach ($messages as $row) {
-                        return $this->display_message($row, $userID);
-                    }
+                    return $Dmessage;
                 }else {
                     return "null";
                 }
@@ -695,9 +700,9 @@ function reply_message(array $message) {
         }
         $reply_message = $this->getall("message", "ID = ?", [$message['reply_to']]);
         if(!is_array($reply_message) || $reply_message['message'] == ".") { return ""; }
-        return '<h6 class="fs-3 text-muted bg-light-dark p-2 m-0">
+        return '<h6 class="fs-3 bg-light text-dark p-2 m-0 opacity-75">
         <p class="text-success fs-1 m-0 p-0">'.$this->get_name($reply_message['senderID']).'</p>
-         ' . $reply_message['message'] . '
+         <span class="text-truncate">' . $reply_message['message'] . '</span>
          
         </h6>';
 

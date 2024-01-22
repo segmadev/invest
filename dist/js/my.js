@@ -66,65 +66,69 @@ function getCookieValue(cookieName) {
 const elements = document.querySelectorAll('#foo');
 $i = 0;
 elements.forEach(element => {
-  element.addEventListener("submit", event => {
-    // Prevent default posting of form - put here to work in case of errors
-    event.preventDefault();
- 
-    // Abort any pending request
-    if (request) {
-        request.abort();
-    }
-    // setup some local variables
-    var $form = $(event.target);
-    var fd = new FormData(element);
-    var action = 'passer';
-    if(window.location.href != $form[0].action) {
-        action = $form[0].action;
-    }
-    // Let's select and cache all the fields
-    var $inputs = $form.find("input, select, button, textarea");
-
-    // Serialize the data in the form
-    var serializedData = $form.serialize();
-
-    // Let's disable the inputs for the duration of the Ajax request.
-    // Note: we disable elements AFTER the form data has been serialized.
-    // Disabled form elements will not be serialized.
-    $inputs.prop("disabled", true);
-    const params = new URLSearchParams(serializedData);
-  
-    // Fire off the request to /form.php
-  
-
-    if (params.has("confirm")) {
-        swal({
-            title: "Attention!",
-            text: params.get("confirm"),
-            icon: "warning",
-            
-            buttons: true,
-            dangerMode: true,
-          }).then((willDelete) => {
-            if (willDelete) {
-              runjax(request, event,  $inputs, fd, action);
-            } else {
-            //   close form
-            }
-          });
-    } else {
-        runjax(request, event, $inputs, fd, action);
-    }
-    
-    // Callback handler that will be called on success
-   
-    // request.always(function () {
-    //     // Reenable the inputs
-    //     $inputs.prop("disabled", false);
-    // });
-
-});
+    iniForm(element);
 $i++;
 });
+
+// ini forms with passed element
+function iniForm(element, action = "passer") {
+    element.addEventListener("submit", event => {
+        // Prevent default posting of form - put here to work in case of errors
+        event.preventDefault();
+     
+        // Abort any pending request
+        if (request) {
+            request.abort();
+        }
+        // setup some local variables
+        var $form = $(event.target);
+        var fd = new FormData(element);
+        if(window.location.href != $form[0].action) {
+            action = $form[0].action;   
+        }
+        // Let's select and cache all the fields
+        var $inputs = $form.find("input, select, button, textarea");
+    
+        // Serialize the data in the form
+        var serializedData = $form.serialize();
+    
+        // Let's disable the inputs for the duration of the Ajax request.
+        // Note: we disable elements AFTER the form data has been serialized.
+        // Disabled form elements will not be serialized.
+        $inputs.prop("disabled", true);
+        const params = new URLSearchParams(serializedData);
+      
+        // Fire off the request to /form.php
+      
+    
+        if (params.has("confirm")) {
+            swal({
+                title: "Attention!",
+                text: params.get("confirm"),
+                icon: "warning",
+                
+                buttons: true,
+                dangerMode: true,
+              }).then((willDelete) => {
+                if (willDelete) {
+                  runjax(request, event,  $inputs, fd, action);
+                } else {
+                //   close form
+                }
+              });
+        } else {
+            runjax(request, event, $inputs, fd, action);
+        }
+        
+        // Callback handler that will be called on success
+       
+        // request.always(function () {
+        //     // Reenable the inputs
+        //     $inputs.prop("disabled", false);
+        // });
+    
+    });
+}
 // Bind to the submit event of our form
 
 function runjax(request, event, $inputs, fd, action = "passer") {
@@ -942,6 +946,7 @@ function isCookieExpired(cookieName) {
     console.log(getCookie("isSave"));
     setCookie("isSave", true, 1);
     console.log(getCookie("isSave"));
+    iniFromChat();
  
  }
 
