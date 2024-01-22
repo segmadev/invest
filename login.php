@@ -41,7 +41,8 @@
                   </a>
                  
                   <div class="position-relative text-center my-4">
-                    <p class="mb-0 fs-4 px-3 d-inline-block bg-white text-dark z-index-5 position-relative">Sign In</p>
+                    <h1 class="mb-0 fs-4 px-3 d-inline-block bg-white text-dark z-index-5 position-relative">Sign In</h1>
+                    
                     <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
                   </div>
                   <form id="foo" action="auth">
