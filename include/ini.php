@@ -2,12 +2,12 @@
 require_once "include/session.php";
 require_once "include/side.php";
 if(isset($_GET['theme'])) {
-    $expiration = time() + (30 * 24 * 60 * 60); // 30 days * 24 hours * 60 minutes * 60 seconds
+    $expiration = time() + (365 * 24 * 60 * 60); // 100 days * 24 hours * 60 minutes * 60 seconds
     if($_GET['theme'] == "dark") {
         // Set the cookie
-        setcookie("browser_theme", "dark");
+        setcookie("browser_theme", "dark", $expiration, "/");
     } else{
-        setcookie("browser_theme", "light");    
+        setcookie("browser_theme", "light", $expiration, "/");    
     }
     // Get the previous page link
 $previousPage = $_SERVER['HTTP_REFERER'];
