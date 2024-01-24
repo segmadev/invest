@@ -1,21 +1,25 @@
 <style>
     @media only screen and (max-width: 600px) {
         header {
-            display: none!important;
+            display: none !important;
         }
-        .container-fluid, .chat-background {
-            padding: 0!important;
-            /* padding-left: 30px;  */
-        }
+
+        .container-fluid,
         .chat-background {
-            padding: 20px!important;
+            padding: 0 !important;
+            /* padding-left: 30px;  */
         }
 
         .chat-background {
-            height: calc(100vh - 220px)!important;
+            padding: 20px !important;
         }
+
+        .chat-background {
+            height: calc(100vh - 220px) !important;
+        }
+
         .chat-container {
-            margin-left: 10px!important;
+            margin-left: 10px !important;
         }
     }
 </style>
@@ -56,16 +60,7 @@
                             <span class="visually-hidden">New alerts</span>
                         </span> -->
                     </div>
-                    <a class="" 
-                    <?php if($chat['is_group'] ==  "yes"){ ?>
-                    href='#'
-                     <?php }else{ ?>
-                        href='#'
-                        id="profile-name-image" data-url="" data-title="Image Viewer" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" 
-                        onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')"
-                        <?php } ?>
-                    >
+                    <a class="" <?php if ($chat['is_group'] ==  "yes") { ?> href='#' <?php } else { ?> href='#' id="profile-name-image" data-url="" data-title="Image Viewer" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')" <?php } ?>>
                         <h6 class="mb-1 name fw-semibold fs-3"><?= $d->short_text($u->get_name($uID, $what), 15) ?></h6>
                         <p class="mb-0" id="last_seen" style="font-size: 10px!important"><i>loading...</i></p>
                     </a>
@@ -79,10 +74,10 @@
                     <!-- <a class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)" type="button" data-bs-toggle="offcanvas" data-bs-target="#app-chat-offcanvas" aria-controls="offcanvasScrolling">
                             <i class="ti ti-menu-2"></i>
                         </a> -->
-                    <?php if($chat['is_group'] ==  "yes"){ ?>
+                    <?php if ($chat['is_group'] ==  "yes") { ?>
                         <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5" href="javascript:void(0)">
-                        <i class="ti ti-users"></i>
-                    </a>
+                            <i class="ti ti-users"></i>
+                        </a>
                     <?php } ?>
                     </li>
                 </ul>
@@ -93,7 +88,10 @@
                         <div class="chat-list chat active-chat" data-user-id="1">
                             <input type="hidden" id="chatID" value="<?= $chatID ?>">
                             <div id="chatold"></div>
-                            <div id="loadining" style="display: none"><center><button class='btn btn-sm btn-primary opacity-0.5'>Loading</button><center/></div>
+                            <div id="loadining" style="display: none">
+                                <center><button class='btn btn-sm btn-primary opacity-0.5'>Loading</button>
+                                    <center />
+                            </div>
                             <div id="chatnew">
                                 <?php
                                 if (isset($messages) && $messages->rowCount()  > 0) {
@@ -119,27 +117,44 @@
                             </div>
                             <div id="custommessage"></div>
                             <?php
-                                    unset($message_form['message']);
-                                    unset($message_form['upload']);
-                                    echo  $c->create_form($message_form);
-                                    ?>
+                            unset($message_form['message']);
+                            unset($message_form['upload']);
+                            echo  $c->create_form($message_form);
+                            ?>
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2 w-85">
                                     <!-- <a class="position-relative nav-icon-hover z-index-5" href="javascript:void(0)"> <i class="ti ti-mood-smile text-dark bg-hover-primary fs-7"></i></a> -->
                                     <input onchange="showPreview(event, 'image-preview-upload')" name="upload" value="" id="upload" type="file" class="form-control upload d-none" placeholder="Enter Upload">
-                                    
+
                                     <input type="hidden" name="send_message" value="">
                                     <input type="hidden" name="page" value="chat">
                                     <input name="message" type="text" class="form-control message-type-box text-muted border-0 p-0 ms-2" placeholder="Type a Message" id="message-input-box" />
 
                                 </div>
                                 <ul class="list-unstyledn mb-0 d-flex align-items-center">
-                                    <li><label for="upload" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-photo-plus"></i></label>
-                                    </li>
+                                    <div class="btn-group dropup">
+                                        <li type="button" class="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <a class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-paperclip"></i></a>
+                                        </li>
+                                        <div class="dropdown-menu">
+                                            <!-- Dropdown menu links -->
+                                            <!-- <li></li> -->
+                                            <!-- <li><label for="" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relativ"><i class="ti ti-video"></i> Video</label></li> -->
+
+                                            <a class="dropdown-item fs-3" href="#"><label for="upload" class=""><i class="ti ti-photo-plus"></i> Image</label></a>
+                                            <a class="dropdown-item fs-3" href="#"><label for="upload" class=""><i class="ti ti-video"></i> Video</label></a>
+                                            <!-- <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Separated link</a> -->
+                                        </div>
+                                    </div>
+
+                                    <!-- <li id="sharemenu"><a data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="loading..." class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-photo-plus"></i></a></li> -->
+                                    <!-- <li><label for="upload" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-photo-plus"></i></label></li> -->
                                     <li><button type="submit" id="sendmessage" class="btn border-0 text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 active" href="javascript:void(0)"><i class="ti ti-send"></i></button></li>
                                     <?php if ($d->validate_admin()) { ?>
                                         <li><a id="moremessage" data-url="modal?p=chat&action=new&id=<?= htmlspecialchars($_GET['id']); ?>" data-title="More message options" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative z-index-5 " href="javascript:void(0)"><i class="ti ti-dots"></i></a></li>
-                                   <?php } ?>
+                                    <?php } ?>
 
                                 </ul>
                             </div>
@@ -184,7 +199,7 @@
                                 <h6 class="fw-semibold mb-3">Users
                                     <!-- <span class="text-muted">(<?= $ch->no_users_in_group($uID) ?>)</span> -->
                                 </h6>
-                                
+
 
                             </div>
                         <?php } ?>
@@ -245,7 +260,7 @@
         </div> -->
     </div>
     <div class="app-chat">
-        
+
         <ul class="chat-users" style="height: calc(100vh - 200px)" data-simplebar>
         </ul>
     </div>
@@ -253,3 +268,19 @@
 
 <div id="chat-users-holder" style="display: none"></div>
 
+<div id="share-menu-holder" class="d-none">
+    <li><label for="upload" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative"><i class="ti ti-photo-plus"></i> Image</label></li>
+    <li><label for="" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relativ"><i class="ti ti-video"></i> Video</label></li>
+</div>
+
+<script>
+    var sharemenu = document.getElementById("sharemenu");
+    var shareMenuHolder = document.getElementById("share-menu-holder");
+    sharemenu.addEventListener("click", function(e) {
+        var popBody = document.getElementsByClassName("popover-body");
+        if (popBody) {
+            console.log(popBody);
+            // popBody.innerHTML = shareMenuHolder.innerHTML;
+        }
+    });
+</script>

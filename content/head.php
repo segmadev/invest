@@ -3,7 +3,6 @@
 <!-- Core Css -->
 
 <?php
-
 if (isset($_COOKIE['browser_theme'])) {
     switch ($_COOKIE['browser_theme']) {
         case 'dark':
@@ -14,7 +13,7 @@ if (isset($_COOKIE['browser_theme'])) {
             break;
 
         default:
-            $logo = $dark_logo;
+            echo $logo = $dark_logo;
             echo  '<link id="themeColors" rel="stylesheet" href="dist/css/style.min.css?n=409" />';
             $theme_btn = '<a href="index?theme=dark" class="btn btn-dark rounded-pill font-medium me-2 mb-2" for="option1"><i class="ti ti-moon"></i> Change to Dark Theme</a>';
             break;

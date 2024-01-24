@@ -9,6 +9,7 @@ $message_form = [
     "receiverID" => ["input_type" => "hidden"],
     "message" => ["input_type" => "text", "title" => "", "class" => "form-control message-type-box text-muted border-0 p-0 ms-2", "placeholder" => "Type Message"],
     "upload" => ["input_type" => "file", "file_name" => uniqid("M-"), "path" =>$imgpath, "is_required" => false],
+    "video" => ["input_type" => "file", "file_name" => uniqid("V-"),  "is_required" => false],
     "is_group" => ["input_type" => "hidden"],
     "reply_to" => ["input_type" => "hidden", "is_required"=>false],
 

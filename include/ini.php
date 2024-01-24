@@ -1,13 +1,16 @@
 <?php 
 require_once "include/session.php";
-require_once "include/side.php";
 if(isset($_GET['theme'])) {
+    setcookie('browser_theme', null, time() - 3600, '/');
     $expiration = time() + (365 * 24 * 60 * 60); // 100 days * 24 hours * 60 minutes * 60 seconds
     if($_GET['theme'] == "dark") {
         // Set the cookie
-        setcookie("browser_theme", "dark", $expiration, "/");
+        setcookie("browser_theme", "dark", $expiration, "/", "");
+        
     } else{
-        setcookie("browser_theme", "light", $expiration, "/");    
+        // exit();
+        setcookie("browser_theme", "light", $expiration, "/", "");
+        // setcookie("browser_theme", "light", $expiration, "/");    
     }
     // Get the previous page link
 $previousPage = $_SERVER['HTTP_REFERER'];
@@ -15,6 +18,8 @@ $previousPage = $_SERVER['HTTP_REFERER'];
 echo '<script>window.location.href = "'.$previousPage.'";</script>';
 exit();
 }
+require_once "include/side.php";
+
 require_once "consts/main.php";
 require_once "consts/Regex.php";
 require_once "admin/include/database.php"; 
