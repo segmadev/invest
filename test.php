@@ -1,5 +1,8 @@
 <?php
-require_once "gdrive/index.php";
+require 'gdrive/vendor/autoload.php';
+
+use Google\Client;
+use Google\Service\Drive;
 function uploadBasic($file_name = "")
 {
     try {
