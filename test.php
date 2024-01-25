@@ -12,9 +12,12 @@ function uploadBasic($file_name = "")
         $client->addScope(Drive::DRIVE);
         $driveService = new Drive($client);
         // $file = getcwd().'\back.png';
-        $fileName =  htmlspecialchars($_FILES["$file_name"]["name"]);
+        $file =  "https://proloomtrading.com/images/test.MP4";
+        $fileName = basename($file);
+        $mimeType = mime_content_type($file);
+        // $fileName =  htmlspecialchars($_FILES["$file_name"]["name"]);
         // var_dump($fileName);
-        $mimeType = mime_content_type($_FILES["$file_name"]["tmp_name"]);
+        // $mimeType = mime_content_type($_FILES["$file_name"]["tmp_name"]);
         if (empty($mimeType)) {
             $mimeType = "application/octet-stream";
         }
@@ -25,7 +28,8 @@ function uploadBasic($file_name = "")
             'parents' => ['1jlKSnaLGJURubYFM-AfKdFKxPEfBtbfe'],
         ));
 
-        $content = file_get_contents($_FILES["$file_name"]["tmp_name"]);
+        // $content = file_get_contents($_FILES["$file_name"]["tmp_name"]);
+        $content = file_get_contents($file);
         // var_dump($file);
         $data = [
             'data' => "$content",
@@ -52,7 +56,7 @@ if (isset($_POST['upload_file'])) {
     // uploadBasic();
 }
 ?>
-
+<!-- upload a video on the server fist to test if it will work -->
 <form action="" method="post" enctype="multipart/form-data">
     <input type="file" name="upload" id=""> <br>
     <input type="submit" value="Upload" name="upload_file">
