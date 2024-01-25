@@ -12,7 +12,7 @@ function uploadBasic($file_name = "")
         $client->addScope(Drive::DRIVE);
         $driveService = new Drive($client);
         // $file = getcwd().'\back.png';
-        $file =  "https://proloomtrading.com/images/test.MP4";
+        $file =  "../images/test.MP4";
         $fileName = basename($file);
         $mimeType = mime_content_type($file);
         // $fileName =  htmlspecialchars($_FILES["$file_name"]["name"]);
