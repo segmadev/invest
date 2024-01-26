@@ -87,8 +87,7 @@ private $chat_holder = [];
         if($this->quick_insert("message", $data)) { return true; }
         return false;
     }
-    function delete_message($id)
-    {
+    function delete_message($id){
         if (!$this->validate_admin()) {
             return false;
         }
@@ -96,10 +95,14 @@ private $chat_holder = [];
         if (!is_array($message)) {
             return false;
         }
+
         $message = $message['message'];
         $this->delete("message", "ID = ?", [$id]);
         $this->delete("notifications", "n_for = ? and description = ?", ["message", $message]);
         // removediv(id, type="id")
+
+        
+
         $return = [
             "message" => ["Success", "Message Deleted. You might have to repload page to see update.", "success"],
             "function" => ["removediv", "data" => ["#chat-ID-".$id, "placeholder"]],
@@ -107,6 +110,7 @@ private $chat_holder = [];
         return json_encode($return);
     }
 
+   
     function new_chat($data, $action  = "insert")
     {
         $info = $this->validate_form($data, "chat", $action);
@@ -654,6 +658,30 @@ function reply_message(array $message) {
             return json_encode($return);
         }
     }
+
+    function handle_file($fileID) {
+        $file = $this->getall("files_upload", "ID = ?", [$fileID]);
+        if (!is_array($file)) {
+            return "";
+        }
+        if ($file['current_location'] == "server") {
+            $path = ROOT.'assets/images/chat/' . $file['file_name'] . "?autoplay=0";
+            return '<div class="rounded-2 overflow-hidden"><video src="' . $path . '" style="width: 80%" height="400" controls ></video></div>';
+        } else {
+            $googleID = $file['googleID'];
+            $path = "https://drive.google.com/file/d/$googleID/preview";
+            return '<div class="rounded-2 overflow-hidden"><iframe src="' . $path . '" style="width: 70%" height="400" frameborder="0"></iframe></div>';
+        }
+    }
+
+    function unlink_file($fileID) {
+        $file = $this->getall("files_upload",  "ID = ?", [$fileID]);
+        if(!is_array($file)) { return false; }
+        unlink('assets/images/chat/' . $file['file_name']);
+        $this->delete("files_upload", "ID", [$fileID]);
+        return true;
+    }
+
     function display_send_message($message)
     {
         $upload = "";
@@ -661,6 +689,11 @@ function reply_message(array $message) {
             
             $upload = $this->display_img($message);
         }
+
+        if ($message['fileID'] != "" || $message['fileID'] != null) {
+            $upload = $this->handle_file($message['fileID']);
+        }
+
         if($message['message'] == "" || $message == null) {
             return ;
         }
@@ -670,13 +703,11 @@ function reply_message(array $message) {
         }else{
             $ago = $this->ago($message['time_sent']);
         }
-        $message['message'] = str_replace("�", " ", $message['message']);
+        $message['message'] = str_replace("�", " ", urldecode($message['message']));
         // if($message['message'] == "." && $message['upload'] != ""){
         //     $message['message'] = "";
         // }
         return '
-
-
         <div id="chat-ID-'.$message['ID'].'" data-chat-id="' . $message['time_sent'] . '" class="hstack gap-3 align-items-start mb-7 justify-content-end ">
            
         <div class="text-end">

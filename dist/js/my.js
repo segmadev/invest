@@ -62,13 +62,12 @@ function getCookieValue(cookieName) {
   const myCookieValue = getCookieValue('browser_theme');
   console.log(myCookieValue);
   
-
-const elements = document.querySelectorAll('#foo');
-$i = 0;
-elements.forEach(element => {
+  const elements = document.querySelectorAll("#foo");
+  $i = 0;
+  elements.forEach((element) => {
     iniForm(element);
-$i++;
-});
+    $i++;
+  });
 
 // ini forms with passed element
 function iniForm(element, action = "passer") {
@@ -117,7 +116,12 @@ function iniForm(element, action = "passer") {
                 }
               });
         } else {
-            runjax(request, event, $inputs, fd, action);
+            // check if upload is set 
+            // if it isset upload it
+            // wait for the name and then update the DB with the name
+            // console.log(uploader.start());
+                runjax(request, event, $inputs, fd, action);
+            
         }
         
         // Callback handler that will be called on success

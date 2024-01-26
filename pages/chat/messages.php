@@ -109,7 +109,7 @@
 
                     </div>
                     <div class="chat-send-message-footer p-0 p-2">
-                        <form action="chat-passer" id="foo" onsubmit="return void(0);">
+                        <form action="chat-passer" id="chatForm" onsubmit="return void(0);">
                             <div id="image-preview-upload"></div>
                             <div class="d-flex bg-light" id="reply_div" style="display: none!important">
                                 <div class="p-2 d-inline-block text-dark fs-3 col-11" id="reply_message"></div>
@@ -117,6 +117,7 @@
                             </div>
                             <div id="custommessage"></div>
                             <?php
+                            unset($message_form['video']);
                             unset($message_form['message']);
                             unset($message_form['upload']);
                             echo  $c->create_form($message_form);
@@ -128,7 +129,7 @@
 
                                     <input type="hidden" name="send_message" value="">
                                     <input type="hidden" name="page" value="chat">
-                                    <input name="message" type="text" class="form-control message-type-box text-muted border-0 p-0 ms-2" placeholder="Type a Message" id="message-input-box" />
+                                    <input name="message" type="text" class="form-control message-type-box text-muted border-0 p-0 ms-2" placeholder="Type a Message" id="message-input-box" required/>
 
                                 </div>
                                 <ul class="list-unstyledn mb-0 d-flex align-items-center">
@@ -142,7 +143,7 @@
                                             <!-- <li><label for="" class="text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relativ"><i class="ti ti-video"></i> Video</label></li> -->
 
                                             <a class="dropdown-item fs-3" href="#"><label for="upload" class=""><i class="ti ti-photo-plus"></i> Image</label></a>
-                                            <a class="dropdown-item fs-3" href="#"><label for="upload" class=""><i class="ti ti-video"></i> Video</label></a>
+                                            <button type="button" class="dropdown-item fs-3" id="pick" href="#"><i class="ti ti-video"></i> Video</button>
                                             <!-- <a class="dropdown-item" href="#">Something else here</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Separated link</a> -->

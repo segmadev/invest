@@ -1,5 +1,41 @@
 <?php
-if (isset($_POST['send_message'])) {
+// handle video upload
+if(isset($_GET['video'])) {
+    if(!isset($_POST['message']) || $_POST['message'] == "") {
+        echo $d->verbose(0, "Message is required");
+        return ; 
+    }
+    $chunk = $d->chunk_upload($imgpath);
+    $data = json_decode($chunk);
+    if($data->filename != "") {
+        // handle google upload here
+        $_POST['video'] = $data->filename;
+        if(side == "admin")  require_once "../googleupload.php";
+        else require_once "googleupload.php";
+        
+        $google = googleUpload($imgpath.$data->filename);
+        if(!$google) {
+            unlink($imgpath.$data->filename);
+            echo $d->verbose(0, "Unable to upload your video please try again.");
+            return ;
+        }
+        // $google = "nop";
+        $fileID = uniqid();
+        $insertFile = $d->quick_insert("files_upload", ["ID"=>$fileID, "userID"=>$userID, "current_location"=>"server", "googleID"=>$google, "file_name"=>$data->filename, "time_upload"=>time()]);
+        if($insertFile) {
+            unset($_GET['video']);
+            unset($message_form['upload']);
+            $_POST['message'] = urldecode($_POST['message']);
+            $_POST['fileID'] = $fileID;
+        }
+    }else{
+        echo $chunk;
+    }
+}
+
+
+
+if (isset($_POST['send_message']) && !isset($_GET['video'])) {
     $send = $ch->new_message($message_form);
     if ($send) {
         $return = [
@@ -59,4 +95,4 @@ if(isset($_POST['delete_message'])) {
         echo $ch->get_old_messages($userID);
         // get recent messages
         echo $ch->get_new_messages($userID);
-    ?>
+?>
