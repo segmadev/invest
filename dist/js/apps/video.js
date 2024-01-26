@@ -7,7 +7,7 @@ window.onload = () => {
     runtimes: "html5",
     browse_button: "pick",
     url: "../chat-passer?video",
-    chunk_size: "2mb",
+    chunk_size: "10mb",
     multi_selection: false,
     multipart_params: {
       upload_video: "true",
