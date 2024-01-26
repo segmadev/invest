@@ -911,9 +911,9 @@ class database
         $fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : $_FILES["file"]["name"];
         $fileInfo = pathinfo($fileName);
         // var_dump($fileInfo);
-        $ext = $fileInfo['extension'];
+        $ext = strtolower($fileInfo['extension']);
 
-        if (in_array($ext, $valid_formats1)) {
+        if (!in_array($ext, $valid_formats1)) {
             return $this->verbose(0, "Video file Not Support. We support: " . implode(" ", $valid_formats1));
         }
 
