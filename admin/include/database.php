@@ -953,7 +953,7 @@ class database
         //file to place within the server
         // echo $name;
         if($valid_formats1 == null) {
-            $valid_formats1 = ["JPG", "jpg", "png", "jpeg", "JPEG", "PNG", "svg", "SVG"];
+            $valid_formats1 = ["JPG", "jpg", "png", "jpeg",  "svg"];
         }
         if ($_FILES["$name"]["name"] == "") {
             return null;
@@ -976,7 +976,7 @@ class database
 
             if ($size < 3500000) {
                 $fileInfo = pathinfo($image);
-                $ext = $fileInfo['extension'];
+                $ext = strtolower($fileInfo['extension']);
 
                 if (in_array($ext, $valid_formats1)) {
                     if ($path == "check") {

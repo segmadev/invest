@@ -16,6 +16,7 @@
         $d = new database;
         $chatID  = htmlspecialchars($_POST['chatID']);
         $chat =  $ch->get_chat($chatID, "admin");
+        
         if(!isset($_POST['custom']) || !$d->validate_admin() || $_POST['receiverID'] == "") {
             if($_POST['senderID'] == $chat['user1']) {
                 $_POST['receiverID'] = $chat['user2'];

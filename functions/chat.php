@@ -653,8 +653,11 @@ function reply_message(array $message) {
             return false;
         }
         if(!isset($_POST['message']) || $_POST['message'] == "") { $this->message("Message can not be empty.", "error"); return false; }
+        if(!isset($_POST['time_sent']) || $_POST['time_sent'] == "") { $_POST['time_sent'] = time(); }else{
+            $_POST['time_sent'] = strtotime($_POST['time_sent']);
+        }
         $message = htmlspecialchars($_POST['message']);
-        $update = $this->update("message", ["message" => $message], "ID = '$messageID'");
+        $update = $this->update("message", ["message" => $message, "time_sent"=>$_POST['time_sent']], "ID = '$messageID'");
         if ($update) {
             $return = [
                 "message" => ["Success", "Message Edited", "success"],

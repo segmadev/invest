@@ -8,9 +8,10 @@
     <div class="card-header">
         <h5>More Message Options</h5>
     </div>
-    <form action="chat-passer" id="foo" onsubmit="return void(0);" class="card-body">
+    <form action="chat-passer?imageandvideo=" id="foo" onsubmit="return void(0);" class="card-body">
         <?php
         $message_form['message']["type"] = "textarea";
+        // $message_form['upload']["formart"] = ["png", "jpeg", "jpg", "mov", "mp4"];
         $message_form['message']["title"] = "Message";
         $message_form['message']["class"] = "form-control";
         $message_form['message']["global_class"] = "w-100";
