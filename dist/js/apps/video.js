@@ -11,7 +11,6 @@ window.onload = () => {
     multi_selection: false,
     multipart_params: {
       upload_video: "true",
-      
     },
     filters: {
       max_file_size: "200mb",
@@ -42,23 +41,21 @@ window.onload = () => {
           `#${file.id} strong`
         ).innerHTML = `${file.percent}%`;
         if (file.percent == 100) {
-          document.querySelector(
-            `#${file.id} strong`
-          ).innerHTML = "<br><b class='text-warning'>Processing file this will take some moments depend on how large your file is and your internet connection.</b>";
+          document.querySelector(`#${file.id} strong`).innerHTML =
+            "<br><b class='text-warning'>Processing file this will take some moments depend on how large your file is and your internet connection.</b>";
           // console.log(up);
           // console.log("perfrom action here");
         }
       },
-      BeforeUpload: (up, file) => {
-       
-      },
+      BeforeUpload: (up, file) => {},
 
-        // up.settings.multipart_params = { data: up._options.form.fd };
-      
+      // up.settings.multipart_params = { data: up._options.form.fd };
+
       FileUploaded: (up, file, result) => {
         // console.log(result);
         console.log("process video");
         proceessjson(result.response);
+        setCookie("isSave", true, 1);
         // console.log(up._options.form);
       },
       UploadComplete: (up, file, result) => {
@@ -70,7 +67,7 @@ window.onload = () => {
         response = JSON.parse(err.response);
         list.innerHTML = response.info;
         up.stop();
-      }
+      },
       // Error: (up, err) => console.error(err),
     },
   });
@@ -101,7 +98,7 @@ window.onload = () => {
       $inputs.prop("disabled", true);
       const params = new URLSearchParams(serializedData);
       console.log(serializedData);
-      if(uploader.files.length > 0) {
+      if (uploader.files.length > 0) {
         // for(i=0; i < $inputs.length; i++) {
         //     input = $inputs[i];
         //     if(input.tagName == "INPUT"){
@@ -109,38 +106,32 @@ window.onload = () => {
         //     }
         // }
         // console.log(uploader.multipart_params);
-          uploader.setOption("form", {
-            inputs: $inputs
-          });
-          var sData = serialtoobj(serializedData);
-          for (const key in sData) {
-            uploader.settings.multipart_params[key] = sData[key];
-          };
-          uploader.refresh();
+        uploader.setOption("form", {
+          inputs: $inputs,
+        });
+        var sData = serialtoobj(serializedData);
+        for (const key in sData) {
+          uploader.settings.multipart_params[key] = sData[key];
+        }
+        uploader.refresh();
 
-          // uploader.
-          holder =  uploader.start();
-          // console.log(holder);
-      }else{
+        // uploader.
+        setCookie("isSave", false, 1);
+        holder = uploader.start();
+        // console.log(holder);
+      } else {
         runjax(request, event, $inputs, fd, action);
       }
     });
   }
-  
- function serialtoobj(queryString) {
-  const queryParams = queryString.split("&");
-  const object = {};
-  for (let i = 0; i < queryParams.length; i++) {
-    const keyValue = queryParams[i].split("=");
-    object[keyValue[0]] = keyValue[1];
+
+  function serialtoobj(queryString) {
+    const queryParams = queryString.split("&");
+    const object = {};
+    for (let i = 0; i < queryParams.length; i++) {
+      const keyValue = queryParams[i].split("=");
+      object[keyValue[0]] = keyValue[1];
+    }
+    return object;
   }
-  return object;
- }
-
-
-  // document.getElementById("sendmessage").addEventListener("click", function (e) {
-  //   uploader.start();
-  // });
-
-  // console.log(uploader);
 };

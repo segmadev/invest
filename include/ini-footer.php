@@ -10,8 +10,8 @@
 <?php } ?>
 <?php if (in_array('chat', $script)) { ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.5/plupload.full.min.js"></script>
-    <script src="dist/js/apps/video.js?n=666"></script>
-    <script src="dist/js/apps/chat.js?n=00998"></script>
+    <script src="dist/js/apps/chat.js?n=00987"></script>
+    <script src="dist/js/apps/video.js?n=7887"></script>
 <?php } ?>
 <!-- wizard js -->
 <?php if (in_array("wizard", $script)) { ?>

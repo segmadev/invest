@@ -666,7 +666,10 @@ function reply_message(array $message) {
         }
         if ($file['current_location'] == "server") {
             $path = ROOT.'assets/images/chat/' . $file['file_name'] . "?autoplay=0";
-            return '<div class="rounded-2 overflow-hidden"><video src="' . $path . '" style="width: 80%" height="400" controls ></video></div>';
+            return '<div class="rounded-2 overflow-hidden">
+                <video src="' . $path . '" style="width: 80%" height="400" controls ></video>
+                 <p id="file-'.$fileID.'"></p>
+                </div>';
         } else {
             $googleID = $file['googleID'];
             $path = "https://drive.google.com/file/d/$googleID/preview";

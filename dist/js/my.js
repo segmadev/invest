@@ -699,8 +699,6 @@ function changetext(id, text){
         document.getElementById(id).disabled = true;
         document.getElementById(id).innerHTML = text;
     }
-    
-
 }
 
 function submitform(id = "foo2", messageid = "custommessage") {
@@ -729,11 +727,13 @@ function submitform(id = "foo2", messageid = "custommessage") {
 
 // simple ajax passer
 function simple_ajax(data, url = "passer", type = "POST") {
+    setCookie("isSave", false, 1);
     $.ajax({
         url: url,
         data: data,
         type: type,
         success: function (response) {
+            setCookie("isSave", true, 1);
             if(testJSON(response)){
                 proceessjson(response);
             }else{
@@ -776,14 +776,16 @@ function change_profile(id) {
 // run this functions every 3secs
 
 setInterval(function() {
-    // update last seen
-    update_last_seen();
-    // check for notifications
-    get_pending_chat_notifications();
-    get_notifications("get_pending_daily_my_report_notifications");
-    get_notifications("get_pending_daily_global_report_notifications");
-    get_no_notification();
-    get_no_messages();
+    if(getCookie("isSave")){
+        // update last seen
+        update_last_seen();
+        // check for notifications
+        get_pending_chat_notifications();
+        get_notifications("get_pending_daily_my_report_notifications");
+        get_notifications("get_pending_daily_global_report_notifications");
+        get_no_notification();
+        get_no_messages();
+    }
   }, 300000); 
 
 function get_no_notification() {
@@ -947,11 +949,21 @@ function isCookieExpired(cookieName) {
     document.getElementById("upload").value = "";
     if(value2 != "") document.getElementById("chatnew").innerHTML += value2;
     // eraseCookie("isSave");
-    console.log(getCookie("isSave"));
+    // console.log(getCookie("isSave"));
     setCookie("isSave", true, 1);
-    console.log(getCookie("isSave"));
+    // console.log(getCookie("isSave"));
     iniFromChat();
- 
+    // return true;
+ }
+
+ function handleG(fileID, message) {
+   onset_chat("", message);
+   document.getElementById("file-"+fileID).innerHTML = "<small class='text-warning'><b>We are still proccessing some part of your video please do not close this tab.</b></small>";
+   var data = {
+     Gupload: "",
+     fileID: fileID,
+   };
+   simple_ajax(data, "chat-passer?videoprocess");
  }
 
  function cancel_reply() {
