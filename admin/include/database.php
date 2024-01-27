@@ -892,11 +892,11 @@ class database
         
         // (B) INVALID UPLOAD
         if (empty($_FILES) || $_FILES["file"]["error"]) {
-            return $this->verbose(0, "Failed to move uploaded file.");
+            return $this->verbose(0, "<small class='text-danger'>Failed to move uploaded file. Reload page and try again</small>");
         }
 
         if((int)$_FILES["file"]["size"] * ((int)$_REQUEST["chunks"]- 1) > 209715200){
-            return $this->verbose(0, "File too large. MAX OF: 200MB, compress the file and try again");
+            return $this->verbose(0, "<small class='text-danger'>File too large. MAX OF: 200MB, compress the file and try again</small>");
         }
 
        
@@ -914,7 +914,7 @@ class database
         $ext = strtolower($fileInfo['extension']);
 
         if (!in_array($ext, $valid_formats1)) {
-            return $this->verbose(0, "Video file Not Support. We support: " . implode(" ", $valid_formats1));
+            return $this->verbose(0, "<small class='text-danger'>Video file Not Support. We support: " . implode(" ", $valid_formats1)."</small>");
         }
 
         $filePath = $filePath . DIRECTORY_SEPARATOR . $fileName;

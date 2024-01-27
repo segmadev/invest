@@ -532,6 +532,10 @@ private $chat_holder = [];
             $upload =  $upload = $this->display_img($message);
         }
 
+        if ($message['fileID'] != "" || $message['fileID'] != null) {
+            $upload = $this->handle_file($message['fileID']);
+        }
+        
         if($message['message'] == "" || $message == null) {
             return ;
         }
