@@ -1,8 +1,19 @@
 <?php 
-
+    require_once "../pages/chat/video-chat.php";
     // chat issets
+    if(isset($_POST['send_message']) && !isset($_POST['video'])){
+        $send = send_message($ch, $message_form);
+        if($send) {
+            $return = [
+                "message" => ["Success", "Message Sent", "success"],
+                "function"=>["onset_chat", "data"=>["message-input-box", ""]]
+            ];
+            echo json_encode($return);
+        }
+    }
 
-    if(isset($_POST['send_message'])){
+    function send_message($ch, $message_form) {
+        $d = new database;
         $chatID  = htmlspecialchars($_POST['chatID']);
         $chat =  $ch->get_chat($chatID, "admin");
         if(!isset($_POST['custom']) || !$d->validate_admin() || $_POST['receiverID'] == "") {
@@ -12,14 +23,7 @@
                 $_POST['receiverID'] = $chat['user1'];
             }
         }
-        $send = $ch->new_message($message_form);
-        if($send) {
-            $return = [
-                "message" => ["Success", "Message Sent", "success"],
-                "function"=>["onset_chat", "data"=>["message-input-box", ""]]
-            ];
-            echo json_encode($return);
-        }
+        return $ch->new_message($message_form);
     }
 
     // get users in groups

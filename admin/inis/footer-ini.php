@@ -27,7 +27,9 @@
     <script src="../dist/js/fetcher.js"></script>
 <?php } ?>
 <?php if(in_array('chat', $script)){ ?>
-    <script src="../dist/js/apps/chat.js?n=99554"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.5/plupload.full.min.js"></script>
+    <script src="../dist/js/apps/video.js?n=7887"></script>
+    <script src="../dist/js/apps/chat.js?n=34343"></script>
 <?php } ?>
 <?php if (in_array("select2", $script)) { ?>
     <script src="../dist/libs/select2/dist/js/select2.full.min.js"></script>

@@ -60,7 +60,7 @@ function getCookieValue(cookieName) {
   
   // Usage example
   const myCookieValue = getCookieValue('browser_theme');
-  console.log(myCookieValue);
+//   console.log(myCookieValue);
   
   const elements = document.querySelectorAll("#foo");
   $i = 0;
@@ -295,7 +295,7 @@ function followuser(id, userid){
 }
 
 function input_value(id, value) {
-    console.log("clear");
+    // console.log("clear");
     if(document.getElementById(id)) {
         document.getElementById(id).value = value;
     }
@@ -335,7 +335,7 @@ function bookmark(id) {
                 proceessjson(response);
             } else {
                 document.getElementById(id).innerHTML = response;
-                console.log(response);
+                // console.log(response);
             }
         }
     });
@@ -461,7 +461,7 @@ function deletecat(id) {
                 subid: id,
             },
             success: function (response) {
-                console.log("yes");
+                // console.log("yes");
                 document.getElementById("group" + id).innerHTML = "";
 
             }
@@ -481,7 +481,7 @@ function deletemaincat(id) {
             },
             success: function (response) {
                 document.getElementById("mcat" + id).innerHTML = "";
-                console.log("mcat" + id);
+                // console.log("mcat" + id);
             }
         });
     }
@@ -534,7 +534,7 @@ function addsubcat() {
                 $("#value" + catid).prepend(response);
                 document.getElementById("subcustommessage").innerHTML = "Item Added";
                 document.getElementById("subcatname").value = "";
-                console.log("value" + catid);
+                // console.log("value" + catid);
                 // document.getElementById("value"+id).innerHTML = response;
             }
         }
@@ -561,7 +561,7 @@ function checktask(id) {
                     document.getElementById('tr-' + id).innerHTML = "";
                 } else {
                     var res = response.substring(0, 5);
-                    console.log(res);
+                    // console.log(res);
                     if (res === "Error") {
                         alert(response);
                     }
@@ -734,6 +734,7 @@ function simple_ajax(data, url = "passer", type = "POST") {
         type: type,
         success: function (response) {
             setCookie("isSave", true, 1);
+            // console.log("Response "+response);
             if(testJSON(response)){
                 proceessjson(response);
             }else{
@@ -960,7 +961,8 @@ function isCookieExpired(cookieName) {
    onset_chat("", message);
    document.getElementById("file-"+fileID).innerHTML = "<small class='text-warning'><b>We are still proccessing some part of your video please do not close this tab.</b></small>";
    var data = {
-     Gupload: "",
+     Gupload: "yes",
+     page: "chat",
      fileID: fileID,
    };
    simple_ajax(data, "chat-passer?videoprocess");

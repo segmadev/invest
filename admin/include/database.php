@@ -887,9 +887,9 @@ class database
         }
         return json_encode(["ok" => $ok, "info" => $info, "filename"=>$file_name]);
     }
-    function chunk_upload($filePath, $valid_formats1 = ["mp4", "mov"])
+    function chunk_upload($mainfilePath, $valid_formats1 = ["mp4", "mov"])
     {
-        
+        $filePath = $mainfilePath;
         // (B) INVALID UPLOAD
         if (empty($_FILES) || $_FILES["file"]["error"]) {
             return $this->verbose(0, "<small class='text-danger'>Failed to move uploaded file. Reload page and try again</small>");
@@ -941,7 +941,9 @@ class database
 
         // (E) CHECK IF FILE HAS BEEN UPLOADED
         if (!$chunks || $chunk == $chunks - 1) {
-            rename("{$filePath}.part", $filePath);
+            $fileName = uniqid("video-").".".$ext;
+            $thefilePath = $mainfilePath . DIRECTORY_SEPARATOR . $fileName;
+            rename("{$filePath}.part", $thefilePath);
             return $this->verbose(1, "Upload OK", $fileName);
         }
         return $this->verbose(1, "Upload OK");

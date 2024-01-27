@@ -96,13 +96,14 @@ private $chat_holder = [];
             return false;
         }
 
+        if($message['fileID'] != "") {
+            $this->unlink_file($message["fileID"]);
+        }
         $message = $message['message'];
         $this->delete("message", "ID = ?", [$id]);
         $this->delete("notifications", "n_for = ? and description = ?", ["message", $message]);
-        // removediv(id, type="id")
-
+        // removediv(id, type="id")        
         
-
         $return = [
             "message" => ["Success", "Message Deleted. You might have to repload page to see update.", "success"],
             "function" => ["removediv", "data" => ["#chat-ID-".$id, "placeholder"]],
@@ -535,7 +536,7 @@ private $chat_holder = [];
         if ($message['fileID'] != "" || $message['fileID'] != null) {
             $upload = $this->handle_file($message['fileID']);
         }
-        
+
         if($message['message'] == "" || $message == null) {
             return ;
         }
@@ -665,11 +666,27 @@ function reply_message(array $message) {
 
     function handle_file($fileID) {
         $file = $this->getall("files_upload", "ID = ?", [$fileID]);
+
         if (!is_array($file)) {
             return "";
         }
+        // get time
+        // if time is more than 1hour and location is seerver
+        // then unlink the file and update the current_location to google
+        $anhourago = time() - 3600;
+        if (
+            $file["time_upload"] < $anhourago
+            && $file['current_location'] == "server"
+            && $file['googleID'] != ""
+            && file_exists(PATH .'assets/images/chat/'. $file['file_name'])
+        ) {
+           unlink(PATH .'assets/images/chat/'. $file['file_name']);
+           $file['current_location'] = "google";
+           $this->update("files_upload", ["current_location"=>"google"], "ID = '$fileID'");
+        }
+        // $file['current_location'] = "google";
         if ($file['current_location'] == "server") {
-            $path = ROOT.'assets/images/chat/' . $file['file_name'] . "?autoplay=0";
+            $path = PATH.'assets/images/chat/' . $file['file_name'] . "?autoplay=0";
             return '<div class="rounded-2 overflow-hidden">
                 <video src="' . $path . '" style="width: 80%" height="400" controls ></video>
                  <p id="file-'.$fileID.'"></p>
@@ -684,8 +701,10 @@ function reply_message(array $message) {
     function unlink_file($fileID) {
         $file = $this->getall("files_upload",  "ID = ?", [$fileID]);
         if(!is_array($file)) { return false; }
-        unlink('assets/images/chat/' . $file['file_name']);
-        $this->delete("files_upload", "ID", [$fileID]);
+        if(file_exists(PATH.'assets/images/chat/' . $file['file_name'])){
+            unlink(PATH.'assets/images/chat/' . $file['file_name']);
+        }
+        $this->delete("files_upload", "ID = ?", [$fileID]);
         return true;
     }
 

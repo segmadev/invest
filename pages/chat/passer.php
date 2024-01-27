@@ -1,87 +1,7 @@
 <?php
-
-// if(isset())
-// fileID, 
-// get the path of the file
-// upload to google
-// update file_upload with googleID
-if (isset($_POST['Gupload'])) {
-    $fileID = htmlspecialchars($_POST['fileID']);
-    $file = $d->getall("files_upload", "ID = ?", [$fileID]);
-    if (!is_array($file)) {
-        echo  json_encode([
-            "function" => ["changetext", "data" => ["file-".$fileID, "<small class='text-danger'>Seems we lost your file. Please reload page and try again.</small>"]]
-        ]);
-        exit();
-    }
-    $fileName = $file['file_name'];
-    if (side == "admin")  require_once "../googleupload.php";
-    else require_once "googleupload.php";
-    $googleID = googleUpload($imgpath . $fileName);
-    if (!$googleID) {
-        unlink($imgpath . $fileName);
-        echo  json_encode([
-            "function" => ["changetext", "data" => ["file-".$fileID, "<small class='text-danger'>Unable to upload your video please try again.</small>"]]
-        ]);
-
-        // echo $d->message("Unable to upload your video please try again.", "error", "json");
-        // echo $d->verbose(0, "");
-        exit();
-    }
-    $update = $d->update("files_upload", ["googleID" => $googleID], "ID = '$fileID'");
-    if (!$update) {
-        echo  json_encode([
-            "function" => ["changetext", "data" => ["file-".$fileID, "<small class='text-danger'>Something went wrong.</small>"]]
-        ]);
-        // echo $d->message("Something went wrong.", "error", "json");
-        // echo $d->verbose(0, "Something went wrong.");
-        exit();
-    }
-    echo  json_encode([
-        "function" => ["changetext", "data" => ["file-".$fileID, "<small class='text-success'>Uploaded sucessfully.</small>"]]
-    ]);
-    // echo $d->message("Uploaded sucessfully.", "success", "json");
-    // echo $d->verbose(1, "Uploaded sucessfully.");
-    exit();
-}
-// handle video upload
-if(isset($_GET['video'])) {
-    if(!isset($_POST['message']) || $_POST['message'] == "") {
-        echo $d->verbose(0, "Message is required");
-        return ; 
-    }
-    $chunk = $d->chunk_upload($imgpath);
-    $data = json_decode($chunk);
-    if($data->filename != "") {
-        // handle google upload here
-        $_POST['video'] = $data->filename;
-        $google = "";
-        // $google = "nop";
-        $fileID = uniqid();
-        $insertFile = $d->quick_insert("files_upload", ["ID"=>$fileID, "userID"=>$userID, "current_location"=>"server", "googleID"=>$google, "file_name"=>$data->filename, "time_upload"=>time()]);
-        if($insertFile) {
-            unset($message_form['upload']);
-            $_POST['message'] = urldecode($_POST['message']);
-            $_POST['fileID'] = $fileID;
-            $send = $ch->new_message($message_form);
-            if ($send) {
-                $return = [
-                    "function" => ["handleG", "data" => [$fileID, $send]]
-                ];
-                echo json_encode($return);
-            }
-        }
-
-
-    }else{
-        echo $chunk;
-    }
-}
-
-
-
+require_once "pages/chat/video-chat.php";
 if (isset($_POST['send_message']) && !isset($_GET['video'])) {
-    $send = $ch->new_message($message_form);
+    $send = send_message($ch, $message_form);
     if ($send) {
         $return = [
             "function" => ["onset_chat", "data" => ["message-input-box", $send]]
@@ -90,6 +10,9 @@ if (isset($_POST['send_message']) && !isset($_GET['video'])) {
     }
 }
 
+function send_message($ch, $message_form) {
+    return $ch->new_message($message_form);
+}
 // delete a message
 if(isset($_POST['delete_message'])) {
     $message_id = htmlspecialchars($_POST['delete_message']);

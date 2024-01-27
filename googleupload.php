@@ -1,12 +1,12 @@
 <?php 
-require __DIR__.'/gdrive/vendor/autoload.php';
+require PATH.'gdrive/vendor/autoload.php';
 use Google\Client;
 use Google\Service\Drive;
 function googleUpload($file)
 {
     try {
         $client = new Client();
-        putenv('GOOGLE_APPLICATION_CREDENTIALS=gdrive/credentials.json');
+        putenv('GOOGLE_APPLICATION_CREDENTIALS='.PATH.'gdrive/credentials.json');
         $client->useApplicationDefaultCredentials();
         $client->addScope(Drive::DRIVE);
         $driveService = new Drive($client);
@@ -38,6 +38,7 @@ function googleUpload($file)
         $file = $driveService->files->create($fileMetadata, $data);
         return $file->id;
     } catch (Exception $e) {
+        echo $e;
         return false ;
     }
 }

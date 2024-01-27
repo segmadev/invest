@@ -46,7 +46,14 @@ if (isset($_GET['id'])) {
         $message_form['senderID']['options'] = [$chat['user1']=>$u->get_name($chat['user1']), $chat['user2']=>$u->get_name($chat['user2'])];
         $message_form['senderID']['type'] = "select";
         unset($message_form['senderID']['input_type']);
-        $message_form['input_data']['senderID'] = $chat['user1'];
+        $replyuserID = $chat['user1'];
+        $cmessages = $d->getall("message", "chatID = ? order by time_sent DESC", [$chatID]);
+        if(is_array($cmessages) ) {
+            if($chat['user1'] != "admin" && $chat['user2'] != "admin"){
+                if($cmessages['senderID'] == $chat['user1']) $replyuserID = $chat['user2'];
+            }
+        }
+        $message_form['input_data']['senderID'] = $replyuserID;
     }else{
         $message_form['input_data']['chatID'] = $chatID;
         $message_form['input_data']['senderID'] = $userID;
