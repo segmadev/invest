@@ -26,7 +26,7 @@ if (isset($_POST['Gupload'])) {
     }
     $fileName = $file['file_name'];
     require_once PATH . "googleupload.php";
-    $googleID = googleUpload($imgpath . $fileName);
+    $googleID = googleUpload($imgpath . $fileName, $d->get_settings("google_folder_ID"));
     if (!$googleID) {
         unlink($imgpath . $fileName);
         echo  json_encode([

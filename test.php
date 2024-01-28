@@ -3,6 +3,7 @@ require 'gdrive/vendor/autoload.php';
 
 use Google\Client;
 use Google\Service\Drive;
+
 function uploadBasic($file_name = "")
 {
     try {
@@ -46,18 +47,33 @@ function uploadBasic($file_name = "")
     }
 }
 
-
-
-if (isset($_POST['upload_file'])) {
-    //    var_dump(file_get_contents($_FILES["upload"]["tmp_name"]));
-    // echo $_FILES["upload"]["tmp_name"];
-    // echo "<br> Name:"; ho $_FILES["upload"]["name"];
-    uploadBasic("upload");
-    // uploadBasic();
+function deleteFile($fileID) {
+    try {
+    $client = new Client();
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=gdrive/credentials.json');
+    $client->useApplicationDefaultCredentials();
+    $client->addScope(Drive::DRIVE);
+    $driveService = new Drive($client);
+    $driveService->files->delete($fileID);
+    return true;
+    } catch (Exception $e){ echo $e; return false;}
 }
+
+// if(isset($_GET['delete'])) {
+//     deleteFile($_GET['delete']);
+// }
+
+// if (isset($_POST['upload_file'])) {
+//     //    var_dump(file_get_contents($_FILES["upload"]["tmp_name"]));
+//     // echo $_FILES["upload"]["tmp_name"];
+//     // echo "<br> Name:"; ho $_FILES["upload"]["name"];
+//     uploadBasic("upload");
+//     // uploadBasic();
+// }
 ?>
 <!-- upload a video on the server fist to test if it will work -->
 <form action="" method="post" enctype="multipart/form-data">
     <input type="file" name="upload" id=""> <br>
     <input type="submit" value="Upload" name="upload_file">
 </form>
+

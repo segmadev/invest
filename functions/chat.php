@@ -540,7 +540,7 @@ private $chat_holder = [];
         if($message['message'] == "" || $message == null) {
             return ;
         }
-        $message['message'] = str_replace("�", " ", $message['message']);
+        $this->handleLinkInText($message['message'] = str_replace("�", " ", $message['message']));
         if($message['time_sent'] > time() && $this->validate_admin()) {
             $ago = "<small class='text-danger'>Future: ".date("Y-m-d H:i:s", $message['time_sent'])."</small>";
         }else{
@@ -702,6 +702,7 @@ function reply_message(array $message) {
     }
 
     function unlink_file($fileID) {
+        
         $file = $this->getall("files_upload",  "ID = ?", [$fileID]);
         if(!is_array($file)) { return false; }
         if(file_exists(PATH.'assets/images/chat/' . $file['file_name'])){
@@ -732,7 +733,7 @@ function reply_message(array $message) {
         }else{
             $ago = $this->ago($message['time_sent']);
         }
-        $message['message'] = str_replace("�", " ", urldecode($message['message']));
+        $message['message'] = $this->handleLinkInText(str_replace("�", " ", urldecode($message['message'])));
         // if($message['message'] == "." && $message['upload'] != ""){
         //     $message['message'] = "";
         // }

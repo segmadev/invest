@@ -1003,7 +1003,10 @@ class database
         }
     }
 
-
+    function handleLinkInText($s)
+    {
+        return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank">$1</a>', $s);
+    }
     // addtion functions
 
     function get_settings($value = "company_name", $where = "settings",  $who = "all")
