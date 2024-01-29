@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "include/session.php";
 // if generate exist and id does not exit
 if (isset($_GET['generate']) && !isset($_GET['id'])) {
