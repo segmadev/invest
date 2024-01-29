@@ -59,9 +59,9 @@ function deleteFile($fileID) {
     } catch (Exception $e){ echo $e; return false;}
 }
 
-// if(isset($_GET['delete'])) {
-//     deleteFile($_GET['delete']);
-// }
+if(isset($_GET['delete'])) {
+    deleteFile($_GET['delete']);
+}
 
 // if (isset($_POST['upload_file'])) {
 //     //    var_dump(file_get_contents($_FILES["upload"]["tmp_name"]));
