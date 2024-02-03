@@ -439,8 +439,9 @@ function getShapesInfo() {
             // var data = response);
             let draw = draw_shapes();
             if(getGet("generate") && draw){
-              console.log("downloaded");
-              $("#download").click();
+              // console.log("downloaded");
+              setTimeout(downloaddelayed, 3000);
+              // $("#download").click();
             }
         }
         let draw = draw_shapes();
@@ -454,6 +455,10 @@ function getShapesInfo() {
   // get URL image into edit.img
   // get shapes into edit.shapes
   // redraw shapes
+}
+
+function downloaddelayed() {
+  $("#download").click();
 }
 
 function getGet(key) {

@@ -1,6 +1,6 @@
-<div class="card-header bg-light-danger">
+<!-- <div class="card-header bg-light-danger">
         <p class='text-danger fs-3 p-0'>Please note that we only keep track of trades between one to two years.</p>
-        </div>
+        </div> -->
 <?php if(!isset($_GET['date']) || $_GET['date'] == "") { ?>
 <div class="<?= $divsize ?? 'col-md-4' ?> border-end">
 

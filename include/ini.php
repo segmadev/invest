@@ -2,7 +2,7 @@
 require_once "include/session.php";
 if(isset($_GET['theme'])) {
     setcookie('browser_theme', null, time() - 3600, '/');
-    $expiration = time() + (365 * 24 * 60 * 60); // 100 days * 24 hours * 60 minutes * 60 seconds
+    $expiration = time  () + (365 * 24 * 60 * 60); // 100 days * 24 hours * 60 minutes * 60 seconds
     if($_GET['theme'] == "dark") {
         // Set the cookie
         setcookie("browser_theme", "dark", $expiration, "/", "");

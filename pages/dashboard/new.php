@@ -12,7 +12,7 @@
                     <a href="index?p=investment&action=overview" class="btn btn-success my-2">
                         Create Plan
                     </a><br>
-                    <a href="index?type=global&p=investment&action=trades" class='text-primary fs-2'>See our AI recent trades</a>
+                    <!-- <a href="index?type=global&p=investment&action=trades" class='text-primary fs-2'>See our AI recent trades</a> -->
                 </div>
             </div>
             <div class="modal-footer">

@@ -17,15 +17,13 @@
         <div class="card-header">
             <div class="from-group">
                 <label for="">Select Report Type</label> <br>
-                <small class='text-danger'>My report is your account report, while global report is all trades taken by our AI on all active accounts.</small>
+                <!-- <small class='text-danger'>My report is your account report, while global report is all trades taken by our AI on all active accounts.</small> -->
                 <select name="type" class="form-control bg-light-success select" id="">
                     <!-- <option value="ssss">Place holder</option>    -->
                     <option value="" <?php if ($type == "") {
                                             echo "selected";
                                         } ?>>My Report</option>
-                    <option value="global" <?php if ($type == "global") {
-                                                echo "selected";
-                                            } ?>>Global Report</option>
+                    
                 </select>
             </div>
         </div>

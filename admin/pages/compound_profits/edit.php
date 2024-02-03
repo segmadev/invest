@@ -6,7 +6,7 @@ $script[] = "select2";
 ?>
 <div class="card p-5 col-12 col-md-8">
     <h5>Edit Compound profits</h5>
-    <hr>
+<hr>
     <form action="" id="foo">
         <?php echo $c->create_form($compound_profits_form); ?>
         <input type="hidden" name="ID" value='<?= $id ?>'>

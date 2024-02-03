@@ -1,6 +1,7 @@
 <?php 
-if(isset($upromo) && is_array($upromo)) {
-?>
+$promo = $d->getall("promo_assigned", "userID = ? and end_date >= ? and status = ?", [$userID, time(), "active"]);
+if(isset($upromo) && is_array($upromo) && !is_array($promo)) {
+?>  
 
 <div class="card bg-light-success gradient-border border-success border-2">
     <div class="d-flex p-3">
