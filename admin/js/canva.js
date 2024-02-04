@@ -85,6 +85,12 @@ let draw_shapes = function (current_shape = null) {
        if(!shape.style) {
         shape.style= "";
        }
+       console.log(shape.content);
+       if(shape.content == false && getGet("generate")){
+          // draw_shapes();
+          location.reload();
+          return true;
+       }
         theShape.innerHTML = shape.content;
         theShape.setAttribute(
               "style",
@@ -281,7 +287,7 @@ saveShape.addEventListener("click", function (event) {
     AutosaveShape();
 });
 
-function AutosaveShape() {
+ function AutosaveShape() {
     var editToString = JSON.stringify(shapes);
     // alert(edit);
     
