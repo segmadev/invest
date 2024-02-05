@@ -145,8 +145,6 @@ function getDataValue($shapes = 2)
         $shape = loadShapeData($shape, $shapes);
     }
 
-
-
     if (count($waiting) > 0) {
         foreach ($waiting as $key) {
             $shapes[$key] = loadShapeData($shapes[$key], $shapes);
