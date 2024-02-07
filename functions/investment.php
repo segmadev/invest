@@ -90,22 +90,20 @@ class investment extends user
             $userinfo = "";
             $uid = "";
         }
-
-    
         if($date != "") {
           $date = htmlspecialchars($_GET['date']);
           $more = "trade_date = ? and ";
           $tmore = "and date <= ?";
           $more_value = $date;
         }
-        $invest = $this->getall("investment", "$userinfo status = ? $tmore", array_values(array_filter([$userinfo, "active", $more_value])), "COUNT(*) as no, SUM(amount) as amount");
+        $invest = $this->getall("investment", "$userinfo status = ? $tmore", array_values(array_filter([$uid, "active", $more_value])), "COUNT(*) as no, SUM(amount) as amount");
         $condition = "$userinfo $more  status = ?  order by trade_time DESC";
         $trade_no = $this->getall("trades", "$condition", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "");
         $trades = $this->getall("trades", "$condition  LIMIT $start, 20", array_values(array_filter([$uid, $more_value, "closed"], 'strlen')), fetch: "moredetails");
         $lost = $this->getall("trades", "$userinfo  intrest_amount < ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
         $profit = $this->getall("trades", "$userinfo  intrest_amount > ? and $more  status = ?  order by trade_time DESC", array_values(array_filter([$uid, 0, $more_value, "closed"], 'strlen')), "SUM(intrest_amount) as amount");
         return ["trades"=>$trades, "no_invest"=>$invest['no'], "total_ivest"=>$invest['amount'], "lost"=>$lost, "profit"=>$profit, "trade_no"=>$trade_no];
-    }
+    }   
 
     function new_investment($data, $type = "tranding_balance")
     {
@@ -792,11 +790,11 @@ class investment extends user
         $trade_type = "buy";
         $percentage = (float)$this->calculateProfitPercentage($n1, $n2);
         $Xpromo = $this->get_X_promo($trade['investmentID']);
-        if ($percentage < 0 && $percentage > (-0.9)) {
-            if ($this->no_of_lost($trade['investmentID'], $trade['trade_date']) > 2) {
+        if ($percentage < 0 && $percentage > (-0.5)) {
+            if ($this->no_of_lost($trade['investmentID'], $trade['trade_date']) > 1) {
                 return null;
             }
-            $x = rand(1, 3);
+            $x = rand(1, 2);
         } else if ($open_price > $close_price) {
             $trade_type = "sell";
             $n1 = $close_price;
@@ -809,9 +807,9 @@ class investment extends user
         if ($percentage > 0 && $percentage < 3) {
             $percentage = $percentage + $Xpromo;
             if ($percentage < 1) {
-                $x = rand(5, 15);
+                $x = rand(10, 30);
             } else {
-                $x = rand(2, 10);
+                $x = rand(5, 20);
             }
         }
         $percentage = $percentage * $x;

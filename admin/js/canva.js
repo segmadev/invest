@@ -54,6 +54,7 @@ get_offset();
 window.onscroll = function () {
   get_offset();
 };
+
 window.onresize = function () {
   get_offset();
 };
