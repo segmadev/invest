@@ -116,6 +116,9 @@ function iniForm(element, action = "passer") {
                 }
               });
         } else {
+            // if(element.getElementById("custtommmessage")) {
+
+            // }
             // check if upload is set 
             // if it isset upload it
             // wait for the name and then update the DB with the name
@@ -136,6 +139,10 @@ function iniForm(element, action = "passer") {
 // Bind to the submit event of our form
 
 function runjax(request, event, $inputs, fd, action = "passer") {
+    if(event.srcElement.children.custommessage) {
+        event.srcElement.children.custommessage.innerHTML = "<div class='flex bg-light-warning text-warning rounded ps-2' style='width: 160px'><b>Please Wait...</b> <img src='https://proloomtrading.com/images/w-loading.gif' style='width:30px'/></div>";
+    }
+    // return ;
     request = $.ajax({
         url: action,
         type: "post",
@@ -148,6 +155,7 @@ function runjax(request, event, $inputs, fd, action = "passer") {
     request.done(function (response, textStatus, jqXHR) {
         $inputs.prop("disabled", false);
         if(testJSON(response)){
+            event.srcElement.children.custommessage.innerHTML = "";
             proceessjson(response);
         }else{
         // Log a message to the console
