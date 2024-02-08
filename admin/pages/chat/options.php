@@ -22,7 +22,8 @@
             $users_group = $ch->get_group_users_list($message_form['input_data']['receiverID'], 1, 100000, "first_name ASC");
             if ($users_group->rowCount() > 0) {
                 foreach ($users_group as $row) {
-                    $users[$row['user1']] = $ch->get_name($row['user1'], type: true);
+                    $no_messages = $d->getall("message", "senderID = ? and receiverID = ? and time_sent < ?", [$row['user1'], $message_form['input_data']['receiverID'], time()], fetch: "");
+                    $users[$row['user1']] = $ch->get_name($row['user1'], type: true)." - $no_messages Messages";
                 }
                 $message_form['senderID']['options'] = $users;
             }
