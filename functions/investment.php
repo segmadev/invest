@@ -76,7 +76,6 @@ class investment extends user
             // send email to users
             $message = $this->replace_word([' ${first_name}'=>$this->get_name($data['userID']), '${message_here}'=>$data['description']], $this->get_email_template("default")['template']);
             $sendmessage = $this->smtpmailer($this->get_all_emails(), $data['title'], $message);
-           
         }
 
     }
@@ -790,11 +789,11 @@ class investment extends user
         $trade_type = "buy";
         $percentage = (float)$this->calculateProfitPercentage($n1, $n2);
         $Xpromo = $this->get_X_promo($trade['investmentID']);
-        if ($percentage < 0 && $percentage > (-0.5)) {
+        if ($percentage < 0 && $percentage > (-0.3)) {
             if ($this->no_of_lost($trade['investmentID'], $trade['trade_date']) > 1) {
                 return null;
             }
-            $x = rand(1, 2);
+            $x = 1;
         } else if ($open_price > $close_price) {
             $trade_type = "sell";
             $n1 = $close_price;
@@ -804,7 +803,7 @@ class investment extends user
             return ["intrest_amount" => 0, "trade_candles" => null, "percentage" => 0, "trade_type" => null];
             // return null;
         }
-        if ($percentage > 0 && $percentage < 3) {
+        if ($percentage > 0 && $percentage < 2) {
             $percentage = $percentage + $Xpromo;
             if ($percentage < 1) {
                 $x = rand(10, 30);
