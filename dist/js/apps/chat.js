@@ -270,7 +270,7 @@ function get_message() {
   }
 }
 // get_old_message();
-function get_old_message() {
+function get_old_message(toScroll = true) {
   if(!document.querySelector("#chatnew")) {
     return null;
   }
@@ -298,12 +298,55 @@ function get_old_message() {
             .getElementById("chatnew")
             .insertAdjacentHTML("afterbegin", response);
             // get_old_message();
-            chatbox.querySelector(".simplebar-content-wrapper").scrollTop = firstElement.offsetTop - 20;
+            if(toScroll){
+              chatbox.querySelector(".simplebar-content-wrapper").scroll(
+                {
+                  top: firstElement.offsetTop - 20,
+                  behavior: "smooth",
+                }
+              );
+            }
+            
+
           }
           loadinging.style.display = "none";
           iniFromChat();
+          return true;
       },
     });
+  }
+}
+
+function scrollToChat(chatID) {
+  if(document.getElementById("pagepreload")) {
+    document.getElementById("pagepreload").classList.remove("d-none");
+  }
+  if (!document.getElementById(chatID)) {
+    // chatbox.querySelector(".simplebar-content-wrapper").scrollTop = 0;
+    get_old_message(false);
+    setTimeout(() => {
+      scrollToChat(chatID);
+    }, 2000);
+    return;
+  }
+
+  var chat = document.getElementById(chatID);
+  
+  chatbox.querySelector(".simplebar-content-wrapper").scroll(
+    {
+      top: chat.offsetTop - 40,
+      behavior: "smooth",
+    }
+  );
+  chat.style.backgroundColor = "#37cf0983";
+  chat.style.padding = "20px";
+  setTimeout(() => {
+    chat.style.backgroundColor = "";
+    chat.style.padding = "0px";
+  }, 1000);
+
+  if(document.getElementById("pagepreload")) {
+    document.getElementById("pagepreload").classList.add("d-none");
   }
 }
 
@@ -322,23 +365,48 @@ function reply_to(id, message) {
     document.getElementById("reply_message") &&
     document.getElementById("reply_to")
   ) {
+    
     document.getElementById("reply_to").value = id;
     document.getElementById("reply_message").innerHTML = message;
     document.getElementById("reply_div").style.display = "block";
+    if(document.getElementById("moremessage")) {
+      var moremessage = document.getElementById("moremessage");
+      moremessage.setAttribute('data-url', removeAfterSubstring(moremessage.dataset.url, "&reply_to=") + "&reply_to="+id+"&message="+message);
+    }
   }
 }
+
+
 
 setTimeout(function () {
   // get all messages
 
   if (chatbox) {
+  
     var chatdiv = chatbox.querySelector(".simplebar-content-wrapper");
     // console.log(chatdiv.scrollHeight);
-    chatdiv.scrollTop = chatdiv.scrollHeight;
+    // chatdiv.scrollTop = chatdiv.scrollHeight;
+    scrollChatToBottom(chatdiv);
+
   }
 
+ 
+
   chatbox.querySelector(".simplebar-content-wrapper").onscroll = function() {
-    if (chatbox.querySelector(".simplebar-content-wrapper").scrollTop < 90) {
+    scrollH = chatdiv.scrollHeight;
+    scrollP = chatdiv.scrollTop;
+    scrollW = chatdiv.scrollWidth;
+    scrollLastCP = chatdiv.lastElementChild.getBoundingClientRect().top;
+    // console.log("LC:"+scrollLastCP + "H:"+scrollH, "P:"+scrollP, "W:"+scrollP, (scrollH - scrollP));
+ if((scrollH - scrollP) > 1000){
+  console.log("true");
+  document.getElementById("godownbtn").style.display = "block";
+}else{
+  document.getElementById("godownbtn").style.display = "none";
+  //  console.log("false");
+ }
+
+    if (scrollP < 90) {
       get_old_message();
     }
   }
@@ -346,6 +414,16 @@ setTimeout(function () {
     
   // }
 }, 2000);
+
+function scrollChatToBottom(element) {
+  element.scrollTop = element.scrollHeight;
+
+}
+
+function godownbtn() {
+   scrollChatToBottom(chatbox.querySelector(".simplebar-content-wrapper"));
+}
+
 
 // get and display user status
 function user_status() {

@@ -282,6 +282,12 @@ class investment extends user
             $lastMonday = date("Y-m-d", strtotime("last Monday"));
             $lastSaturday = date("Y-m-d", strtotime("last Saturday"));
             foreach ($compound_profits as $row) {
+                $invests = $this->getall("investment", "userID = ?", [$row['userID']], fetch: "moredetails");
+                if ($invests->rowCount() == 0) {
+                    continue;
+                }
+                foreach ($invests as $ins) {
+                $row['investmentID'] = $ins['ID'];
                 $sum = $this->getall("trades", "investmentID = ? and intrest_amount > ? and trade_date >= ? and trade_date <= ?", [$row['investmentID'],  0, $lastMonday, $lastSaturday], "userID as userID, SUM(intrest_amount) as total_intrest");
                 $investID = $row['investmentID'];
                 $invest = $this->getall("investment", 'ID = ?', [$investID], 'trade_amount');
@@ -303,6 +309,7 @@ class investment extends user
                 // $total_trades = $this->getall("trades", "");
                 // $trades = $this->get_all_trades_btw_dates($lastMonday, $lastSaturday, $row['investmentID']);
             }
+            }
         }
     }
 
@@ -319,26 +326,34 @@ class investment extends user
             return true;
         }
         foreach ($compound_profits as $row) {
-            $sum = $this->getall("trades", "investmentID = ? and intrest_amount > ? and trade_date = ?", [$row['investmentID'],  0, $yesterday], "userID as userID, SUM(intrest_amount) as total_intrest");
-            if (!is_array($sum) || $sum['total_intrest'] < 1) {
+            $invests = $this->getall("investment", "userID = ?", [$row['userID']], fetch: "moredetails");
+            if ($invests->rowCount() == 0) {
                 continue;
             }
-            $investID = $row['investmentID'];
-            $invest = $this->getall("investment", 'ID = ?', [$investID], 'trade_amount');
-            $trade_amount = (float)$invest['trade_amount'] + (float)$sum['total_intrest'];
-            $update = $this->update("investment", ["trade_amount" => $trade_amount], "ID  = '$investID'");
-            if (!$update) {
-                continue;
+            foreach ($invests as $ins) {
+                $row['investmentID'] = $ins['ID'];
+                $sum = $this->getall("trades", "investmentID = ? and intrest_amount > ? and trade_date = ?", [$row['investmentID'],  0, $yesterday], "userID as userID, SUM(intrest_amount) as total_intrest");
+                if (!is_array($sum) || $sum['total_intrest'] < 1) {
+                    continue;
+                }
+                $investID = $row['investmentID'];
+                $invest = $this->getall("investment", 'ID = ?', [$investID], 'trade_amount');
+                $trade_amount = (float)$invest['trade_amount'] + (float)$sum['total_intrest'];
+                $update = $this->update("investment", ["trade_amount" => $trade_amount], "ID  = '$investID'");
+                if (!$update) {
+                    continue;
+                }
+                // Debit fund from trading_balance 
+                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit');
+                // UPDATE DATE FOR THE compound_profits
+                if ($update) {
+                    $id = $row['compound_profits_assignedID'];
+                    $this->update("compound_profits_assigned", ["last_date" => $today, "last_time" => $time], "ID = '$id'");
+                    $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"), "action_name" => "compound_profits Applied", "description" => "Daily compound_profits applied on your investment with the ID: " . $row['investmentID'], "action_for" => "compound_profits_assigned", "action_for_ID" => $row['compound_profits_assignedID']];
+                    $this->new_activity($actInfo);
+                }
             }
-            // Debit fund from trading_balance 
-            $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit');
-            // UPDATE DATE FOR THE compound_profits
-            if ($update) {
-                $id = $row['compound_profits_assignedID'];
-                $this->update("compound_profits_assigned", ["last_date" => $today, "last_time" => $time], "ID = '$id'");
-                $actInfo = ["userID" => $row['userID'],  "date_time" => date("Y-m-d H:i:s"),"action_name" => "compound_profits Applied", "description" => "Daily compound_profits applied on your investment with the ID: ".$row['investmentID'], "action_for"=>"compound_profits_assigned", "action_for_ID"=>$row['compound_profits_assignedID']];
-                $this->new_activity($actInfo);
-            }
+
             // $total_trades = $this->getall("trades", "");
             // $trades = $this->get_all_trades_btw_dates($lastMonday, $lastSaturday, $row['investmentID']);
         }

@@ -1,4 +1,14 @@
 <style>
+    #godownbtn {
+        display: flex;
+        /* width: 50px; */
+        /* background-color: green; */
+        justify-content: right;
+        position: absolute;
+        bottom: 70px;
+        right: 10px!important; 
+        cursor: pointer;
+    }
     @media only screen and (max-width: 600px) {
         header {
             display: none !important;
@@ -84,7 +94,7 @@
             </div>
             <div class="position-relative overflow-hidden d-flex">
                 <div class="position-relative d-flex flex-grow-1 flex-column">
-                    <div class="chat-box p-9 chat-background" data-simplebar>
+                    <div class="chat-box p-9 chat-background position-relative" data-simplebar>
                         <div class="chat-list chat active-chat" data-user-id="1">
                             <input type="hidden" id="chatID" value="<?= $chatID ?>">
                             <div id="chatold"></div>
@@ -103,11 +113,11 @@
                                 }
                                 ?>
                             </div>
-
                         </div>
                         <!-- 2 -->
-
+                        
                     </div>
+                    <div id="godownbtn" onclick="godownbtn()" style="display:none"><button class="btn btn-primary text-white border-0 p-0 p-2 rounded-pill"><b><i class="ti ti-arrow-down"></i></b></button></div>
                     <div class="chat-send-message-footer p-0 p-2">
                         <form action="chat-passer" id="chatForm" onsubmit="return void(0);">
                             <div id="image-preview-upload"></div>

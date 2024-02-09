@@ -976,6 +976,20 @@ function isCookieExpired(cookieName) {
    simple_ajax(data, "chat-passer?videoprocess");
  }
 
+ function removeAfterSubstring(str, substring) {
+    // Find the index of the substring within the string
+    const index = str.indexOf(substring);
+  
+    // If the substring is found, return the substring up to that point
+    if (index !== -1) {
+      return str.substring(0, index);
+    }
+  
+    // If the substring is not found, return the original string
+    return str;
+  }
+
+
  function cancel_reply() {
     if (
       document.getElementById("reply_div") &&
@@ -987,6 +1001,12 @@ function isCookieExpired(cookieName) {
       document
         .getElementById("reply_div")
         .style.setProperty("display", "none", "important");
+
+        if(document.getElementById("moremessage")) {
+            var moremessage = document.getElementById("moremessage");
+            // var moremessage_url = ;
+            moremessage.setAttribute('data-url', removeAfterSubstring(moremessage.dataset.url, "&reply_to="));
+        }
     }
   }
 

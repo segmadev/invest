@@ -10,7 +10,7 @@
 <?php } ?>
 <?php if (in_array('chat', $script)) { ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.5/plupload.full.min.js"></script>
-    <script src="dist/js/apps/chat.js?n=63736"></script>
+    <script src="dist/js/apps/chat.js?n=21874"></script>
     <script src="dist/js/apps/video.js?n=7887"></script>
 <?php } ?>
 <!-- wizard js -->

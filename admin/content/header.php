@@ -28,9 +28,10 @@
 
 <body>
     <!-- Preloader -->
-    <!-- <div class="preloader">
-        <img src="http://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico" alt="loader" class="lds-ripple img-fluid" />
-    </div> -->
+    <div class="preloader bg-transparent d-none" id="pagepreload">
+        <img src="https://proloomtrading.com/images/w-loading.gif" alt="loader" class="lds-ripple img-fluid" />
+        <!-- <p class="lds-ripple img-fluid">Finding message</p> -->
+    </div>
     <!-- Preloader -->
     <!-- <div class="preloader">
       <img src="http://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico" alt="loader" class="lds-ripple img-fluid" />

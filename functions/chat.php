@@ -764,11 +764,11 @@ function reply_message(array $message) {
         }
         $reply_message = $this->getall("message", "ID = ?", [$message['reply_to']]);
         if(!is_array($reply_message) || $reply_message['message'] == ".") { return ""; }
-        return '<h6 class="fs-3 bg-light text-dark p-2 m-0 opacity-75">
+        return '<h1 onclick="scrollToChat(\'chat-ID-'.$reply_message['ID'].'\');" class="fs-3 h6 bg-light text-dark p-2 m-0 opacity-75">
         <p class="text-success fs-1 m-0 p-0">'.$this->get_name($reply_message['senderID']).'</p>
-         <span class="">' . $reply_message['message'] . '</span>
+         <span class="">' . $this->short_text($reply_message['message'], 100) . '</span>
          
-        </h6>';
+        </h1>';
 
     }
 
