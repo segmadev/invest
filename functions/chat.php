@@ -642,8 +642,9 @@ function reply_message(array $message) {
     {
         // check file type 
 
-        return '<div id="image-' . $message['ID'] . '" data-url="" data-title="Image Viewer" onclick="imageviwer(\''.ROOT.'assets/images/chat/' . $message['upload'] . '\')" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" class="rounded-2 overflow-hidden">
-                <img src="'.ROOT.'assets/images/chat/' . $message['upload'] . '" alt="uploaded" class="w-30">
+        return '<div style="width:150px; height: 200px" id="image-' . $message['ID'] . '" data-url="" data-title="Image Viewer" onclick="imageviwer(\''.ROOT.'assets/images/chat/' . $message['upload'] . '\')" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" class="rounded-2 overflow-hidden bg-light-primary position-relative rounded">      
+            <p class="position-absolute top-50 start-50 translate-middle h2 text-mute"><i class="ti ti-photo"></i><p>            
+                <img src="'.ROOT.'assets/images/chat/' . $message['upload'] . '" alt="uploaded" class="object-fit-contain w-100 position-absolute top-50 start-50 translate-middle"> 
             </div>';
     }
 

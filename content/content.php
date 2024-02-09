@@ -300,7 +300,7 @@ class content extends database
 
     function get_compound_profits_btn($investID, $data) {
         if($data == false) {
-            echo "<a class='btn btn-success rounded-pill' href='index?p=compound_profits&action=new&investID=$investID'>Activate compound profits</a>";
+            echo "<a class='btn btn-success rounded-pill' href='index?p=compound_profits&action=new&investID=$investID#newcompound'>Activate compound profits</a>";
             return null;
         }
         $id = $data['ID'];
@@ -320,6 +320,8 @@ class content extends database
         
         <input type="radio" class="btn-check" name="options" value="deactive" id="option4" onclick="update_compound_profits(this.value, \''.$id.'\')" autocomplete="off" '.$dcheck.'>
         <label class="btn btn-outline-danger rounded-pill font-medium ms-2" for="option4">Deactive</label>
+
+        <a href="index?p=compound_profits&action=new&investID='.$investID.'#newcompound" class="btn btn-primary rounded-pill font-medium ms-2">Upgrade</a>
         </div>
         ';
     }

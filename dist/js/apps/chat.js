@@ -433,8 +433,10 @@ function handleChatDisplay(displayID, content, type) {
     if (document.getElementById(currentChatID)) {
       mainDiv = document.getElementById(displayID);
       removeElement = mainDiv.querySelector("#" + currentChatID);
-      const parent = removeElement.parentNode;
-      mainDiv.removeChild(parent);
+      if(removeElement){
+        const parent = removeElement.parentNode;
+        mainDiv.removeChild(parent);
+      }
     }
     mainDiv.insertAdjacentHTML(
       "afterbegin",

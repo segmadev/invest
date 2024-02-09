@@ -12,7 +12,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     // if(isset($_GET['start']) && $_GET['start'] != "") {
     //   $no = htmlspecialchars($_GET['start']);
     // }
-    $compound_profit_d = $i->get_compound_profits($invest['ID']);
+    $compound_profit_d = $i->get_compound_profits($userID);
     $trades = $d->getall("trades", "investmentID = ? and status = ? order by trade_time DESC LIMIT $no, 20", [$id, "closed"], fetch: "moredetails");
   }
 }

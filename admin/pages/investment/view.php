@@ -76,6 +76,7 @@ $script[] = "modal";
 
                         <input type="radio" class="btn-check" name="options" value="deactive" id="option4" onclick="update_compound_profits(this.value, '8')" autocomplete="off">
                         <label class="btn btn-outline-danger rounded-pill font-medium ms-2" for="option4">Deactive</label>
+
                     </div>
                 </div>
             </div>
