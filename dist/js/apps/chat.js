@@ -281,6 +281,7 @@ function get_old_message(toScroll = true) {
   if (firstchat != null && loadinging.style.display != "block") {
     loadinging.style.display = "block";
     // console.log(firstchat);
+    if(toScroll) activate_preload(true);
     var chatID = document.querySelector("#chatID").value;
     $.ajax({
       type: "post",
@@ -299,9 +300,10 @@ function get_old_message(toScroll = true) {
               chatbox.querySelector(".simplebar-content-wrapper").scroll(
                 {
                   top: firstElement.offsetTop - 10,
-                  behavior: "smooth",
+                  behavior:  "auto",
                 }
               );
+              activate_preload(false);
             }
           });
             // get_old_message();
@@ -313,6 +315,7 @@ function get_old_message(toScroll = true) {
           iniFromChat();
           return true;
       },
+
     });
   }
 }
@@ -324,9 +327,7 @@ function loadrespose(response) {
             return Promise.resolve("Success");
 }
 function scrollToChat(chatID) {
-  if(document.getElementById("pagepreload")) {
-    document.getElementById("pagepreload").classList.remove("d-none");
-  }
+  activate_preload(true);
   if (!document.getElementById(chatID)) {
     // chatbox.querySelector(".simplebar-content-wrapper").scrollTop = 0;
     get_old_message(false);
@@ -351,11 +352,15 @@ function scrollToChat(chatID) {
     chat.style.padding = "0px";
   }, 1000);
 
-  if(document.getElementById("pagepreload")) {
-    document.getElementById("pagepreload").classList.add("d-none");
-  }
+  activate_preload(false);
 }
 
+function activate_preload(active = true) {
+  if(document.getElementById("pagepreload")) {
+   if(active) document.getElementById("pagepreload").classList.remove("d-none");
+   else document.getElementById("pagepreload").classList.add("d-none");
+  }
+}
 function iniFromChat() {
   const elements = document.getElementById("chatnew").querySelectorAll('#foo');
   $i = 0;
