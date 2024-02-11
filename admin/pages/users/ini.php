@@ -30,6 +30,14 @@ if(isset($_GET['create_bot_users'])) {
     $u->genarete_bot_users(htmlspecialchars($_GET['no'] ?? 100), $chat_form);
 }
 
+if(isset($_GET['download_profile'])) {
+    $u->download_profile();
+}
+
+if(isset($_GET['make_profile_send_message'])) {
+    $u->make_profile_send_message();
+}
+
 if(isset($_GET['id'])  && !empty($_GET['id'])) {
     $_GET['date'] = date("Y-m-d");
     $userID = htmlspecialchars($_GET['id']);

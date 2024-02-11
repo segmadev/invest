@@ -152,6 +152,53 @@ class users extends user
         return $info;
     }
 
+    function download_profile() {
+        $users = $this->getall("users", "profile_image LIKE '%https%' and acct_type = ?", ["bot"], fetch: "moredetails");
+        if($users->rowCount() > 0) {
+            foreach($users as $user) {
+                $url = $user['profile_image'];
+                $this->upload_image_file($url, $user);
+            }
+        }
+    }
+
+    function upload_image_file($url, $user){
+        if(!filter_var($url, FILTER_VALIDATE_URL)){
+           return false;
+        }
+        $image = file_get_contents($url);
+        $imageName = strtolower($user['gender'])."-".substr($url, strrpos($url, '/') + 1);
+        if(file_put_contents("../assets/images/profile/".$imageName, $image)){
+            $id = $user['ID'];
+            $this->update("users", ["profile_image"=>$imageName], "ID = '$id'", "$id updated");
+            return true;
+        }
+        return false;
+    }
+    function get_profile_pic_for_most_bot() {
+        $users = $this->getall("users as u join message as m on u.ID = m.senderID", "u.profile_image = ? and u.acct_type = ? order by m.time_sent DESC", ["", "bot"], "u.ID as ID, u.gender as gender", "moredetails");
+        if($users->rowCount() > 0) {
+            $no = 1;
+            foreach($users as $user) {
+
+            }
+            $url = "https://randomuser.me/api/portraits/men/7.jpg";
+            $users =  $this->api_call("https://randomuser.me/api/?results=$no");
+        }
+    }
+
+    function make_profile_send_message() {
+        $messages = $this->getall("message as m join users as u on m.senderID = u.ID", "u.profile_image = ? and u.acct_type = ? order by m.time_sent DESC", ["", "bot"], "m.ID as ID, m.senderID as senderID", "moredetails");
+        if($messages->rowCount() > 0) {
+            foreach($messages as $row) {
+                $user = $this->getall("users", "profile_image != ? and acct_type = ? ORDER BY RAND()", ["",  "bot"], "ID");
+                if(is_array($user)) {
+                    $mID = $row['ID'];
+                    $this->update("message", ["senderID"=>$user['ID']], "ID = '$mID'", "Message Updated");
+                }
+            }
+        }
+    }
     function genarete_bot_users($no = 100, array $chat_from = []) {
         $no = (int)$no;
         $users =  $this->api_call("https://randomuser.me/api/?results=$no");
@@ -160,6 +207,7 @@ class users extends user
         }
         $i = 0;
         foreach($users->results as $user) {
+        
             $data = [
                 "ID"=>uniqid(),
                 "first_name"=>$user->name->first,
@@ -167,7 +215,7 @@ class users extends user
                 "email"=>str_replace("example", array_rand(["gmail", "yahoo", "outlook"]), $user->email),
                 "phone_number"=>$user->phone,
                 "gender"=>$user->gender,
-                "profile_image"=>$user->picture->medium,
+                "profile_image"=>$user->picture->large,
                 "balance"=>mt_rand(50,  500000),
                 "trading_balance"=>mt_rand(50,  500000),
                 "ip_address"=>mt_rand(0, 255) . "." . mt_rand(0, 255) . "." . mt_rand(0, 255) . "." . mt_rand(0, 255),
