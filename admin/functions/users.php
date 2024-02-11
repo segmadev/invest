@@ -153,7 +153,8 @@ class users extends user
     }
 
     function download_profile() {
-        $users = $this->getall("users", "profile_image LIKE '%https%' and acct_type = ?", ["bot"], fetch: "moredetails");
+        $users = $this->getall("users", "profile_image != ? and acct_type = ?", ["", "bot"], fetch: "moredetails");
+        var_dump($users->rowCount());
         if($users->rowCount() > 0) {
             foreach($users as $user) {
                 $url = $user['profile_image'];

@@ -294,18 +294,18 @@ function get_old_message(toScroll = true) {
       success: function (response) {
         // console.log(response);
         if (response != "null" && response != "" && response != null) {
-          document
-            .getElementById("chatnew")
-            .insertAdjacentHTML("afterbegin", response);
-            // get_old_message();
+          loadrespose(response).then((onResolved)=>{
             if(toScroll){
               chatbox.querySelector(".simplebar-content-wrapper").scroll(
                 {
-                  top: firstElement.offsetTop - 20,
+                  top: firstElement.offsetTop - 10,
                   behavior: "smooth",
                 }
               );
             }
+          });
+            // get_old_message();
+            
             
 
           }
@@ -317,6 +317,12 @@ function get_old_message(toScroll = true) {
   }
 }
 
+function loadrespose(response) {
+  document
+            .getElementById("chatnew")
+            .insertAdjacentHTML("afterbegin", response);
+            return Promise.resolve("Success");
+}
 function scrollToChat(chatID) {
   if(document.getElementById("pagepreload")) {
     document.getElementById("pagepreload").classList.remove("d-none");
@@ -406,7 +412,7 @@ setTimeout(function () {
   //  console.log("false");
  }
 
-    if (scrollP < 90) {
+    if (scrollP < 5) {
       get_old_message();
     }
   }

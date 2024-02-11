@@ -31,6 +31,7 @@ if(isset($_GET['create_bot_users'])) {
 }
 
 if(isset($_GET['download_profile'])) {
+    echo "yes";
     $u->download_profile();
 }
 
