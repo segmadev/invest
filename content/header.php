@@ -52,7 +52,7 @@ require_once "include/ini-session.php";
       <img src="http://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico" alt="loader" class="lds-ripple img-fluid" />
     </div> -->
   <!--  Body Wrapper -->
-  <div class="page-wrapper p-0 p-3" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+  <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
     <!-- Sidebar Start -->
     <aside class="left-sidebar">
       <!-- Sidebar scroll-->
@@ -490,7 +490,7 @@ require_once "include/ini-session.php";
         </nav>
       </header>
       <!--  Header End -->
-      <div class="container-fluid">
+      <div class="container-fluid p-0 p-2">
         <div class="d-flex middle">
           <?php
           if ($page != "chat") {
