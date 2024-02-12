@@ -225,9 +225,9 @@ class user extends Notifications {
             $id = $info['userID'];
             // $update = $this->update("users", $update, "ID = '$id'");
 
-            $update = $this->credit_debit($info['userID'], $info['amount'], $from, "debit", "Transfer");
+            $update = $this->credit_debit($info['userID'], $info['amount'], $from, "debit", for:"Transfer");
             if(!$update) { return false; }
-            $update = $this->credit_debit($info['userID'], $info['amount'], $to, "credit", "Transfer");
+            $update = $this->credit_debit($info['userID'], $info['amount'], $to, "credit", for:"Transfer");
             if($update) {
                 if($from == "trading_balance") {
                     $this->last_from_trading_balance(date("Y-m-d"), $info['userID']);
