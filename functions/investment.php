@@ -432,7 +432,7 @@ class investment extends user
         if ($date == null && isset($data[0])) {
             $holder = json_decode($data[0]['trade_candles']);
             // echo "yes";
-            var_dump($holder[0][0]);
+            // var_dump($holder[0][0]);
             $chart_info = [[$holder[0][0], 0]];
         } else {
             $chart_info = [[$date, 0]];
