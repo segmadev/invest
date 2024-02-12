@@ -24,7 +24,7 @@ class investment extends user
            return $this->message("You have active promo on your account.", "error");
         }
         //  debit amount
-        if (!$this->credit_debit($data['userID'], $promo['purchase_price'], "balance", "debit")) {
+        if (!$this->credit_debit($data['userID'], $promo['purchase_price'], "balance", "debit", for: "Promo")) {
             return;
         }
         $data['start_date'] = time();
@@ -210,13 +210,13 @@ class investment extends user
 
         }
         //  debit amount
-        if (!$this->credit_debit($info['userID'], $roll['purchase_price'], "balance", "debit")) {
+        if (!$this->credit_debit($info['userID'], $roll['purchase_price'], "balance", "debit", for: "Compound_profits")) {
             return;
         }
         //   credit profit
         $check = $this->getall("compound_profits_assigned", "userID = ?", [$info['userID']]);
         if ($check == 0) {
-            if (!$this->credit_debit($info['userID'], $roll['bonus_price'], "trade_bonus")) {
+            if (!$this->credit_debit($info['userID'], $roll['bonus_price'], "trade_bonus", for: "Trade Bonus")) {
                 return;
             }
         }
@@ -297,7 +297,7 @@ class investment extends user
                     continue;
                 }
                 // Debit fund from trading_balance 
-                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit');
+                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit', for: "compound_profits");
                 // UPDATE DATE FOR THE compound_profits
                 if ($update) {
                     echo "Applied for investID: ".$investID;
@@ -344,7 +344,7 @@ class investment extends user
                     continue;
                 }
                 // Debit fund from trading_balance 
-                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit');
+                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit', for: "compound_profits");
                 // UPDATE DATE FOR THE compound_profits
                 if ($update) {
                     $id = $row['compound_profits_assignedID'];
@@ -500,7 +500,7 @@ class investment extends user
             // check if trading balance match up with the no
             if($this->user_data($bot['ID'])['trading_balance'] < $amount) {
                 // if not add the no to the current trading balance
-                if(!$this->credit_debit($bot['ID'], $amount, "trading_balance")){
+                if(!$this->credit_debit($bot['ID'], $amount, "trading_balance", for:"Trading Bot Balance Credit")){
                     $passed = false;
                 } 
             }

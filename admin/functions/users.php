@@ -120,7 +120,7 @@ class users extends user
             return true;
         }
         foreach($invest as $row) {
-            $debit = $this->credit_debit($userID, $row['amount'], 'balance', 'debit');
+            $debit = $this->credit_debit($userID, $row['amount'], 'balance', 'debit', for: "Investment");
             if(!$debit) {
                 $this->message("Unable to activate this user pending investment of ".$this->money_format($row['amount']), "error");
                 continue ;

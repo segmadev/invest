@@ -32,7 +32,7 @@ class withdraw extends user
         // check if send email if send then send email
 
 
-        $debit = $this->credit_debit($info['userID'], $info['amount'], "balance", "debit");
+        $debit = $this->credit_debit($info['userID'], $info['amount'], "balance", "debit", for:"widthdraw");
         if (!$debit) {
             return false;
         }
