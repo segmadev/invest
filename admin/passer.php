@@ -44,7 +44,11 @@ session_start();
         $compound_profits_form["ID"] = [];
         echo $p->update_compound_profits($compound_profits_form);
     }
-
+    // Transfer 
+    if(isset($_POST['transfer'])) {
+        // echo "yes";
+        $u->admin_transfer($transfer_from);
+     }
     // promo
     if(isset($_POST['new_promo'])) {
         echo $p->new_promo($promo_form);

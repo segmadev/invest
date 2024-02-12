@@ -53,4 +53,17 @@ if(isset($_GET['id'])  && !empty($_GET['id'])) {
     $lost['amount'] = $trade_report['lost'];
     $profit['amount'] = $trade_report['profit'];
     $trade_no = $trade_report['trade_no'];
+    if($action == "transactions") {
+        $transactions = $d->getall("transactions", "userID = ? order by date DESC", [$userID], fetch: "moredetails");
+    }else{
+        $transactions = $d->getall("transactions", "userID = ? order by date DESC LIMIT 10", [$userID], fetch: "moredetails");
+    }
 }
+
+$transfer_from = [
+    "type"=>["type"=>"select", "options"=>["credit"=>"credit", "debit"=>"debit"], "global_class"=>"w-100"],
+    "action_on"=>["type"=>"select", "options"=>["balance"=>"Balance", "trading_account"=>"Trading Account", "trade_bonus"=>"Bonus"], "global_class"=>"w-100"],
+    "amount"=>["input_type"=>"number", "global_class"=>"w-100"],
+    "userID"=>["input_type"=>"hidden", "global_class"=>"w-100"],
+    "for"=>["type"=>"textarea", "title"=>"Reason for Action", "is_required"=>false, "global_class"=>"w-100"],
+];

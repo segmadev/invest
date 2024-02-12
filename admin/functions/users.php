@@ -105,6 +105,15 @@ class users extends user
         ];
         $this->new_notification($notify);
     }
+
+    function admin_transfer($transfer_from) {
+        $data = $this->validate_form($transfer_from);
+        if(!is_array($data)) { exit(); }
+        var_dump($data);
+        $transfer = $this->credit_debit($data['userID'], $data['amount'], $data['action_on'], $data['type'], $data['for'], 'admin');
+        if($transfer)  $this->message("Done! You can reload page to see effect.", "success");
+        else $this->message("OOPS! something went wrong", "error");
+    }
     protected function activate_pending($userID) {
         $invest = $this->getall("investment", "userID = ? and status  =?", [$userID, "pending"], fetch: "moredetails");
         if($invest->rowCount() == 0) {

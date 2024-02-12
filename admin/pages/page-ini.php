@@ -1,7 +1,7 @@
 <?php
 require_once "../consts/Regex.php";
 $action = "list";
-$accepted_actions = ["new","generate", "access", "home", "prove", 'list', "view", "edit", "overview", "rejected", "transfer"];
+$accepted_actions = ["new","generate", "access", "home", "prove", 'list', "view", "edit", "overview", "rejected", "transfer", "transactions"];
 if (isset($_GET['action'])) {
     $action = htmlspecialchars($_GET['action']);
 }

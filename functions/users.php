@@ -126,6 +126,8 @@ class user extends Notifications {
         return json_encode($return);
     }
 
+
+
     protected function credit_debit($userID, $amount, $what, $action = "credit", $for = "", $forID = "")
     {
         unset($_COOKIE['user_data']);
@@ -276,7 +278,7 @@ class user extends Notifications {
     function user_data($userID) {
         if (isset($_COOKIE['user_data'])) {
             // echo "Cookies here";
-            return  unserialize($_COOKIE['user_data']);
+            // return  unserialize($_COOKIE['user_data']);
         }
         // amount_invest number_invet profit_percent lost_percent profit_amount lost_amount trade_balance trade_bonus balance 
         $info = [];
@@ -301,7 +303,8 @@ class user extends Notifications {
         if(is_array($data)) {
             $balance = $this->money_format($data['balance'], currency);
             $trading_balance = $this->money_format($data['trading_balance'], currency);
-            return "<div class='card bg-light-success p-3'><b>Balance: </b><h4>$balance</h4> <p><a class='mt-2' href='index?p=deposit&action=new'>Deposit Fund</a></p> <hr> <b>Trading Balance: </b><h4>$trading_balance</h4></div>";
+            $trade_bonus = $this->money_format($data['trade_bonus'], currency);
+            return "<div class='card bg-light-success p-3'><b>Balance: </b><h4>$balance</h4> <p><a class='mt-2' href='index?p=deposit&action=new'>Deposit Fund</a></p> <hr> <b>Trading Balance: </b><h4>$trading_balance</h4> <p class='text-success'><b>Trading Bonus: $trade_bonus</b><p></div>";
         }
         return null;
     }

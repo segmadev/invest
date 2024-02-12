@@ -12,7 +12,7 @@
                                 <h5 class="fw-semibold mb-0 fs-5"><?= $u->get_full_name($user) ?>!</h5>
                             </div>
                             <div class="d-flex">
-                                <div><button id="new-transder" data-url="modal?p=users&action=transfer" data-title="Credit or Debit Account" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md"  class="btn btn-primary"><i class='ti ti-arrow'></i>Credit/Debit Account</button></div>
+                                <div><button id="new-transder" data-url="modal?p=users&action=transfer&userID=<?= $userID ?>" data-title="Credit or Debit Account" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md"  class="btn btn-primary"><i class='ti ti-arrow'></i>Credit/Debit Account</button></div>
                                     <div>
                                         <button id="new-fund" data-url="modal?p=users&action=block" data-title="Block Account" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md" class='btn btn-danger ms-1'><i class='ti ti-block'></i> Block Account</button>
 
@@ -66,10 +66,21 @@
             <div class="card">
                 <div class="card-header">
                     <h5>Investment.</h5>
-                    <p>List of users Investment.</p>
+                    <p>List of users Investment. </p>
                 </div>
                 <div class="card-body">
                     <?php require_once "pages/investment/table.php"; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Transctions.</h5>
+                    <p>Recent Transctions taken on this account. <a href="index?p=users&action=transactions&id=<?= $userID ?>">See All</a></p>
+                </div>
+                <div class="card-body">
+                    <?php require_once "pages/users/trans_table.php"; ?>
                 </div>
             </div>
         </div>
