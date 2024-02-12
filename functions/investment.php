@@ -687,7 +687,10 @@ class investment extends user
                 $totals[$row['investmentID']][$row['trade_date']] = $this->total_daily_profit($row['investmentID'], $row['trade_date']);
             }
             $maxProfit = $this->get_investment_max_profit($row['investmentID']);
-            if ($this->total_profit($row['investmentID'], $row['trade_date'], "percentage") >= $maxProfit || $totals[$row['investmentID']][$row['trade_date']] >= $maxProfit) {
+            $currentPercent = $this->total_profit($row['investmentID'], $row['trade_date'], "percentage");
+            var_dump("CP: ".$currentPercent);
+            var_dump("MP: ".$maxProfit );
+            if ($currentPercent >= $maxProfit || $totals[$row['investmentID']][$row['trade_date']] >= $maxProfit) {
                 $this->close_all_pending_trades($row['investmentID'], $row['trade_date']);
                 $totals[$row['investmentID']][$row['trade_date']] =  "closed";
                 continue;
