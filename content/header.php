@@ -490,7 +490,7 @@ require_once "include/ini-session.php";
         </nav>
       </header>
       <!--  Header End -->
-      <div class="container-fluid p-0 p-2">
+      <div class="container-fluid px-2">
         <div class="d-flex middle">
           <?php
           if ($page != "chat") {
