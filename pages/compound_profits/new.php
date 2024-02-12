@@ -41,9 +41,9 @@ if (is_array($compound_a)) {
 
 <div class="d-felx row">
     <?php if (count($i->get_user_roll_over($userID)) == 0 ) {
-        // if (!is_array($compound_a)) {
+        if (!is_array($compound_a)) {
         echo "<div id='newcompound' class='card p-2'>" . $c->empty_page("We regret to inform you that no compound profit has been allocated to your account at this time, <br> or you are presently running the highest compound profit. <br> If you have any inquiries or concerns, <br> please reach out to our dedicated customer support team via email at <br> <a href='mailto:" . $d->get_settings('support_email') . "'>" . $d->get_settings('support_email') . "</a>.", h1: "No compound profit allocated.") . "</div>";
-        // }
+        }
     } else {
     ?>
         <div class="col-md-8 col-12">

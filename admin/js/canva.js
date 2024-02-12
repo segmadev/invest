@@ -9,6 +9,7 @@ let alignText = document.getElementById("alignText");
 let control = document.getElementById("control");
 let textSize = document.getElementById("textSize");
 let changeWdith = document.getElementById("changeWdith");
+let changeHeight = document.getElementById("changeHeight");
 let changeBackgroundColor = document.getElementById("changeBackgroundColor");
 let addstyle = document.getElementById("addstyle");
 let displayMessage = document.getElementById("displayMessage");
@@ -347,6 +348,7 @@ function unsetActive(current_shape_index) {
   shapes.forEach(function (obj, index) {
     if (index === current_shape_index) {
       changeWdith.value = obj.width;
+      changeHeight.value = obj.height ?? 60;
       changeColor.value = obj.color;
       alignText.value = obj.align;
       textSize.value = obj.size;

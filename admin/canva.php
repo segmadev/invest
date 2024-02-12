@@ -91,7 +91,11 @@ if (isset($_GET['generate']) && !isset($_GET['id'])) {
 
                             <div class="form-group col-md-6 col-12">
                                 <label for="">Width</label>
-                                <input class="form-control" type="number" placeholder="Box Size" name="width" id="changeWdith">
+                                <input class="form-control" type="number" placeholder="Box Width" name="width" id="changeWdith">
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label for="">Height</label>
+                                <input class="form-control" type="number" placeholder="Box Height" name="height" id="changeHeight">
                             </div>
                             <div class="form-group col-md-6 col-12">
                                 <label for="">Align Text</label>
@@ -162,7 +166,7 @@ if (isset($_GET['generate']) && !isset($_GET['id'])) {
         </div>
     </div>
     <script src="../dist/libs/jquery/dist/jquery.min.js"></script>
-    <script src="js/canva.js?n=896"></script>
+    <script src="js/canva.js?n=90996"></script>
 </body>
 
 </html>

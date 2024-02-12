@@ -65,7 +65,9 @@
 
                         <a type="button" class='text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative sidebartoggler d-xl-none' type="button"><i class='ti ti-menu-2'></i></a>
                         <a id="show_chat_list" type="button" class='text-dark px-2 fs-7 bg-hover-primary nav-icon-hover position-relative d-xl-none' type="button" data-bs-toggle="offcanvas" data-bs-target="#example2" aria-controls="example2"><i class='ti ti-messages'></i> <span id="message-no" class="text-danger" style="font-size: 10px"></span></a>
-                        <img id="imag-profile-icon" data-url="" data-title="Image Viewer" data-bs-toggle="modal" data-bs-target="#bs-image-viwer-modal-md" onclick="imageviwer('<?= $u->get_profile_icon_link($uID, $what); ?>')" src="<?= $u->get_profile_icon_link($uID, $what); ?>" alt="user1" width="30" height="30" class="rounded-circle" />
+                        <img id="imag-profile-icon" data-url="" data-title="Image Viewer" data-bs-toggle="modal-none" data-bs-target="#bs-image-viwer-modal-md" 
+                        onclick="imageviwerl('<?= $u->get_profile_icon_link($uID, $what); ?>')" 
+                        src="<?= $u->get_profile_icon_link($uID, $what); ?>" alt="user1" width="30" height="30" class="rounded-circle" />
                         <!-- <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-success">
                             <span class="visually-hidden">New alerts</span>
                         </span> -->
