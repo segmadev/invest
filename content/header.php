@@ -35,6 +35,9 @@ require_once "include/ini-session.php";
     li {
       list-style: none !important;
     }
+    body .preloader {
+      background-color: rgba(124, 143, 172, 0.75)!important;
+    }
   </style>
 </head>
 
