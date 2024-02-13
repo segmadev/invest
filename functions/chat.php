@@ -46,7 +46,8 @@ private $chat_holder = [];
                 if (isset($message['message']) && !$this->reply_to_message($groupID, $message['response'], $message['message'], $user['ID'])) {
                     continue;
                 }
-            }else if(isset($message['message'])){
+            }else if(isset($message['message']) || isset($message['main_message'])){
+                if(isset($message['main_message'])) $message['message'] = $message['main_message'];
                 $data['message'] = $message['message'];
                 if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['message']], fetch: "") > 0) { continue; }
                 if($data['message'] == "" || $data['time_sent'] <= 0) {
