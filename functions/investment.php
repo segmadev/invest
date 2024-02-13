@@ -827,9 +827,9 @@ class investment extends user
         if ($percentage > 0 && $percentage < 2) {
             $percentage = $percentage + $Xpromo;
             if ($percentage < 1) {
-                $x = rand(10, 30);
-            } else {
                 $x = rand(5, 20);
+            } else {
+                $x = rand(2, 10);
             }
         }
         $percentage = $percentage * $x;
