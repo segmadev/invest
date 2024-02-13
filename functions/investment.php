@@ -678,7 +678,10 @@ class investment extends user
             if (!is_array($info)) {
                 continue;
             }
-            if($info['percentage'] > $this->get_investment_max_profit($row['investmentID']))  {
+            $maxProfit = $this->get_investment_max_profit($row['investmentID']);
+            $minProfit = $this->get_investment_max_profit($row['investmentID'], "min");
+            $maxProfit = ($maxProfit + $minProfit) / 2;
+            if($info['percentage'] > $maxProfit)  {
                 continue;
             }
             $info['coinname'] = $coin;
@@ -686,12 +689,11 @@ class investment extends user
             if (!isset($totals[$row['investmentID']][$row['trade_date']])) {
                 $totals[$row['investmentID']][$row['trade_date']] = $this->total_daily_profit($row['investmentID'], $row['trade_date']);
             }
-            $maxProfit = $this->get_investment_max_profit($row['investmentID']);
+            
             $currentPercent = $this->total_daily_profit($row['investmentID'], $row['trade_date']);
             var_dump("CP: ".$currentPercent);
             var_dump("MP: ".$maxProfit );
             if ($currentPercent >= $maxProfit || $totals[$row['investmentID']][$row['trade_date']] >= $maxProfit) {
-                
                 $this->close_all_pending_trades($row['investmentID'], $row['trade_date']);
                 $totals[$row['investmentID']][$row['trade_date']] =  "closed";
                 echo "Trade Closed";
@@ -748,7 +750,7 @@ class investment extends user
         }
         return true;
     }
-    function get_investment_max_profit($investID)
+    function get_investment_max_profit($investID, $type = "max")
     {
         $invest = $this->getall("investment", "ID = ?", [$investID], "planID");
         if (!is_array($invest)) {
@@ -758,7 +760,11 @@ class investment extends user
         if (!is_array($invest)) {
             return 0;
         }
-        return  (float)$plan['return_range_to'];
+        if($type == "max") {
+            return  (float)$plan['return_range_to'];
+        }else{
+            return  (float)$plan['return_range_from'];
+        }
     }
 
     function total_daily_profit($investID, $date)
