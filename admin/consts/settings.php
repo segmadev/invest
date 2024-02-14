@@ -20,6 +20,7 @@
         "welcome_note"=>["type"=>"textarea", "description"=>"Welcome note will display to new users who login to dashboard for the first time.", "global_class"=>"w-100"],
         "live_chat_widget"=>["type"=>"textarea", "global_class"=>"w-100"],
         "screenshot_messages"=>["type"=>"textarea", "global_class"=>"w-100"],
+        "screenshot_messages_backup"=>["type"=>"textarea", "description"=>"This is a backup message the screenshot generator will fall back to it if the main screenshot message is empty.", "global_class"=>"w-100"],
         
     ];
 
