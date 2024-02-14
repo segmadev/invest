@@ -19,8 +19,9 @@
         "google_folder_ID"=>[],
         "welcome_note"=>["type"=>"textarea", "description"=>"Welcome note will display to new users who login to dashboard for the first time.", "global_class"=>"w-100"],
         "live_chat_widget"=>["type"=>"textarea", "global_class"=>"w-100"],
+        "last_screenshot_date"=>["input_type"=>"number", "title"=>"Last Screenshot date <a href='https://www.epochconverter.com/#hf' target='_BLANK'>(In Timestamp)</a>", "description"=>"<b class='text-danger'>The value of this input most be in a timestamp <a href='https://www.epochconverter.com/#hf' target='_BLANK'> click here to generate your date in timestap. </a></b>",],
         "screenshot_messages"=>["type"=>"textarea", "global_class"=>"w-100"],
-        "screenshot_messages_backup"=>["type"=>"textarea", "description"=>"This is a backup message the screenshot generator will fall back to it if the main screenshot message is empty.", "global_class"=>"w-100"],
+        "screenshot_messages_backup"=>["type"=>"textarea", "description"=>"This is a backup message, the screenshot generator will fall back to it if the main screenshot message is empty.", "global_class"=>"w-100"],
         
     ];
 

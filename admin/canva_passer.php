@@ -407,7 +407,7 @@ function getword()
     // var_dump($messages);
     $sentences = array_filter(array_map('trim', explode("\n", $messages)));
     $selectedSentence = getwordfromstring($messages);
-    $remainingSentences = implode('\n', array_diff($sentences, [$selectedSentence])); 
+    $remainingSentences = implode("\n", array_diff($sentences, [$selectedSentence])); 
     $d->update("settings", ["meta_value" => $remainingSentences], "meta_name = 'screenshot_messages'");
     if ($selectedSentence == "") {
         $selectedSentence = getwordfromstring($messages_backup);
