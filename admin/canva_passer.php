@@ -405,7 +405,7 @@ function getword()
         $messages = $messages['meta_value'];
     }
     // var_dump($messages);
-    $sentences = array_filter(array_map('trim', explode('\n', $messages)));
+    $sentences = array_filter(array_map('trim', explode("\n", $messages)));
     $selectedSentence = getwordfromstring($messages);
     $remainingSentences = implode('\n', array_diff($sentences, [$selectedSentence])); 
     $d->update("settings", ["meta_value" => $remainingSentences], "meta_name = 'screenshot_messages'");
@@ -420,7 +420,7 @@ function getword()
 
 function getwordfromstring(string $messages)
 {
-    $sentences = array_filter(array_map('trim', explode('\n', $messages)));
+    $sentences = array_filter(array_map('trim', explode("\n", $messages)));
     $randomIndex = rand(0, count($sentences) - 1);
     $selectedSentence = $sentences[$randomIndex];
     return $selectedSentence;
