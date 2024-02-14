@@ -400,27 +400,27 @@ function getword()
     $messages = $d->get_settings("screenshot_messages");
     $messages_backup = $d->get_settings("screenshot_messages_backup");
     if ($messages == "" && $d->getall("settings", "meta_name  = ?", ["screenshot_messages"], fetch: "") == 0) {
-        $messages = ["meta_name" => "screenshot_messages", "meta_value" => "Made my first withdraw, Thanks guys, Happy invest, just got mine too", "meta_for" => "all"];
+        $messages = ["meta_name" => "screenshot_messages", "meta_value" => "Made my first withdraw", "meta_for" => "all"];
         $d->quick_insert("settings", $messages);
         $messages = $messages['meta_value'];
     }
     // var_dump($messages);
-    $sentences = explode(",", $messages);
+    $sentences = array_filter(array_map('trim', explode('\n', $messages)));
     $selectedSentence = getwordfromstring($messages);
-    $remainingSentences = implode(",", array_diff($sentences, [$selectedSentence]));
+    $remainingSentences = implode('\n', array_diff($sentences, [$selectedSentence])); 
     $d->update("settings", ["meta_value" => $remainingSentences], "meta_name = 'screenshot_messages'");
     if ($selectedSentence == "") {
         $selectedSentence = getwordfromstring($messages_backup);
     } else {
         // insert the selected into backup message.
-        $d->update("settings", ["meta_value" => $messages_backup . ", " . $selectedSentence], "meta_name = 'screenshot_messages_backup'");
+        $d->update("settings", ["meta_value" => $messages_backup . '\n'. $selectedSentence], "meta_name = 'screenshot_messages_backup'");
     }
     return $selectedSentence;
 }
 
 function getwordfromstring(string $messages)
 {
-    $sentences = explode(",", $messages);
+    $sentences = array_filter(array_map('trim', explode('\n', $messages)));
     $randomIndex = rand(0, count($sentences) - 1);
     $selectedSentence = $sentences[$randomIndex];
     return $selectedSentence;
