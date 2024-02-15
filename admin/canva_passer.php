@@ -413,7 +413,7 @@ function getword()
         $selectedSentence = getwordfromstring($messages_backup);
     } else {
         // insert the selected into backup message.
-        $d->update("settings", ["meta_value" => $messages_backup . '\n'. $selectedSentence], "meta_name = 'screenshot_messages_backup'");
+        $d->update("settings", ["meta_value" => $messages_backup . "\n". $selectedSentence], "meta_name = 'screenshot_messages_backup'");
     }
     return $selectedSentence;
 }

@@ -1129,12 +1129,21 @@ class database
     }
 
     function generate_withdrawal_user(string $date) {
-        $user = $this->getall("users", "acct_type = ? and status =  ? ORDER BY RAND()", ["bot", "active"]);
+        $user = $this->getbotuser();
         // check if userID is not the withdrwal in the past two days
         if($this->getall("withdraw", "userID = ? and date >= ?", [$user['ID'], date("Y-m-d", strtotime("-3 days", $date))], fetch: "") > 0){
            return $this->generate_withdrawal_user($date);
         }
         return $user;
+    }
+    function getbotuser() {
+        if(rand(1, 2) == 2) {
+            $user = $this->getall("users", "acct_type = ? and status =  ? ORDER BY RAND()", ["bot", "active"]);
+        }else { 
+            $user = $this->getall("users", "profile_image != ? and acct_type = ? and status =  ? ORDER BY RAND()", ["", "bot", "active"]);
+        } 
+        return $user;
+         
     }
     function money_format($amount, $currency = '$')
     {
