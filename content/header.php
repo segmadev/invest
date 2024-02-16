@@ -62,8 +62,7 @@ require_once "include/ini-session.php";
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
           <a href="../" class="text-nowrap logo-img">
-            <img src="<?= $logo ?>" class="dark-logo" width="180" alt="" />
-            <!-- <img src="<?= $light_logo ?>" class="light-logo" width="180" alt="" /> -->
+            <img src="<?= $logo ?>" class="dark-logo" width="140" alt="" />
           </a>
           <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8 text-muted"></i>
