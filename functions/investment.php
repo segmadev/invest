@@ -344,7 +344,7 @@ class investment extends user
                     continue;
                 }
                 // Debit fund from trading_balance 
-                $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit', for: "compound_profits");
+                // $update = $this->credit_debit($sum['userID'], $sum['total_intrest'], "trading_balance", 'debit', for: "compound_profits");
                 // UPDATE DATE FOR THE compound_profits
                 if ($update) {
                     $id = $row['compound_profits_assignedID'];

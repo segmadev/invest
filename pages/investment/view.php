@@ -79,8 +79,8 @@ $script[] = "modal";
                     <?php } ?>
                     <p><?= htmlspecialchars_decode($d->get_settings("compound_profits_short_title")) ?> <button class='btn' id="compound_profit" data-url="modal?p=compound_profits&action=overview" data-title="Compound profits" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md">Read more</button></p>
                     <?php
-                    if(is_array($i->get_compound_profits($userID))) $upgrade = true;
-                    else $upgrade = false;
+                    if(is_array($i->get_compound_profits($userID)) && count($i->get_user_roll_over($userID)) == 0) $upgrade = false;
+                    else $upgrade = true;
                     $c->get_compound_profits_btn($invest['ID'], $compound_profit_d, $upgrade);  ?>
 
                 </div>
