@@ -74,6 +74,6 @@
         //   }
         
         file_put_contents($path, $_POST['message']);
-        echo $ch->create_bot_conversation($data['groupID'], $data['startDate'], $data['endDate']);
+        echo $ch->create_bot_conversation($data['groupID'], $data['startDate'], $data['endDate'], $data['ignore_repetition']);
     }
     ?>

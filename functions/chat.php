@@ -21,7 +21,7 @@ private $chat_holder = [];
 
 
 
-    function create_bot_conversation($groupID = 2, $startDate = '2022-01-01 09:00:00', $endDate = null)
+    function create_bot_conversation($groupID = 2, $startDate = '2022-01-01 09:00:00', $endDate = null, $ignore_repetition = "no")
     {
         $i = 0;
         $path = 'upload/temp/message.json';
@@ -36,7 +36,10 @@ private $chat_holder = [];
             if (is_array($message) && isset($message['main_message']) && isset($message['response'])) {
                 $data['message'] = $message['main_message'];
                 // var_dump($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['main_message']], fetch: "details"));
-                if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['main_message']], fetch: "") > 0) { continue; }
+                if($ignore_repetition == "no") {
+                    if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['main_message']], fetch: "") > 0) { continue; }
+                }
+
                 if (!$this->quick_insert("message", $data)) {
                     continue;
                 }
@@ -49,7 +52,9 @@ private $chat_holder = [];
             }else if(isset($message['message']) || isset($message['main_message'])){
                 if(isset($message['main_message'])) $message['message'] = $message['main_message'];
                 $data['message'] = $message['message'];
-                if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['message']], fetch: "") > 0) { continue; }
+                if($ignore_repetition == "no") {
+                    if($this->getall("message", "receiverID = ? and message = ?",  [$groupID, $message['message']], fetch: "") > 0) { continue; }
+                }
                 if($data['message'] == "" || $data['time_sent'] <= 0) {
                     continue;
                 }
@@ -65,6 +70,9 @@ private $chat_holder = [];
         $this->message("$i of conversations created", "success");
     }
 
+    function check_chat_message_exit(){
+
+    }
     function rand_update_last_seen()
     {
         $no = rand(50, 400);
