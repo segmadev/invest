@@ -1,5 +1,4 @@
 <?php 
-$script[] = "chat";
 $from_generate = [
     "startDate"=>["input_type"=>"datetime-local"],
     "endDate"=>["input_type"=>"datetime-local"],

@@ -3,7 +3,9 @@
    
 }else if(isset($_GET['messageID'])){ 
     require_once ("pages/chat/edit.php");
- }else{?>
+ }else{
+   $script = array_diff($script, ["chat"]);
+    ?>
 <div class="card">
     <div class="card-header">
         <h1 class="card-title">Generate Conversation.</h1>
