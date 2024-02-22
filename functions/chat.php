@@ -686,7 +686,7 @@ function reply_message(array $message) {
         // get time
         // if time is more than 1hour and location is seerver
         // then unlink the file and update the current_location to google
-        $anhourago = time() - 3600;
+        $anhourago = time() - 86400;
         if (
             $file["time_upload"] < $anhourago
             && $file['current_location'] == "server"
