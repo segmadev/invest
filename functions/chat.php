@@ -686,14 +686,14 @@ function reply_message(array $message) {
         // get time
         // if time is more than 1hour and location is seerver
         // then unlink the file and update the current_location to google
-        $anhourago = time() - 86400;
+        $anhourago = time() - 172800;
         if (
             $file["time_upload"] < $anhourago
             && $file['current_location'] == "server"
             && $file['googleID'] != ""
             && file_exists(PATH .'assets/images/chat/'. $file['file_name'])
         ) {
-           unlink(PATH .'assets/images/chat/'. $file['file_name']);
+        //    unlink(PATH .'assets/images/chat/'. $file['file_name']);
            $file['current_location'] = "google";
            $this->update("files_upload", ["current_location"=>"google"], "ID = '$fileID'");
         }
