@@ -1,5 +1,5 @@
 <div class="d-felx row">
-    <div class="card bg-light-warning">
+    <div class="card bg-light-primary">
         <div class="card-body">
             <p>You can re-enter our promotional offer up to three times after completing each activation. Once your first promo is activated and completed, you can enjoy the opportunity to re-enter up to three times.</p>
         </div>
