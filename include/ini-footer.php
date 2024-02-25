@@ -1,5 +1,5 @@
-<?php if(isset($script['live_chat'])) { ?>
-<script src="//code.tidio.co/dcuxthnwcrdxwuqtao5vawo6oecz6z0e.js" async></script>
+<?php if((in_array("live_chat", $script))) { ?>
+    <script src="//code.tidio.co/dcuxthnwcrdxwuqtao5vawo6oecz6z0e.js" async></script>
 <?php } ?>
 <!--  modal content -->
 <?php if (in_array("modal", $script)) {

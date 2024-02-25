@@ -1,6 +1,7 @@
 <?php
-if(isset($script['live_chat'])){
-    unset($script['live_chat']);
+
+if (($key = array_search("live_chat", $script)) !== false) {
+    unset($script[$key]);
 }
 $script[] = "chat";
 $script[] = "sweetalert";
