@@ -1021,8 +1021,3 @@ function imageviwer(url) {
         image.src = url;
     }
 }
-setInterval(function() {
-if(document.getElementsByClassName("tawk-min-container")){
-    document.getElementsByClassName("tawk-min-container").innerHTML = '';
-}
-}, 300);

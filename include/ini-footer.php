@@ -1,6 +1,6 @@
-<?php if((in_array("live_chat", $script))) { ?>
-    <script src="//code.tidio.co/dcuxthnwcrdxwuqtao5vawo6oecz6z0e.js" async></script>
-<?php } ?>
+<?php if((in_array("live_chat", $script))) { 
+    echo htmlspecialchars_decode($d->get_settings("live_chat_widget"));
+ } ?>
 <!--  modal content -->
 <?php if (in_array("modal", $script)) {
     require_once "content/modal.php";
