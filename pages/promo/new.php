@@ -1,23 +1,27 @@
 <div class="d-felx row">
+    <div class="card bg-light-warning">
+        <div class="card-body">
+            <p>You can re-enter our promotional offer up to three times after completing each activation. Once your first promo is activated and completed, you can enjoy the opportunity to re-enter up to three times.</p>
+        </div>
+    </div>
     <?php
-    if (is_array($promo)) { 
+    if (is_array($promo)) {
         $promom = $d->getall("promo", "ID = ?", [$promo['promoID']]);
-        ?>
+    ?>
         <div class="card ">
             <div class="card-header bg-success">
                 <h5 class='text-light'>You have an active promo.</h5>
             </div>
             <div class="card-body">
-            <p>Rate: <?= $promom['rate']."X your profit"; ?></p>
-            <p><b>Start Date:</b> <?= $d->date_format(date("Y-m-d H:i:s", $promo['start_date'])) ?></p>
-            <p><b>End Date:</b> <?= $d->date_format(date("Y-m-d H:i:s", $promo['end_date'])) ?></p>
+                <p>Rate: <?= $promom['rate'] . "X your profit"; ?></p>
+                <p><b>Start Date:</b> <?= $d->date_format(date("Y-m-d H:i:s", $promo['start_date'])) ?></p>
+                <p><b>End Date:</b> <?= $d->date_format(date("Y-m-d H:i:s", $promo['end_date'])) ?></p>
             </div>
         </div>
     <?php } else {
     ?>
         <div class="col-md-8 col-12">
             <div class="card p-4">
-
                 <h6>Activate Promo</h6>
                 <form action="" id="foo">
                     <?php echo $c->create_form($assign_promo); ?>
