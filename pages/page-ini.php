@@ -1,5 +1,4 @@
 <?php
-require_once "consts/Regex.php";
 $accepted_actions = ["withdraw", "chat-list", "trade_chart", "new", 'trades', 'list', "view", "edit", "overview", "transfer"];
 $action = "list";
 if (isset($_GET['action'])) {
@@ -18,6 +17,7 @@ if (file_exists("functions/" . $page . ".php")) {
         ${substr($page, 0, 2)} = new $page;
     }
 }
+
 if (file_exists("pages/" . $page . "/ini.php")) {
     require_once "pages/" . $page . "/ini.php";
 }

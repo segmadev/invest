@@ -1,4 +1,7 @@
 <?php
+if(isset($script['live_chat'])){
+    unset($script['live_chat']);
+}
 $script[] = "chat";
 $script[] = "sweetalert";
 $chat_form = [

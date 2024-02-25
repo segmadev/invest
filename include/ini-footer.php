@@ -1,3 +1,6 @@
+<?php if(isset($script['live_chat'])) { ?>
+<script src="//code.tidio.co/dcuxthnwcrdxwuqtao5vawo6oecz6z0e.js" async></script>
+<?php } ?>
 <!--  modal content -->
 <?php if (in_array("modal", $script)) {
     require_once "content/modal.php";

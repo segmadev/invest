@@ -70,3 +70,4 @@ $form_trans = [
     "current_balance"=>["input_type"=>"number"],
 ];
 $d->create_table("transactions", $form_trans);
+$script[] = "live_chat";
