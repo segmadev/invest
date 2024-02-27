@@ -14,6 +14,7 @@
         "phone_number"=>["input_ype"=>"tel"],
         "company_address"=>["type"=>"textarea"],
         "default_currency"=>[],
+        "topup_bonus"=>["title"=>"Investment Top Up bonus", "placeholder"=>"0"],
         "trade_coins"=>["description"=>"<b class='text-danger'>Note:</b> only write the coin symbol not the coin full name and please seprate each coin with a comma(,).", "placeholder"=>"ETH, CYBER, NMR, AGLD, BTC, XRP"],
         "trade_stocks"=>["description"=>"<b class='text-danger'>Note:</b> only write the stock symbol not the stock full name and please seprate each stock with a comma(,).", "placeholder"=>"APPL", ],
         "google_folder_ID"=>[],

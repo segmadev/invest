@@ -1,6 +1,7 @@
 <?php
 $no = htmlspecialchars($_GET['start'] ?? 0);
 $i->activate_pending_compound($userID);
+$d->create_settings(["topup_bonus"=>10]);
 if (isset($_GET['id']) && !empty($_GET['id'])) {
   $trade_table_title = "Trade History";
   $trade_table_des = "Trades taken for this investment.";

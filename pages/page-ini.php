@@ -1,5 +1,5 @@
 <?php
-$accepted_actions = ["withdraw", "chat-list", "trade_chart", "new", 'trades', 'list', "view", "edit", "overview", "transfer"];
+$accepted_actions = ["withdraw", "topup", "chat-list", "trade_chart", "new", 'trades', 'list', "view", "edit", "overview", "transfer"];
 $action = "list";
 if (isset($_GET['action'])) {
     $action = htmlspecialchars($_GET['action']);

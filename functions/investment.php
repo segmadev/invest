@@ -2,6 +2,34 @@
 class investment extends user
 {
 
+    //topup investment
+    function topup_investment($userID, $data) {
+        $data = $this->validate_form($data);
+        if(!is_array($data)) return false;
+        $invest = $this->getall("investment", "ID = ? and userID = ?", [$data['ID'], $userID]);
+        if(!is_array($invest)) return false;
+        $topup_bonus = (float)$this->get_settings('topup_bonus');
+        $amount = (float)$data['amount'];
+        $bonus = $this->money_percentage($topup_bonus, $amount);
+        // debit amount from balance
+        $credit = $this->credit_debit($userID, $amount, 'balance', 'debit', 'Investment topup', $data['ID']);
+        if(!$credit) return false;
+        // update the investment amount, trade_amount 
+        $id = $invest['ID'];
+        $update = $this->update("investment", ["amount"=>(float)$invest['amount'] + $amount, "trade_amount"=>(float)$invest['trade_amount']], "ID = '$id'");
+        if(!$update){
+            $this->credit_debit($userID, $amount, 'balance', 'credit', 'Reverse: Investment topup', $data['ID']);
+            return false;
+        } 
+        // credit the trade_bonus
+        $credit = $this->credit_debit($userID, $bonus, 'trade_bonus', 'credit', 'Investment topup bonus', $data['ID']);
+        if(!$credit) return $this->message("Your Investment topup was successfull. <b class='text-danger'>We are unable to credit you your bonus of $bonus, please email us at ".$this->get_settings('support_email')." for help.</b>", "success");
+        $return = [
+                "message" => ["Sucess", "Invesment topup successfully.", "success"],
+                "function" => ["loadpage", "data" => ["index?p=investment&action=view&id=$id", "success"]],
+            ];
+        return json_encode($return);
+    }
     function get_X_promo($userID) {
         $data = $this->getall("promo_assigned", "userID = ? and start_date <= ? and end_date >= ? and status = ?", [$userID, time(), time(), "active"]);
         if(!is_array($data)) { return 0; }

@@ -865,13 +865,13 @@ class database
         return $data['meta_value'];
     }
 
-    function create_settings($data, $what) {
+    function create_settings(array $data, $what = "settings") {
         if(!is_array($data))  {return null; }
         foreach ($data as $key => $value) {
             if($this->getall($what, "meta_name = ?",  [$key], fetch: "") > 0) {
                 continue ;
             }
-            $this->quick_insert($what, ["meta_name"=>$key, "meta_value"=>"placeholder"]);
+            $this->quick_insert($what, ["meta_name"=>$key, "meta_value"=>$value, "meta_for"=>"all"]);
         }
     }
 
