@@ -56,9 +56,9 @@ $script[] = "modal";
                                 </div> -->
                                 <hr>
                                 <p class="m-0  bg-light-light p-1"><b>Trading Amount:</b> <?= $d->money_format($invest['trade_amount']); ?></p>
-                               <hr>
+                                <hr>
                                 <div class="">
-                                    <button id="top-up" data-url="modal?p=investment&action=topup&id=<?= $invest['ID'] ?>" data-title="Top Up Investment" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md"  class='btn btn-primary sm-btn rounded-pill'>Top Up <i class='ti ti-plus'></i></button>
+                                    <a id="top-up" href="index?p=investment&action=topup&id=<?= $invest['ID'] ?>" class='btn btn-primary sm-btn rounded-pill'>Top Up <i class='ti ti-plus'></i></a>
                                     <p class='text-success'>You get <?php echo $d->get_settings("topup_bonus") ?>% of your topup amount as bonus.</p>
                                 </div>
                             </div>
@@ -75,16 +75,16 @@ $script[] = "modal";
             <div class="col-lg-12 col-md-6 col-sm-12 m-0">
                 <div class="card mb-1 p-3 bg-light-success">
                     <h5>Compound profits</h5>
-                    <?php if(is_array($compound_profit_d)){?>
-                    <div class="card bg-light-success p-0 p-3">
-                        <div class="card-body p-0">
-                            <h6>Compound Earnings: <?= $d->money_format((float)$invest['trade_amount'] - (float) $invest['amount']); ?></h6>
+                    <?php if (is_array($compound_profit_d)) { ?>
+                        <div class="card bg-light-success p-0 p-3">
+                            <div class="card-body p-0">
+                                <h6>Compound Earnings: <?= $d->money_format((float)$invest['trade_amount'] - (float) $invest['amount']); ?></h6>
+                            </div>
                         </div>
-                    </div>
                     <?php } ?>
                     <p><?= htmlspecialchars_decode($d->get_settings("compound_profits_short_title")) ?> <button class='btn' id="compound_profit" data-url="modal?p=compound_profits&action=overview" data-title="Compound profits" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md">Read more</button></p>
                     <?php
-                    if(is_array($i->get_compound_profits($userID)) && count($i->get_user_roll_over($userID)) == 0) $upgrade = false;
+                    if (is_array($i->get_compound_profits($userID)) && count($i->get_user_roll_over($userID)) == 0) $upgrade = false;
                     else $upgrade = true;
                     $c->get_compound_profits_btn($invest['ID'], $compound_profit_d, $upgrade);  ?>
 

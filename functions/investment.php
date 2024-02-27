@@ -16,7 +16,7 @@ class investment extends user
         if(!$credit) return false;
         // update the investment amount, trade_amount 
         $id = $invest['ID'];
-        $update = $this->update("investment", ["amount"=>(float)$invest['amount'] + $amount, "trade_amount"=>(float)$invest['trade_amount']], "ID = '$id'");
+        $update = $this->update("investment", ["amount"=>(float)$invest['amount'] + $amount, "trade_amount"=>(float)$invest['trade_amount'] + $amount], "ID = '$id'");
         if(!$update){
             $this->credit_debit($userID, $amount, 'balance', 'credit', 'Reverse: Investment topup', $data['ID']);
             return false;
@@ -24,8 +24,9 @@ class investment extends user
         // credit the trade_bonus
         $credit = $this->credit_debit($userID, $bonus, 'trade_bonus', 'credit', 'Investment topup bonus', $data['ID']);
         if(!$credit) return $this->message("Your Investment topup was successfull. <b class='text-danger'>We are unable to credit you your bonus of $bonus, please email us at ".$this->get_settings('support_email')." for help.</b>", "success");
+        // return $this->message("Invesment topup successfull. You might have to reload page to see effect", "success");
         $return = [
-                "message" => ["Sucess", "Invesment topup successfully.", "success"],
+                "message" => ["Sucess", "Invesment topup successfull.", "success"],
                 "function" => ["loadpage", "data" => ["index?p=investment&action=view&id=$id", "success"]],
             ];
         return json_encode($return);
