@@ -58,7 +58,7 @@ $script[] = "modal";
                                 <p class="m-0  bg-light-light p-1"><b>Trading Amount:</b> <?= $d->money_format($invest['trade_amount']); ?></p>
                                <hr>
                                 <div class="">
-                                    <button id="top-up" data-url="modal?p=investment&action=topup&id=<?= $invest['ID'] ?>" data-title="Top Up Investment" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md"  class='btn btn-primary sm-btn rounded-pill'>Top Up</button>
+                                    <button id="top-up" data-url="modal?p=investment&action=topup&id=<?= $invest['ID'] ?>" data-title="Top Up Investment" onclick="modalcontent(this.id)" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md"  class='btn btn-primary sm-btn rounded-pill'>Top Up <i class='ti ti-plus'></i></button>
                                     <p class='text-success'>You get <?php echo $d->get_settings("topup_bonus") ?>% of your topup amount as bonus.</p>
                                 </div>
                             </div>
