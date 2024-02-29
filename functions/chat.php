@@ -784,6 +784,7 @@ function reply_message(array $message) {
     function list_user($row, $userID, $active = "")
     {
         $id = $row['user1'];
+        $isPined = "";
         $what = "users";
         if ($row['user1'] == $userID) {
             $id = $row['user2'];
@@ -791,6 +792,9 @@ function reply_message(array $message) {
 
         if ($row['is_group'] == "yes") {
             $what = "groups";
+        }
+        if($row['user1'] == "admin" || $row['user2'] == "admin") {
+            $isPined = 'isPined';
         }
         if($row['is_group'] != "yes" && isset($_SESSION['adminSession']) && side == "admin") {
             return $this->admin_user_list($row, $userID, $active);
@@ -817,7 +821,7 @@ function reply_message(array $message) {
         $this->chat_holder[] = $displayname;
         
 
-        echo '<li>
+        echo '<li class="'.$isPined.'">
             <a href="index?p=chat&id=' . $row['ID'] . '"
                 class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user ' . $active . ' w-100"
                 id="chat_user_' . $row['ID'] . '" data-user-id="' . $row['ID'] . '">

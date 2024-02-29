@@ -524,18 +524,41 @@ function handleChatDisplay(displayID, content, type) {
       removeElement = mainDiv.querySelector("#" + currentChatID);
       if(removeElement){
         const parent = removeElement.parentNode;
-        mainDiv.removeChild(parent);
+        try {
+          mainDiv.removeChild(parent);
+        } catch (error) {
+          continue;
+          // console.log(error);
+        }
+        
       }
     }
     mainDiv.insertAdjacentHTML(
       "afterbegin",
       "<li>" + liElement.innerHTML + "</li>"
     );
-    // Do something with the `liElement` element.
+  // Do something with the `liElement` element.
   }
+  // set admin back to the top of the chat.
+  // pinChat(mainDiv);
+
+// console.log(document.getAttribute("data-ispined"));
+  // get atritube with the value off data-isadmin true
+  // remove it and move it to the top of the page
   chatHolder.innerHTML = "";
   return true;
 }
+function pinChat(mainDiv) {
+  isPined = document.querySelector(".isPined");
+  isPined.remove();
+  mainDiv.insertAdjacentHTML(
+    "afterbegin",
+    "<div class='pined'><li>" + isPined.innerHTML + "</li></div>"
+  );
+  
+}
+
+
 
 function createHiddenDiv(divID) {
   const div = document.createElement("div");

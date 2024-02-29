@@ -14,6 +14,7 @@ if (isset($_SESSION['adminSession']) && !isset($_COOKIE['userSession'])) {
     $userID =  "admin";
 }
 $u->create_default_group_chat($chat_form, $userID);
+$ch->new_user_chat($userID, "admin", $chat_form, $r = false);
 $u->insert_default_message($userID, "2");
 if (isset($_GET['id'])) {
     $chatID = htmlspecialchars($_GET['id']);

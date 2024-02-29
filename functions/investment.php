@@ -1,7 +1,6 @@
 <?php
 class investment extends user
 {
-
     //topup investment
     function topup_investment($userID, $data) {
         $data = $this->validate_form($data);

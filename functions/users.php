@@ -458,7 +458,7 @@ class user extends Notifications {
         $info = $this->validate_form($chat_from, "chat", "insert");
     }
 
-    function new_user_chat($userID, $user2, $chat_from) {
+    function new_user_chat($userID, $user2, $chat_from, $r = true) {
         $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$userID, $user2]);
         if(is_array($check)) {
             $this->loadpage('index?p=chat&id='.$check['ID']);
@@ -466,7 +466,9 @@ class user extends Notifications {
         }
         $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$user2, $userID]);
         if(is_array($check)) {
-            $this->loadpage('index?p=chat&id='.$check['ID']);
+            if($r) {
+                $this->loadpage('index?p=chat&id='.$check['ID']);
+            }
             return ;
         }
 
