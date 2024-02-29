@@ -479,7 +479,9 @@ class user extends Notifications {
          $_POST['user2'] = $user2;
         $_POST['is_group'] = "no";
         if($this->create_chat($chat_from)){
-            $this->new_user_chat($userID, $user2, $chat_from);
+            if($r){
+                $this->new_user_chat($userID, $user2, $chat_from);
+            }       
         }
     }
 
