@@ -19,11 +19,11 @@
         "trade_stocks"=>["description"=>"<b class='text-danger'>Note:</b> only write the stock symbol not the stock full name and please seprate each stock with a comma(,).", "placeholder"=>"APPL", ],
         "google_folder_ID"=>[],
         "welcome_note"=>["type"=>"textarea", "description"=>"Welcome note will display to new users who login to dashboard for the first time.", "global_class"=>"w-100"],
+        "default_support_welcome_message"=>["type"=>"textarea", "global_class"=>"w-100"],
         "live_chat_widget"=>["type"=>"textarea", "global_class"=>"w-100"],
         "last_screenshot_date"=>["input_type"=>"number", "title"=>"Last Screenshot date <a href='https://www.epochconverter.com/#hf' target='_BLANK'>(In Timestamp)</a>", "description"=>"<b class='text-danger'>The value of this input most be in a timestamp <a href='https://www.epochconverter.com/#hf' target='_BLANK'> click here to generate your date in timestap. </a></b>",],
         "screenshot_messages"=>["type"=>"textarea", "global_class"=>"w-100"],
         "screenshot_messages_backup"=>["type"=>"textarea", "description"=>"This is a backup message, the screenshot generator will fall back to it if the main screenshot message is empty.", "global_class"=>"w-100"],
-        
     ];
 
     $settings_form['input_data'] = $s->getdata($settings_form);

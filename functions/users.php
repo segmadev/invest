@@ -448,20 +448,22 @@ class user extends Notifications {
         }    
     }
 
-    function insert_default_message($userID, $groupID) {
-        if($this->getall("message", "senderID = ? and receiverID = ?", [$userID, $groupID], fetch: "") > 0) { return true; }
-        $chat = $this->getall("chat", "user1 = ? and user2 = ?",[$userID, $groupID], "ID");
+    function insert_default_message($userID, $receiverID, $message = "", $is_group = "yes", $time = 0) {
+        if($this->getall("message", "senderID = ? and receiverID = ?", [$userID, $receiverID], fetch: "") > 0) { return true; }
+        $chat = $this->getall("chat", "user1 = ? and user2 = ?",[$userID, $receiverID], "ID");
         if(!is_array($chat)) { return false; }
-        $this->quick_insert("message", ["chatID"=>$chat['ID'],"senderID"=>$userID, "receiverID"=>$groupID, "is_group"=>"yes", "time_sent"=>0]);
+        $this->quick_insert("message", ["chatID"=>$chat['ID'],"senderID"=>$userID, "receiverID"=>$receiverID, "message"=>$message, "is_group"=>"$is_group", "time_sent"=>$time]);
     }
     function create_chat($chat_from) {
-        $info = $this->validate_form($chat_from, "chat", "insert");
+        return $this->validate_form($chat_from, "chat", "insert");
     }
 
     function new_user_chat($userID, $user2, $chat_from, $r = true) {
         $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$userID, $user2]);
         if(is_array($check)) {
+            if($r) {
             $this->loadpage('index?p=chat&id='.$check['ID']);
+            }
             return ;
         }
         $check =  $this->getall("chat", "user1 = ? and user2 = ?", [$user2, $userID]);
@@ -475,10 +477,20 @@ class user extends Notifications {
         if(!$this->getall("users", "ID = ?", [$user2], fetch: "")) {
             return false;
         }
-         $_POST['user1'] = $userID;
+        $_POST['user1'] = $userID;
          $_POST['user2'] = $user2;
+        if($user2 == "admin") {
+            $_POST['user2'] = $userID;
+            $_POST['user1'] = $user2;
+        }
         $_POST['is_group'] = "no";
         if($this->create_chat($chat_from)){
+            
+            if($user2 == "admin"){
+                
+                $this->insert_default_message("admin", $userID, $this->get_settings("default_support_welcome_message"), "no", time());
+                
+            }
             if($r){
                 $this->new_user_chat($userID, $user2, $chat_from);
             }       
