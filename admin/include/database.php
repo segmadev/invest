@@ -1055,11 +1055,14 @@ class database
         return $data = $json_objekat->data;
     }
 
-    function api_call($service_url)
+    function api_call($service_url, $posts = [])
     {
-        $curl            = curl_init($service_url);
+        $isPost = false;
+        if(count($posts) > 0) $isPost = true;
+        $curl = curl_init($service_url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, false);
+        curl_setopt($curl, CURLOPT_POST, $isPost);
+        if(count($posts) > 0)  curl_setopt($curl, CURLOPT_POSTFIELDS, $posts);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $curl_response   = curl_exec($curl);
         curl_close($curl);

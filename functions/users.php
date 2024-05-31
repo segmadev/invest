@@ -17,14 +17,17 @@ class user extends Notifications {
     // }
 
     function generate_bot_withdraw() {    
+        return ;
         $no = rand(10, 15);
         // write a condition to check number for the day b4 runnig
         if($this->getall("withdraw", "date >= ? and status = ?", [date("Y-m-d"), "bot"], fetch: "") >= 15){
             return;
         }
         for ($i=0; $i < $no; $i++) { 
+            
             $date = $this->generateRandomDateTime( date('Y-m-d H:i:s', strtotime('midnight')), date('Y-m-d H:i:s', strtotime('tomorrow') - 1));
             $user = $this->generate_withdrawal_user(time());
+            
             $data = [];
             $data['ID'] = uniqid();
             $data['userID'] =  $user['ID'];
